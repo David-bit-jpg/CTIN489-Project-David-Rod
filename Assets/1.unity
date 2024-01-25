@@ -45390,6 +45390,10 @@ MonoBehaviour:
   runningSpeed: 5
   jumpForce: 7
   crouchSpeed: 2.5
+  AudioSource: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 0891be443592a2b4ca86fea4272a8957, type: 3}
+  walkStepInterval: 0.5
+  runStepInterval: 0.3
 --- !u!65 &1706115754
 BoxCollider:
   m_ObjectHideFlags: 0

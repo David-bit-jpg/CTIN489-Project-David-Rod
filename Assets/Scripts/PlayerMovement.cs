@@ -11,7 +11,13 @@ public class PlayerMovement : MonoBehaviour
     private float speed;
     [SerializeField] private float jumpForce = 7f;
     [SerializeField] private float crouchSpeed = 2.5f;
+    public AudioSource AudioSource;
+    [SerializeField] private AudioClip Audio;
     private CameraControl cameraControl;
+    private float lastStepTime = 0f;
+    private float stepInterval = 0f;
+    [SerializeField] private float walkStepInterval = 0.5f;
+    [SerializeField] private float runStepInterval = 0.3f;
 
     private Rigidbody rb;
     private Vector3 moveDirection;
@@ -21,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         cameraControl = FindObjectOfType<CameraControl>();
+        AudioSource = gameObject.AddComponent<AudioSource>();
+        AudioSource.clip = Audio;
     }
 
     void Update()
@@ -40,10 +48,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && isGrounded)
         {
             speed = runningSpeed;
+            stepInterval = runStepInterval;
         }
         else
         {
             speed = normalSpeed;
+            stepInterval = walkStepInterval;
         }
 
     }
@@ -51,6 +61,16 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         float currentSpeed = isGrounded ? speed : crouchSpeed;
+
+        if (isGrounded && moveDirection != Vector3.zero)
+        {
+            if (Time.time - lastStepTime > stepInterval)
+            {
+                AudioSource.Play();
+                lastStepTime = Time.time;
+            }
+        }
+
         rb.MovePosition(rb.position + moveDirection * currentSpeed * Time.fixedDeltaTime);
     }
 
