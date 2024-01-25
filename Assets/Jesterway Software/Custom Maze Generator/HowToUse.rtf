@@ -1,0 +1,115 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset2 Symbol;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\qc\f0\fs36\lang7\par
+Custom Maze Generator v1.0.1 - Documentation\par
+
+\pard\sa200\sl276\slmult1\fs32\par
+\fs28 Thanks for choosing this editor tool. This document will give you all the information you need, to use the tool for your own projects.\par
+Should you have any additional questions, feel free to contact me at:\par
+jesterway@posteo.de\fs32\par
+\par
+\par
+Contents:\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\fs28 1. Setup\par
+{\pntext\f1\'B7\tab}2. GUI usage\par
+{\pntext\f1\'B7\tab}3. Scripts\par
+
+\pard\sa200\sl276\slmult1\par
+\par
+\ul\b\fs32 1. Setup\par
+\ulnone\b0\fs28 To set things up, you do not need to do anything besides downloading and importing the package. There are no prefabs involved, everything is created by code.\par
+As soon as you have downloaded and imported the package, you will find the "Custom Maze Generator" under a new menu called "Tools" in your editor. I suggest docking the GUI somewhere, for example next to your inspector.\par
+\par
+\ul\b\fs32 2. GUI usage\ulnone\b0\fs28\par
+The GUI is divided into two sections.\par
+Calculation Parameters - where you set the \b logical\b0  size and "loop chance" for a new maze.\par
+Display Parameters - where you modify with various options \b how\b0  the maze should be displayed.\par
+What follows is a list with clarifications for all these options. Most of these will have a tooltip in the GUI itself, which you can see by hovering your mouse on the options name.\par
+\par
+\b Calculation parameters\par
+\ul\b0 Logical Size\ulnone\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 X - The size of your maze on the X axis, as seen from above. Measured in tiles, aka the smallest possible space between walls within your maze.\b\par
+{\pntext\f1\'B7\tab}\b0 Y - Same, on the Y axis.\b\par
+
+\pard\sa200\sl276\slmult1\b0 Minimum size for either of these is 3. There is no maximum size, but of course the Unity editor can only handle a certain amount of gameobjects in a scene. I suggest to not go above 500 by 500.\par
+\par
+\ul Dead-ends\ulnone\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Loop chance % - This slider allows you to specify a \b chance\b0 , not a definitive number, for opening dead-ends in your maze up to one additional side, thus creating a loop in the layout.\b\par
+
+\pard\sa200\sl276\slmult1\b0 0% means that there will be no loops whatsoever in your maze. From any one point to any other point there will only be one path and every path branching off of that will ultimately be a dead-end. \par
+100% means that there will be no dead-ends in your maze, as every one has been opened up during calcuation.\b\par
+\b0 I'd suggest a value of around 75%, as this makes for an interesting maze, without too many frustrating dead-ends.\par
+\par
+\ul Calculate a new maze file\ulnone\par
+Once you click this button you will be prompted for where to store the maze file. It is simply an xml file containing two numbers and two boolean arrays.\par
+You can store your mazefiles wherever you want.\par
+\par
+\par
+\b Display parameters\b0\par
+\ul Placement, in world space\ulnone\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Position - measured by the center of the maze floor.\b\par
+{\pntext\f1\'B7\tab}\b0 Rotation - same\b\par
+
+\pard\sa200\sl276\slmult1\b0 You can of course drag the whole structure around after displaying it, but if you'd like to specifiy a certain position and rotation beforehand, then you have the option here.\b\par
+\par
+\ul\b0 General proportions\ulnone\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Tile size - Essentially the size between walls. How spacious the path of the maze appears.\b\par
+{\pntext\f1\'B7\tab}\b0 Wall thickness - Needs to be less than tile size / 2, else there will be no space between walls at all.\b\par
+{\pntext\f1\'B7\tab}\b0 Wall height - Does not affect any other value and can be set freely.\b\par
+
+\pard\sa200\sl276\slmult1\b0\par
+\ul Performance options\ulnone\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Unify adjacent walls - With this option turned on, all walls of the same orientation that stand in a line next to each other will be created as one single wall instead, spanning the distance. This greatly reduces the amount of gameobjects in a maze, especially for larger ones.\b\par
+
+\pard\sa200\sl276\slmult1\b0 I suggest leaving this on, unless you really need to work with singular wall segments.\b\par
+\b0\par
+\ul Specify entrances\ulnone\par
+Here you can choose where to have openings in the outer walls of the maze. 4 cardinal directions as options.\par
+\par
+\ul Texture options\ulnone\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Wall material - Pass any material you'd like. This one material will be applied to all walls.\b\par
+{\pntext\f1\'B7\tab}\b0 Floor material - Can be the same, or any other material.\b\par
+
+\pard\sa200\sl276\slmult1\b0 If you give no material, the walls and floor will have a default material.\b\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\b0 Adjust UV orientation - All walls are simply edited primitive cubes. By default, these have some faces rotated upside-down, as far as texturing is concerned. This option will automatically correct all such faces to upright position. Affects the floor too.\b\par
+{\pntext\f1\'B7\tab}\b0 Adjust UV scale - This option automatically adjusts UV values of the walls faces, to account for their individual proportions. The result is uniform texure tiling per face. Affects the floor too.\b\par
+{\pntext\f1\'B7\tab}\b0 Avoid Z-Fighting - The walls of the maze overlap, since this is the only way to have sharp corners without the need for additional "cornerstones". However, when specifying materials with textures, this overlapping becomes apparent with texture flickering, aka "Z-Fighting". This option completely remediates the flickering, by slightly displacing the walls on various axes.\b\par
+
+\pard\sa200\sl276\slmult1\b0 I suggest leaving these three options on.\b\par
+\par
+\ul\b0 Other options\ulnone\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Inactive walls at gaps - Should you plan on blocking or opening certain passageways at a later time, it can be useful to have inactive walls at all gaps in place already.\b\par
+{\pntext\f1\'B7\tab}\b0 Create inner walls - If you want to simulate a hedge maze, you might have use for smaller walls within the regular walls. Giving both the outer and inner walls a partially transparent foliage texture, can create the appearance of a hedge for the viewer.\b\par
+
+\pard\sa200\sl276\slmult1\b0\par
+\ul Display a maze file\ulnone\b\par
+\b0 When you click this button, you will be prompted for the location of an already created maze file. Once you select one, it will be displayed with the specific display options you have chosen.\par
+\par
+\par
+\ul\b\fs32 3. Scripts\ulnone\b0\fs28\par
+You do not need to do any coding to make use of this editor tool. For those who are interested in the inner workings, here is a brief summary of each file. The actual source code is documented in more detail.\par
+\par
+The Custom Maze Generator consists of 9 files.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sa200\sl276\slmult1 CMG_GUI.uxml - The uxml file that specifies the GUI appearance. I created it using Unitys UI Toolkit. You can edit it by simply double-clicking it from the Unity editor. That should then open the UI Builder.\par
+{\pntext\f0 2.\tab}CMG_GUI.cs - The necessary code to make use of the various UI elements behind the scenes.\par
+{\pntext\f0 3.\tab}Helper.cs - Has a reset function for all UI elements.\par
+{\pntext\f0 4.\tab}MazeFile - Defines the object which gets serialized and deserialized into xml files.\par
+{\pntext\f0 5.\tab}Serialization.cs - Serialization and deserialization functions.\par
+{\pntext\f0 6.\tab}Calculate.cs - Handles necessary initializing and then calling the actual maze algorithm.\par
+{\pntext\f0 7.\tab}MazeAlgorithms.cs - Where the calculation of a new maze happens. The algorithm in use is a recursive backtracker with added optional dead-end opening.\par
+{\pntext\f0 8.\tab}Display.cs - Where a new maze is created according to the selected options.\par
+{\pntext\f0 9.\tab}ChangeUV.cs - Has functions for changing the rotation and scale of a cubes UVs.\par
+}
+ 
