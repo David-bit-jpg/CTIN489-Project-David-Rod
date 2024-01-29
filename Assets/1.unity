@@ -13086,7 +13086,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 469883220}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.3}
+  m_LocalPosition: {x: 0, y: 0, z: -1.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13095,7 +13095,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.7, y: 0}
+  m_AnchoredPosition: {x: -1.8, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &469883224
@@ -13114,6 +13114,9 @@ MonoBehaviour:
   stopChaseDistance: 8
   vhsMaterial: {fileID: 2100000, guid: 09f12cfb09f404a35957f3a4d8c2bca6, type: 2}
   roamDistance: 100
+  AudioSource: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 47eb9ca1a56d53245bc9d3f0d3e5426c, type: 3}
+  volume: 0.6
   isDead: 0
 --- !u!1 &475728771
 GameObject:
@@ -23863,7 +23866,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &869572814
 Transform:
   m_ObjectHideFlags: 0
@@ -34458,6 +34461,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1263900824}
+  - component: {fileID: 1263900825}
   m_Layer: 0
   m_Name: Maze
   m_TagString: Untagged
@@ -34484,6 +34488,21 @@ Transform:
   - {fileID: 973846383}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1263900825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263900823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ce458dd23f914150a42e6b7d8796359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioSource: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 2f71669330571b14d992bb5d560e100c, type: 3}
+  volume: 1
 --- !u!1 &1267208499
 GameObject:
   m_ObjectHideFlags: 0
@@ -54055,6 +54074,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 547918049067362318, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: volume
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 3038356330420083783, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -54065,7 +54088,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7164496967675933351, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7164496967675933351, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_LocalPosition.y
