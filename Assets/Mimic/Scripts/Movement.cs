@@ -106,15 +106,16 @@ namespace MimicSpace
         {
             if (vhsMaterial != null)
             {
-                float shake = Mathf.Lerp(1.0f, 0.96f, lerpFactor);
-                float shake2 = Mathf.Lerp(1.0f, 0.9f, lerpFactor);
-                float shake3 = Mathf.Lerp(0.003f, 0.01f, lerpFactor);
-                float pixelOffset = Mathf.Lerp(0.0f, 30.0f, lerpFactor);
-
-                vhsMaterial.SetFloat("_Shake", shake);
-                vhsMaterial.SetFloat("_Shake2", shake2);
-                vhsMaterial.SetFloat("_Shake3", shake3);
+                float strength = Mathf.Lerp(0.0f, 1.0f, lerpFactor);
+                float strip = Mathf.Lerp(0.3f, 0.2f, lerpFactor);
+                float pixelOffset = Mathf.Lerp(0.0f, 40.0f, lerpFactor);
+                float shake = Mathf.Lerp(0.003f, 0.01f, lerpFactor);
+                float speed = Mathf.Lerp(0.5f, 1.2f, lerpFactor);
+                vhsMaterial.SetFloat("_Strength", strength);
+                vhsMaterial.SetFloat("_StripSize", strip);
                 vhsMaterial.SetFloat("_PixelOffset", pixelOffset);
+                vhsMaterial.SetFloat("_Shake", shake);
+                vhsMaterial.SetFloat("_Speed", speed);
             }
         }
     }
