@@ -108,7 +108,7 @@ namespace MimicSpace
             {
                 float shake = Mathf.Lerp(1.0f, 0.96f, lerpFactor);
                 float shake2 = Mathf.Lerp(1.0f, 0.9f, lerpFactor);
-                float shake3 = Mathf.Lerp(0.001f, 0.01f, lerpFactor);
+                float shake3 = Mathf.Lerp(0.003f, 0.01f, lerpFactor);
                 float pixelOffset = Mathf.Lerp(0.0f, 30.0f, lerpFactor);
 
                 vhsMaterial.SetFloat("_Shake", shake);
