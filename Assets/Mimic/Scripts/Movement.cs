@@ -95,23 +95,30 @@ namespace MimicSpace
 
         private void SetRandomInitialPosition()
         {
-            Vector3 randomPosition = new Vector3(Random.Range(-27f, 27f), 0, Random.Range(-27f, 10f));
+            Vector3 randomPosition = GenerateRandomPosition();
             NavMeshHit hit;
-            while (!NavMesh.SamplePosition(randomPosition, out hit, 5.0f, NavMesh.AllAreas))
+            int attempts = 0;
+            while (!NavMesh.SamplePosition(randomPosition, out hit, 5.0f, NavMesh.AllAreas) && attempts < 10)
             {
-                randomPosition = new Vector3(Random.Range(-27f, 27f), 0, Random.Range(-27f, 10f));
+                randomPosition = GenerateRandomPosition();
+                attempts++;
             }
-            initialPosition = hit.position;
-            // if (NavMesh.SamplePosition(randomPosition, out hit, 10.0f, NavMesh.AllAreas))
-            // {
-            //     initialPosition = hit.position;
-            // }
-            // else
-            // {
-            //     initialPosition = transform.position;
-            // }
-            transform.position = initialPosition;
+            if (attempts < 10)
+            {
+                initialPosition = hit.position;
+                transform.position = initialPosition;
+            }
+            else
+            {
+                Debug.LogError("Failed to find a valid random position on NavMesh.");
+            }
         }
+
+        private Vector3 GenerateRandomPosition()
+        {
+            return new Vector3(Random.Range(-27f, 27f), 0, Random.Range(-27f, 10f));
+        }
+
 
         private void Roam()
         {
