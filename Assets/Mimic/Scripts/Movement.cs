@@ -1,36 +1,30 @@
-using StarterAssets;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace MimicSpace
 {
-    /// <summary>
-    /// This is a very basic movement script, if you want to replace it
-    /// Just don't forget to update the Mimic's velocity vector with a Vector3(x, 0, z)
-    /// </summary>
     public class Movement : MonoBehaviour
     {
         [Header("Controls")]
-        [Tooltip("Body Height from ground")]
-        [Range(0.5f, 5f)]
-        public float height = 0.8f;
-        public float speed = 5f;
+        [SerializeField] public float chaseDistance = 10f;
+        [SerializeField] public float stopChaseDistance = 15f;
+        [SerializeField] public Material vhsMaterial;
+        private Vector3 initialPosition;
+
         Vector3 velocity = Vector3.zero;
-        public float velocityLerpCoef = 4f;
         Mimic myMimic;
         PlayerMovement mPlayer;
         NavMeshAgent navMeshAgent;
-        //GameManager gameManager;
         public bool isDead = false;
+        private bool isChasing = false;
 
         private void Start()
         {
-            //gameManager = FindObjectOfType<GameManager>();
             myMimic = GetComponentInChildren<Mimic>();
             mPlayer = FindObjectOfType<PlayerMovement>();
             navMeshAgent = GetComponent<NavMeshAgent>();
+            SetRandomInitialPosition();
+            initialPosition = transform.position;
         }
 
         void Update()
@@ -40,21 +34,88 @@ namespace MimicSpace
                 return;
             }
 
-            Vector3 dir = mPlayer.gameObject.transform.position - transform.position;
+            float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
+            float lerpFactor = Mathf.InverseLerp(stopChaseDistance, chaseDistance, distanceToPlayer);
+            UpdateVHSParameters(lerpFactor);
 
-            if(dir.magnitude < 5.0f)
+            if (distanceToPlayer <= chaseDistance)
             {
-                return;
+                StartChasing();
+            }
+            else if (distanceToPlayer > stopChaseDistance)
+            {
+                StopChasing();
             }
 
-            velocity = Vector3.Lerp(velocity, new Vector3(dir.x, 0, dir.z).normalized * speed, velocityLerpCoef * Time.deltaTime);
+            if (isChasing)
+            {
+                ChasePlayer();
+            }
+            else
+            {
+                ReturnToInitialPosition();
+            }
+        }
 
-            // Assigning velocity to the mimic to assure great leg placement
-            myMimic.velocity = velocity;
+        private void StartChasing()
+        {
+            isChasing = true;
+            navMeshAgent.isStopped = false;
+        }
 
-            //transform.position = transform.position + velocity * Time.deltaTime;
+        private void StopChasing()
+        {
+            isChasing = false;
+            navMeshAgent.isStopped = true;
+        }
+
+        private void ChasePlayer()
+        {
             navMeshAgent.SetDestination(mPlayer.gameObject.transform.position);
         }
-    }
 
+        private void ReturnToInitialPosition()
+        {
+            if (Vector3.Distance(transform.position, initialPosition) != 0.0f)
+            {
+                navMeshAgent.SetDestination(initialPosition);
+            }
+            else
+            {
+                navMeshAgent.isStopped = true;
+            }
+        }
+
+        private void SetRandomInitialPosition()
+        {
+            Vector3 randomPosition = new Vector3(Random.Range(-27f, 27f), 0, Random.Range(-27f, 0f));//random
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPosition, out hit, 10.0f, NavMesh.AllAreas))
+            {
+                initialPosition = hit.position;
+            }
+            else
+            {
+                initialPosition = transform.position;
+            }
+
+            transform.position = initialPosition;
+        }
+
+        private void UpdateVHSParameters(float lerpFactor)
+        {
+            if (vhsMaterial != null)
+            {
+                float shake = Mathf.Lerp(1.0f, 0.96f, lerpFactor);
+                float shake2 = Mathf.Lerp(1.0f, 0.9f, lerpFactor);
+                float shake3 = Mathf.Lerp(0.001f, 0.01f, lerpFactor);
+                float pixelOffset = Mathf.Lerp(0.0f, 30.0f, lerpFactor);
+
+                vhsMaterial.SetFloat("_Shake", shake);
+                vhsMaterial.SetFloat("_Shake2", shake2);
+                vhsMaterial.SetFloat("_Shake3", shake3);
+                vhsMaterial.SetFloat("_PixelOffset", pixelOffset);
+            }
+        }
+    }
 }

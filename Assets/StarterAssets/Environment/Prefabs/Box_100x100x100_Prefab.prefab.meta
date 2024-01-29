@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/StarterAssets/Environment/Prefabs/Box_100x100x100_Prefab.prefab.meta
 guid: e5f4daf24146ee040b5a2d7a73b30aa0
+========
+guid: 3fc537e92bf3d2449b5be72cfd6cb447
+>>>>>>>> main:Assets/Mimic/Prefabs/Mimic.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Mimic/Prefabs/LegMesh.prefab.meta
 guid: 0819c97ab1c2c1a4e89838ee98d0a8e4
+========
+guid: fb7bce2dee9494540a1866bb5d230a51
+>>>>>>>> main:Assets/Mimic/Prefabs/Leg.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

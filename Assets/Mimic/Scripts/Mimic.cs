@@ -7,6 +7,8 @@ namespace MimicSpace
     public class Mimic : MonoBehaviour
     {
         [Header("Animation")]
+        [SerializeField] public float Vx = 1.0f;
+        [SerializeField] public float Vy = 1.0f;
         public GameObject legPrefab;
 
         [Range(2, 20)]
@@ -75,7 +77,7 @@ namespace MimicSpace
             maxLegs = numberOfLegs * partsPerLeg;
             float rot = 360f / maxLegs;
             Vector2 randV = Random.insideUnitCircle;
-            velocity = new Vector3(randV.x, 0, randV.y);
+            velocity = new Vector3(Vx, 0, Vy);
             minimumAnchoredParts = minimumAnchoredLegs * partsPerLeg;
             maxLegDistance = newLegRadius * 2.1f;
 

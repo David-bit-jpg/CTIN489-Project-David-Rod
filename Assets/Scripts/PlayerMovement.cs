@@ -6,8 +6,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Config")]
 
-    [SerializeField]private float normalSpeed = 2.0f;
-    [SerializeField]private float runningSpeed = 5.0f;
+    [SerializeField] private float normalSpeed = 2.0f;
+    [SerializeField] private float runningSpeed = 5.0f;
     private float speed;
     [SerializeField] private float jumpForce = 7f;
     [SerializeField] private float crouchSpeed = 2.5f;
@@ -18,10 +18,13 @@ public class PlayerMovement : MonoBehaviour
     private float stepInterval = 0f;
     [SerializeField] private float walkStepInterval = 0.5f;
     [SerializeField] private float runStepInterval = 0.3f;
-
+    public bool isRunning { get; private set; }
+    public bool isMoving { get; private set; }
     private Rigidbody rb;
     private Vector3 moveDirection;
     private bool isGrounded;
+    public float horizontal;
+    public float vertical;
 
     private void Awake()
     {
@@ -35,7 +38,8 @@ public class PlayerMovement : MonoBehaviour
     {
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
-
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
         Vector3 forward = transform.forward * moveZ;
         Vector3 right = transform.right * moveX;
 
@@ -55,7 +59,8 @@ public class PlayerMovement : MonoBehaviour
             speed = normalSpeed;
             stepInterval = walkStepInterval;
         }
-
+        isMoving = moveDirection != Vector3.zero;
+        isRunning = isGrounded && Input.GetKey(KeyCode.LeftShift);
     }
 
     private void FixedUpdate()
@@ -70,8 +75,8 @@ public class PlayerMovement : MonoBehaviour
                 lastStepTime = Time.time;
             }
         }
-
         rb.MovePosition(rb.position + moveDirection * currentSpeed * Time.fixedDeltaTime);
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -89,4 +94,6 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = false;
         }
     }
+
+
 }

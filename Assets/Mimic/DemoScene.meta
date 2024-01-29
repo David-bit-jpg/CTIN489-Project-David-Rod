@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Mimic/DemoScene.meta
 guid: 6fd0ab23b2e012e4590f5e96a19cb61b
+========
+guid: 9149a39c0f6fba949937830c23975c4e
+>>>>>>>> main:Assets/Mimic.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

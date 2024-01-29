@@ -1,8 +1,15 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Mimic/DemoScene/New Terrain.asset.meta
 guid: 023f286e29aa6664c91adbc9ae840bb3
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 15600000
+========
+guid: 2a0cd116636c38445b217cbee59a2941
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 23800000
+>>>>>>>> main:Assets/1/NavMesh-NavMesh.asset.meta
   userData: 
   assetBundleName: 
   assetBundleVariant: 
