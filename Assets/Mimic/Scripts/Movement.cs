@@ -7,11 +7,14 @@ namespace MimicSpace
     {
         [Header("Controls")]
         [SerializeField] public float chaseDistance = 10f;
+        private float nextPlayTime = 0f;
         [SerializeField] public float stopChaseDistance = 15f;
         [SerializeField] public Material vhsMaterial;
-        [SerializeField] public float roamDistance = 20f;
+        [SerializeField] public float roamDistance = 40f;
+        public AudioSource AudioSource;
+        [SerializeField] private AudioClip Audio;
         private Vector3 initialPosition;
-
+        public float volume = 0f;
         Vector3 velocity = Vector3.zero;
         Mimic myMimic;
         PlayerMovement mPlayer;
@@ -21,6 +24,12 @@ namespace MimicSpace
         private bool isRoaming = false;
         private float roamTimer = 0f;
         private float initialRoamTime = 10f;
+        private void Awake()
+        {
+            AudioSource = gameObject.AddComponent<AudioSource>();
+            AudioSource.clip = Audio;
+            AudioSource.volume = volume;
+        }
 
         private void Start()
         {
@@ -41,23 +50,24 @@ namespace MimicSpace
 
             float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
             float lerpFactor = Mathf.InverseLerp(stopChaseDistance, chaseDistance, distanceToPlayer);
+
             UpdateVHSParameters(lerpFactor);
 
             if (distanceToPlayer <= chaseDistance) //enter range, chase player
             {
-                Debug.Log("Chasing Player!!!");
+                // Debug.Log("Chasing Player!!!");
                 navMeshAgent.isStopped = false;
                 StartChasing();
             }
             else if (distanceToPlayer > stopChaseDistance && isChasing)//if is chasing, player run out, stop
             {
-                Debug.Log("Stop Chasing");
+                // Debug.Log("Stop Chasing");
                 navMeshAgent.isStopped = false;
                 StopChasing();
             }
             else if (isRoaming && !isChasing)//no chasing,roaming
             {
-                Debug.Log("Start Roaming");
+                // Debug.Log("Start Roaming");
                 navMeshAgent.isStopped = false;
                 Roam();
             }
@@ -69,6 +79,11 @@ namespace MimicSpace
 
         private void StartChasing()
         {
+            if (Time.time >= nextPlayTime)
+            {
+                AudioSource.Play();
+                nextPlayTime = Time.time + Random.Range(1f, 4f);
+            }
             isChasing = true;
             navMeshAgent.isStopped = false;
             ChasePlayer();
@@ -76,6 +91,7 @@ namespace MimicSpace
 
         private void StopChasing()
         {
+            AudioSource.Stop();
             // Debug.Log("StopChasing");
             isChasing = false;//no chasing
             RoamAwayFromPlayer();//leave
@@ -160,6 +176,7 @@ namespace MimicSpace
         {
             if (vhsMaterial != null)
             {
+                AudioSource.volume = Mathf.Lerp(0.0f, 0.4f, lerpFactor);
                 float strength = Mathf.Lerp(0.0f, 1.0f, lerpFactor);
                 float strip = Mathf.Lerp(0.3f, 0.2f, lerpFactor);
                 float pixelOffset = Mathf.Lerp(0.0f, 40.0f, lerpFactor);

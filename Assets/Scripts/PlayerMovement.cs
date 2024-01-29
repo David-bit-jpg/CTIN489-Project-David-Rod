@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 7f;
     [SerializeField] private float crouchSpeed = 2.5f;
     public AudioSource AudioSource;
+    [SerializeField] public float volume = 0.2f;
     [SerializeField] private AudioClip Audio;
     private CameraControl cameraControl;
     private float lastStepTime = 0f;
@@ -32,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
         cameraControl = FindObjectOfType<CameraControl>();
         AudioSource = gameObject.AddComponent<AudioSource>();
         AudioSource.clip = Audio;
+        AudioSource.volume = volume;
     }
 
     void Update()
