@@ -13108,7 +13108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseDistance: 6
   stopChaseDistance: 8
-  vhsMaterial: {fileID: -876546973899608171, guid: 16d2e678b3379d947b6cd2350eaceeba, type: 3}
+  vhsMaterial: {fileID: 2100000, guid: 09f12cfb09f404a35957f3a4d8c2bca6, type: 2}
   isDead: 0
 --- !u!1 &475728771
 GameObject:
