@@ -13156,22 +13156,26 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!4 &469883223
-Transform:
+--- !u!224 &469883223
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 469883220}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.1, y: 0, z: -4.5}
+  m_LocalPosition: {x: 0, y: 0, z: -5.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 798986420}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -7.35, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &469883224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54202,6 +54206,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3038356330420083783, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7045709018534099391, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_Name
       value: Character
@@ -54257,7 +54265,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1865538501}
   - {fileID: 1263900824}
-  - {fileID: 469883223}
   - {fileID: 635266527}
   - {fileID: 888965807}
   - {fileID: 208621110645583749}
+  - {fileID: 469883223}

@@ -43,22 +43,27 @@ namespace MimicSpace
             float lerpFactor = Mathf.InverseLerp(stopChaseDistance, chaseDistance, distanceToPlayer);
             UpdateVHSParameters(lerpFactor);
 
-            if (distanceToPlayer <= chaseDistance)
+            if (distanceToPlayer <= chaseDistance) //enter range, chase player
             {
+                Debug.Log("Chasing Player!!!");
+                navMeshAgent.isStopped = false;
                 StartChasing();
             }
-            else if (distanceToPlayer > stopChaseDistance)
+            else if (distanceToPlayer > stopChaseDistance && isChasing)//if is chasing, player run out, stop
             {
+                Debug.Log("Stop Chasing");
+                navMeshAgent.isStopped = false;
                 StopChasing();
             }
-
-            if (isChasing)
+            else if (isRoaming && !isChasing)//no chasing,roaming
             {
-                ChasePlayer();
-            }
-            else if (isRoaming)
-            {
+                Debug.Log("Start Roaming");
+                navMeshAgent.isStopped = false;
                 Roam();
+            }
+            else
+            {
+                Debug.Log("Not Activated");
             }
         }
 
@@ -66,15 +71,16 @@ namespace MimicSpace
         {
             isChasing = true;
             navMeshAgent.isStopped = false;
+            ChasePlayer();
         }
 
         private void StopChasing()
         {
             // Debug.Log("StopChasing");
-            isChasing = false;
-            navMeshAgent.isStopped = true;
-            RoamAwayFromPlayer();
-            isRoaming = true;
+            isChasing = false;//no chasing
+            RoamAwayFromPlayer();//leave
+            // navMeshAgent.isStopped = true;
+            isRoaming = true;//start Roam
         }
 
         private void ChasePlayer()
@@ -126,11 +132,7 @@ namespace MimicSpace
             {
                 if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
                 {
-                    // StartRandomRoaming();
-                    if (!navMeshAgent.hasPath)
-                    {
-                        StartRandomRoaming();
-                    }
+                    StartRandomRoaming();
                 }
             }
         }
@@ -172,22 +174,3 @@ namespace MimicSpace
         }
     }
 }
-
-// private void UpdateVHSParameters(float lerpFactor)
-//         {
-//             if (vhsMaterial != null)
-//             {
-//                 float strength = Mathf.Lerp(0.0f, 1.0f, lerpFactor);
-//                 float strip = Mathf.Lerp(0.3f, 0.2f, lerpFactor);
-//                 float pixelOffset = Mathf.Lerp(0.0f, 40.0f, lerpFactor);
-//                 float shake = Mathf.Lerp(0.003f, 0.01f, lerpFactor);
-//                 float speed = Mathf.Lerp(0.5f, 1.2f, lerpFactor);
-//                 vhsMaterial.SetFloat("_Strength", strength);
-//                 vhsMaterial.SetFloat("_StripSize", strip);
-//                 vhsMaterial.SetFloat("_PixelOffset", pixelOffset);
-//                 vhsMaterial.SetFloat("_Shake", shake);
-//                 vhsMaterial.SetFloat("_Speed", speed);
-//             }
-//         }
-//     }
-// }
