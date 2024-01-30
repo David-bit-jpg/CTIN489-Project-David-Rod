@@ -54580,7 +54580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3577636286041020735, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: bobbingAmount
-      value: 0.035
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 7045709018534099391, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_Name

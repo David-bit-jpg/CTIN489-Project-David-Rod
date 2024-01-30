@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         }
         isMoving = moveDirection != Vector3.zero;
         // isRunning = isGrounded && Input.GetKey(KeyCode.LeftShift);
-        if (isRunning)
+        if (isRunning&&isMoving)
         {
             currentStamina--;
             lastRunTime = Time.time;
