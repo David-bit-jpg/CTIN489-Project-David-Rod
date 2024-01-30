@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
-        if (currentStamina >= 0 && Input.GetKey(KeyCode.LeftShift) && isGrounded)
+        if (currentStamina >= 0 && Input.GetKey(KeyCode.LeftShift))
         {
             isRunning = true;
             speed = runningSpeed;
