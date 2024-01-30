@@ -55,19 +55,19 @@ namespace MimicSpace
 
             if (distanceToPlayer <= chaseDistance) //enter range, chase player
             {
-                // Debug.Log("Chasing Player!!!");
+                Debug.Log("Chasing Player!!!");
                 navMeshAgent.isStopped = false;
                 StartChasing();
             }
             else if (distanceToPlayer > stopChaseDistance && isChasing)//if is chasing, player run out, stop
             {
-                // Debug.Log("Stop Chasing");
+                Debug.Log("Stop Chasing");
                 navMeshAgent.isStopped = false;
                 StopChasing();
             }
             else if (isRoaming && !isChasing)//no chasing,roaming
             {
-                // Debug.Log("Start Roaming");
+                Debug.Log("Start Roam");
                 navMeshAgent.isStopped = false;
                 Roam();
             }
@@ -92,7 +92,6 @@ namespace MimicSpace
         private void StopChasing()
         {
             AudioSource.Stop();
-            // Debug.Log("StopChasing");
             isChasing = false;//no chasing
             RoamAwayFromPlayer();//leave
             // navMeshAgent.isStopped = true;
@@ -101,13 +100,11 @@ namespace MimicSpace
 
         private void ChasePlayer()
         {
-            // Debug.Log("StartChasing");
             navMeshAgent.SetDestination(mPlayer.gameObject.transform.position);
         }
 
         private void RoamAwayFromPlayer()
         {
-            // Debug.Log("Leaving....");
             navMeshAgent.isStopped = false;
             roamTimer = initialRoamTime;
             Vector3 directionAwayFromPlayer = transform.position - mPlayer.transform.position;

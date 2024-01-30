@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource AudioSource;
     [SerializeField] public float volume = 0.2f;
     [SerializeField] private AudioClip Audio;
+    private Animator animator;
     private CameraControl cameraControl;
     private float lastStepTime = 0f;
     private float stepInterval = 0f;
@@ -27,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     public float horizontal;
     public float vertical;
 
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -34,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
         AudioSource = gameObject.AddComponent<AudioSource>();
         AudioSource.clip = Audio;
         AudioSource.volume = volume;
+        animator = GetComponent<Animator>();
     }
 
     void Update()
