@@ -54596,19 +54596,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5879499277457477716, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_Size.y
-      value: 1.8514097
+      value: 1.8505001
       objectReference: {fileID: 0}
     - target: {fileID: 5879499277457477716, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_Size.z
-      value: 0.7
+      value: 0.77315444
       objectReference: {fileID: 0}
     - target: {fileID: 5879499277457477716, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_Center.y
-      value: 0.9242952
+      value: 0.9119165
       objectReference: {fileID: 0}
     - target: {fileID: 5879499277457477716, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_Center.z
-      value: 0.35
+      value: 0.31342277
       objectReference: {fileID: 0}
     - target: {fileID: 7045709018534099391, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_Name
