@@ -13186,7 +13186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chaseDistance: 6
-  stopChaseDistance: 8
+  stopChaseDistance: 7.5
   vhsMaterial: {fileID: 2100000, guid: 09f12cfb09f404a35957f3a4d8c2bca6, type: 2}
   roamDistance: 100
   AudioSource: {fileID: 0}
@@ -24167,7 +24167,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &869572814
 Transform:
   m_ObjectHideFlags: 0
@@ -54582,6 +54582,34 @@ PrefabInstance:
       propertyPath: bobbingAmount
       value: 0.05
       objectReference: {fileID: 0}
+    - target: {fileID: 5594285669669794527, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594285669669794527, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5879499277457477716, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_Size.x
+      value: 0.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 5879499277457477716, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_Size.y
+      value: 1.8514097
+      objectReference: {fileID: 0}
+    - target: {fileID: 5879499277457477716, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_Size.z
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5879499277457477716, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_Center.y
+      value: 0.9242952
+      objectReference: {fileID: 0}
+    - target: {fileID: 5879499277457477716, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_Center.z
+      value: 0.35
+      objectReference: {fileID: 0}
     - target: {fileID: 7045709018534099391, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_Name
       value: Character
@@ -54592,7 +54620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7164496967675933351, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7164496967675933351, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_LocalPosition.z
