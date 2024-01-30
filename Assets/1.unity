@@ -663,6 +663,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 27136358}
   m_Mesh: {fileID: 1449374144}
+--- !u!114 &34330451 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4832180219691122270, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
+  m_PrefabInstance: {fileID: 1982786411}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &44734930
 Mesh:
   m_ObjectHideFlags: 0
@@ -50833,11 +50844,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 751965472444413287, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
       propertyPath: m_Range
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 751965472444413287, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
       propertyPath: m_Intensity
-      value: 100
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 751965472444413287, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
+      propertyPath: m_SpotAngle
+      value: 63.77421
+      objectReference: {fileID: 0}
+    - target: {fileID: 751965472444413287, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
+      propertyPath: m_InnerSpotAngle
+      value: 27.774212
       objectReference: {fileID: 0}
     - target: {fileID: 2635747475050176243, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
       propertyPath: m_Name
@@ -50866,7 +50885,7 @@ PrefabInstance:
     - target: {fileID: 6590688492396467731, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
       propertyPath: HandImage
       value: 
-      objectReference: {fileID: 966319047}
+      objectReference: {fileID: 34330451}
     - target: {fileID: 6590688492396467731, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
       propertyPath: TrackSpeed
       value: 10
@@ -50874,7 +50893,7 @@ PrefabInstance:
     - target: {fileID: 6590688492396467731, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
       propertyPath: NormalImage
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 966319047}
     - target: {fileID: 6590688492396467731, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
       propertyPath: TrackCamera
       value: 
