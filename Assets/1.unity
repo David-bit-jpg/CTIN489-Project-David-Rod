@@ -54558,6 +54558,18 @@ PrefabInstance:
       propertyPath: staminaRecoveryDelay
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1271720819986360370, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_Color.b
+      value: 0.7735849
+      objectReference: {fileID: 0}
+    - target: {fileID: 1271720819986360370, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_Color.g
+      value: 0.7735849
+      objectReference: {fileID: 0}
+    - target: {fileID: 1271720819986360370, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_Color.r
+      value: 0.7735849
+      objectReference: {fileID: 0}
     - target: {fileID: 3038356330420083783, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_Enabled
       value: 1
