@@ -39,6 +39,7 @@ namespace MimicSpace
             SetRandomInitialPosition();
             initialPosition = transform.position;
             navMeshAgent.isStopped = true;
+
         }
 
         void Update()
