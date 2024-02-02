@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.Universal;
 
 namespace MimicSpace
 {
@@ -7,6 +8,8 @@ namespace MimicSpace
     {
         [Header("Controls")]
         [SerializeField] public float chaseDistance = 10f;
+        [SerializeField] public UniversalRendererData rendererData;
+        private ScriptableRendererFeature vhsFeature;
         private float nextPlayTime = 0f;
         [SerializeField] public float stopChaseDistance = 15f;
         [SerializeField] public Material vhsMaterial;
@@ -24,6 +27,8 @@ namespace MimicSpace
         private bool isRoaming = false;
         private float roamTimer = 0f;
         private float initialRoamTime = 10f;
+        private float lastChaseTime = 0f;
+        private float stepInterval = 0f;
         private void Awake()
         {
             AudioSource = gameObject.AddComponent<AudioSource>();
@@ -33,13 +38,14 @@ namespace MimicSpace
 
         private void Start()
         {
+            vhsFeature = rendererData.rendererFeatures.Find(feature => feature.name == "FullScreenPassRendererFeature");
             myMimic = GetComponentInChildren<Mimic>();
             mPlayer = FindObjectOfType<PlayerMovement>();
             navMeshAgent = GetComponent<NavMeshAgent>();
             SetRandomInitialPosition();
             initialPosition = transform.position;
             navMeshAgent.isStopped = true;
-
+            // DisableVHSFeature();
         }
 
         void Update()
@@ -80,6 +86,7 @@ namespace MimicSpace
 
         private void StartChasing()
         {
+            // EnableVHSFeature();
             if (Time.time >= nextPlayTime)
             {
                 AudioSource.Play();
@@ -95,8 +102,8 @@ namespace MimicSpace
             AudioSource.Stop();
             isChasing = false;//no chasing
             RoamAwayFromPlayer();//leave
-            // navMeshAgent.isStopped = true;
             isRoaming = true;//start Roam
+            // DisableVHSFeature();
         }
 
         private void ChasePlayer()
@@ -185,6 +192,21 @@ namespace MimicSpace
                 vhsMaterial.SetFloat("_PixelOffset", pixelOffset);
                 vhsMaterial.SetFloat("_Shake", shake);
                 vhsMaterial.SetFloat("_Speed", speed);
+            }
+        }    
+        public void EnableVHSFeature()
+        {
+            if (vhsFeature != null)
+            {
+                vhsFeature.SetActive(true);
+            }
+        }
+
+        public void DisableVHSFeature()
+        {
+            if (vhsFeature != null)
+            {
+                vhsFeature.SetActive(false);
             }
         }
     }
