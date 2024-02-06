@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,7 +13,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 7f;
     [SerializeField] private float crouchSpeed = 2.5f;
     public AudioSource AudioSource;
+    [SerializeField] public float volume = 0.2f;
     [SerializeField] private AudioClip Audio;
+    private Animator animator;
     private CameraControl cameraControl;
     private float lastStepTime = 0f;
     private float stepInterval = 0f;
@@ -25,13 +28,22 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     public float horizontal;
     public float vertical;
+    [SerializeField] public int maxStamina = 100;
+    private int currentStamina;
+    public Image staminaBar;
+    private float lastRunTime = 0f;
+    [SerializeField] private float staminaRecoveryDelay = 3.0f;
+    [SerializeField] private float staminaRecoveryRate = 1.0f;
 
     private void Awake()
     {
+        currentStamina = maxStamina;
         rb = GetComponent<Rigidbody>();
         cameraControl = FindObjectOfType<CameraControl>();
         AudioSource = gameObject.AddComponent<AudioSource>();
         AudioSource.clip = Audio;
+        AudioSource.volume = volume;
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -49,18 +61,33 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
-        if (Input.GetKey(KeyCode.LeftShift) && isGrounded)
+        if (currentStamina >= 0 && Input.GetKey(KeyCode.LeftShift))
         {
+            isRunning = true;
             speed = runningSpeed;
             stepInterval = runStepInterval;
         }
         else
         {
+            isRunning = false;
             speed = normalSpeed;
             stepInterval = walkStepInterval;
         }
         isMoving = moveDirection != Vector3.zero;
-        isRunning = isGrounded && Input.GetKey(KeyCode.LeftShift);
+        // isRunning = isGrounded && Input.GetKey(KeyCode.LeftShift);
+        if (isRunning&&isMoving)
+        {
+            currentStamina--;
+            lastRunTime = Time.time;
+            UpdateStaminaBar();
+        }
+        else if (Time.time - lastRunTime > staminaRecoveryDelay && currentStamina < maxStamina)
+        {
+            currentStamina += (int)(staminaRecoveryRate * Time.deltaTime);
+            currentStamina = Mathf.Min(currentStamina, maxStamina);
+            UpdateStaminaBar();
+        }
+        
     }
 
     private void FixedUpdate()
@@ -78,6 +105,13 @@ public class PlayerMovement : MonoBehaviour
         rb.MovePosition(rb.position + moveDirection * currentSpeed * Time.fixedDeltaTime);
 
     }
+    private void UpdateStaminaBar()
+    {
+        if (staminaBar != null)
+        {
+            staminaBar.fillAmount = (float)currentStamina / maxStamina;
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -94,6 +128,5 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = false;
         }
     }
-
 
 }

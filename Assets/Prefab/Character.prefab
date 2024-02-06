@@ -1454,11 +1454,16 @@ MonoBehaviour:
   jumpForce: 7
   crouchSpeed: 2.5
   AudioSource: {fileID: 0}
+  volume: 0.2
   Audio: {fileID: 8300000, guid: 0891be443592a2b4ca86fea4272a8957, type: 3}
   walkStepInterval: 0.5
   runStepInterval: 0.3
   horizontal: 0
   vertical: 0
+  maxStamina: 100
+  staminaBar: {fileID: 0}
+  staminaRecoveryDelay: 3
+  staminaRecoveryRate: 1
 --- !u!54 &8195298357482453947
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1505,8 +1510,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.7635633, y: 1.7038685, z: 0.59280396}
-  m_Center: {x: -0.002134204, y: 0.8093774, z: 0.1415081}
+  m_Size: {x: 0.78, y: 1.5580795, z: 0.5089094}
+  m_Center: {x: 0, y: 1, z: 0.17091265}
 --- !u!1 &7446678809640413012
 GameObject:
   m_ObjectHideFlags: 0

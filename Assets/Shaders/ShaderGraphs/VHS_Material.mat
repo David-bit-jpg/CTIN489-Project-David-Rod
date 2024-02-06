@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: VHS_Material
-  m_Shader: {fileID: -6465566751694194690, guid: 16d2e678b3379d947b6cd2350eaceeba, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 787ad58c9ad0f43c6b5dfed2d1de369a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -38,10 +38,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _PixelOffset: 0
-    - _Shake: 1
+    - _Shake: 0.003
     - _Shake2: 1
     - _Shake3: 0.001
+    - _Speed: 0.5
     - _Strength: 0
+    - _StripSize: 0.3
     m_Colors:
     - _YIQMul: {r: 1, g: 1, b: 1.4, a: 0}
     - _YQIAdd: {r: 0.1, g: -0.1, b: 0, a: 0}
