@@ -30,5 +30,6 @@ Material:
     - _Speed: 0.5
     - _Strength: 0
     - _StripSize: 0.3
-    m_Colors: []
+    m_Colors:
+    - _YQIAdd: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
