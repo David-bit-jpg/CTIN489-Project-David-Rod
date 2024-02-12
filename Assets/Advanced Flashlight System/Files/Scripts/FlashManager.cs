@@ -180,7 +180,7 @@ namespace M4DOOM
                 if (UseIntensity)
                 {
                     //Flash Intensity to drainTimeF.
-                    LightSource.intensity = drainTimeF;
+                    LightSource.intensity = drainTimeF* 8.5f;
                 }
                 //Battery Slider to drainTimeF.
                 BatterySlider.value = DrainTime;
@@ -334,7 +334,7 @@ namespace M4DOOM
                 BatterySlider.value = BatteryLife;
 
                 //LightSource intensity to 1.
-                LightSource.intensity = 1;
+                LightSource.intensity = 10;
 
                 //Decrement Batteries.
                 BatteryCount--;
