@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Prefabs")]
+    [SerializeField] private GameObject glowStick;
+    
     [Header("Config")]
 
     [SerializeField] private float normalSpeed = 2.0f;
@@ -35,6 +38,8 @@ public class PlayerMovement : MonoBehaviour
     private float lastRunTime = 0f;
     [SerializeField] private float staminaRecoveryDelay = 3.0f;
     [SerializeField] private float staminaRecoveryRate = 1.0f;
+    [SerializeField] private float glowStickCoolDown = 1.0f;
+    private float glowStickTimer;
 
     private void Awake()
     {
@@ -45,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
         AudioSource.clip = Audio;
         AudioSource.volume = volume;
         animator = GetComponent<Animator>();
+        glowStickTimer = 0.0f;
     }
 
     void Update()
@@ -88,7 +94,14 @@ public class PlayerMovement : MonoBehaviour
             currentStamina = Mathf.Min(currentStamina, maxStamina);
             UpdateStaminaBar();
         }
-        
+
+        if (Input.GetKey(KeyCode.G))
+        {
+            DropGlowStick();
+        }
+
+        glowStickTimer-= Time.deltaTime;
+
     }
 
     private void FixedUpdate()
@@ -111,6 +124,17 @@ public class PlayerMovement : MonoBehaviour
         if (staminaBar != null)
         {
             staminaBar.fillAmount = (float)currentStamina / maxStamina;
+        }
+    }
+
+    private void DropGlowStick()
+    {
+        if(glowStickTimer <= 0.0f)
+        {
+            glowStickTimer = glowStickCoolDown;
+            Vector3 rotation = Quaternion.ToEulerAngles(transform.rotation) - new Vector3(90, 0, 0);
+            Quaternion quat = Quaternion.Euler(rotation);
+            Instantiate(glowStick, transform.position, quat);
         }
     }
 

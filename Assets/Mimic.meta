@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Mimic.meta
 guid: 9149a39c0f6fba949937830c23975c4e
+========
+guid: 4395d41aa4b8f4a4b8bb88ca41ab14e1
+>>>>>>>> main:Assets/Advanced Flashlight System.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

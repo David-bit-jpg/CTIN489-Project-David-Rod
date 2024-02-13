@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Mimic/Prefabs/Leg.prefab.meta
+guid: 2e860ce8671b79647a96908cdc25f4df
+========
 guid: e23bd12fa59514ae79bff7ec2c1b4863
+>>>>>>>> main:Assets/Canvas.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

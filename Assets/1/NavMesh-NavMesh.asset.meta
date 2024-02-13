@@ -1,8 +1,15 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/1/NavMesh-NavMesh.asset.meta
 guid: 2a0cd116636c38445b217cbee59a2941
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 23800000
+========
+guid: 8a3d1c2210809854f8d188b81953c9d3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4300000
+>>>>>>>> main:Assets/Advanced Flashlight System/Files/Ecample Sceen Data/Models/Model 1.asset.meta
   userData: 
   assetBundleName: 
   assetBundleVariant: 
