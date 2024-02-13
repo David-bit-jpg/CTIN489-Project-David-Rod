@@ -8,7 +8,9 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Prefabs")]
     [SerializeField] private GameObject glowStick;
+    [SerializeField] private Text glowStickPickupText;
     [SerializeField] private Text glowStickNumberText; 
+    float sphereRadius = 1.3f;
     [Header("Config")]
     [SerializeField] public Transform CameraIntractPointer;
     [SerializeField] private float normalSpeed = 2.0f;
@@ -109,8 +111,7 @@ public class PlayerMovement : MonoBehaviour
             RaycastHit hit;
 
             Ray ray = new Ray(CameraIntractPointer.position, CameraIntractPointer.forward);
-
-            if (Physics.Raycast(ray, out hit, 100f))
+            if (Physics.SphereCast(ray, sphereRadius,out hit, 2.5f))
             {
                 if (hit.collider.gameObject.CompareTag("GlowStick"))
                 {
@@ -119,8 +120,28 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+        UpdateGlowStickPickUpUI();
         UpdateGlowStickNumberUI();
-
+    }
+    private void UpdateGlowStickPickUpUI()
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(CameraIntractPointer.position, CameraIntractPointer.forward);
+        if (Physics.SphereCast(ray,sphereRadius, out hit, 2.5f))
+        {
+            if (hit.collider.gameObject.CompareTag("GlowStick"))
+            {
+                glowStickPickupText.gameObject.SetActive(true);
+            }
+            else
+            {
+                glowStickPickupText.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            glowStickPickupText.gameObject.SetActive(false);
+        }
     }
     private void UpdateGlowStickNumberUI()
     {
