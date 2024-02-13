@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_VHS
+  m_Name: Shader Graphs_VHS1
   m_Shader: {fileID: -6465566751694194690, guid: 4694a3d98996140c6b230e278e418c07, type: 3}
-  m_Parent: {fileID: -876546973899608171, guid: 4694a3d98996140c6b230e278e418c07, type: 3}
+  m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -22,14 +22,27 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _PixelOffset: 0
-    - _Shake: 0.003
-    - _Speed: 0.5
-    - _Strength: 0
-    - _StripSize: 0.3
+    - _PixelOffset: 40
+    - _Shake: 0.01
+    - _Speed: 1.2
+    - _Strength: 1
+    - _StripSize: 0.2
     m_Colors:
+    - _YIQMul: {r: 1, g: 1, b: 1.4, a: 0}
     - _YQIAdd: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
