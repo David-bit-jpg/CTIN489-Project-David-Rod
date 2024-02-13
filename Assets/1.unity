@@ -22001,7 +22001,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 469883220}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 5.05}
+  m_LocalPosition: {x: 0, y: 0, z: 2.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -22010,7 +22010,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.45, y: 0}
+  m_AnchoredPosition: {x: 4.32, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &469883224
@@ -84176,7 +84176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1865538500
 Light:
   m_ObjectHideFlags: 0
@@ -96773,6 +96773,22 @@ PrefabInstance:
     - target: {fileID: 3577636286041020735, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: mouseSensitivity
       value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959720149928456325, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959720149928456325, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959720149928456325, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959720149928456325, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -180
       objectReference: {fileID: 0}
     - target: {fileID: 5594285669669794527, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_LocalPosition.x

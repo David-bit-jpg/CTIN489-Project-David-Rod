@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering.Universal;
+using System.Collections;
 
 namespace MimicSpace
 {
@@ -16,6 +17,7 @@ namespace MimicSpace
         [SerializeField] public float roamDistance = 40f;
         public AudioSource AudioSource;
         [SerializeField] private AudioClip Audio;
+        [SerializeField] private float WaitingTime = 5.0f;
         private Vector3 initialPosition;
         public float volume = 0f;
         Vector3 velocity = Vector3.zero;
@@ -71,6 +73,7 @@ namespace MimicSpace
                 Debug.Log("Stop Chasing");
                 navMeshAgent.isStopped = false;
                 StopChasing();
+                StartCoroutine(StopChasingWithDelay());
             }
             else if (isRoaming && !isChasing)//no chasing,roaming
             {
@@ -101,7 +104,6 @@ namespace MimicSpace
         {
             AudioSource.Stop();
             isChasing = false;//no chasing
-            RoamAwayFromPlayer();//leave
             isRoaming = true;//start Roam
             // DisableVHSFeature();
         }
@@ -111,14 +113,6 @@ namespace MimicSpace
             navMeshAgent.SetDestination(mPlayer.gameObject.transform.position);
         }
 
-        private void RoamAwayFromPlayer()
-        {
-            navMeshAgent.isStopped = false;
-            roamTimer = initialRoamTime;
-            Vector3 directionAwayFromPlayer = transform.position - mPlayer.transform.position;
-            Vector3 roamTarget = transform.position + directionAwayFromPlayer.normalized * roamDistance;
-            navMeshAgent.SetDestination(roamTarget);
-        }
 
         private void SetRandomInitialPosition()
         {
@@ -209,5 +203,14 @@ namespace MimicSpace
                 vhsFeature.SetActive(false);
             }
         }
+        private IEnumerator StopChasingWithDelay()
+        {
+            isChasing = false; 
+            isRoaming = false;
+            // DisableVHSFeature();
+            yield return new WaitForSeconds(WaitingTime);
+            isRoaming = true;
+        }
     }
+
 }
