@@ -8,9 +8,9 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Prefabs")]
     [SerializeField] private GameObject glowStick;
-    
+    [SerializeField] private Text glowStickNumberText; 
     [Header("Config")]
-
+    [SerializeField] public Transform CameraIntractPointer;
     [SerializeField] private float normalSpeed = 2.0f;
     [SerializeField] private float runningSpeed = 5.0f;
     private float speed;
@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
     private CameraControl cameraControl;
     private float lastStepTime = 0f;
     private float stepInterval = 0f;
+
+    [SerializeField] private int glowStickNumber = 5;
     [SerializeField] private float walkStepInterval = 0.5f;
     [SerializeField] private float runStepInterval = 0.3f;
     public bool isRunning { get; private set; }
@@ -95,13 +97,37 @@ public class PlayerMovement : MonoBehaviour
             UpdateStaminaBar();
         }
 
-        if (Input.GetKey(KeyCode.G))
+        if (Input.GetKey(KeyCode.Q) && glowStickNumber > 0)
         {
             DropGlowStick();
         }
 
         glowStickTimer-= Time.deltaTime;
 
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            RaycastHit hit;
+
+            Ray ray = new Ray(CameraIntractPointer.position, CameraIntractPointer.forward);
+
+            if (Physics.Raycast(ray, out hit, 100f))
+            {
+                if (hit.collider.gameObject.CompareTag("GlowStick"))
+                {
+                    glowStickNumber++;
+                    Destroy(hit.collider.gameObject);
+                }
+            }
+        }
+        UpdateGlowStickNumberUI();
+
+    }
+    private void UpdateGlowStickNumberUI()
+    {
+        if (glowStickNumberText != null)
+        {
+            glowStickNumberText.text = "Glow Sticks: " + glowStickNumber.ToString();
+        }
     }
 
     private void FixedUpdate()
@@ -131,10 +157,24 @@ public class PlayerMovement : MonoBehaviour
     {
         if(glowStickTimer <= 0.0f)
         {
+            glowStickNumber--;
             glowStickTimer = glowStickCoolDown;
-            Vector3 rotation = Quaternion.ToEulerAngles(transform.rotation) - new Vector3(90, 0, 0);
-            Quaternion quat = Quaternion.Euler(rotation);
-            Instantiate(glowStick, transform.position, quat);
+            Vector3 rayStart = CameraIntractPointer.position;
+            Vector3 rayDirection = CameraIntractPointer.forward;
+            float maxDistance = 2.0f;
+            RaycastHit hit;
+            Vector3 dropPosition;
+
+            if (Physics.Raycast(rayStart, rayDirection, out hit, maxDistance))
+            {
+                dropPosition = hit.point - rayDirection * 0.1f;
+            }
+            else
+            {
+                dropPosition = rayStart + rayDirection * maxDistance;
+            }
+            Quaternion dropRotation = Quaternion.Euler(CameraIntractPointer.eulerAngles);
+            Instantiate(glowStick, dropPosition, dropRotation);
         }
     }
 
