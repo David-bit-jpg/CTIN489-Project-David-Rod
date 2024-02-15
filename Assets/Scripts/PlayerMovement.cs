@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float normalSpeed = 2.0f;
     [SerializeField] private float runningSpeed = 5.0f;
     private float speed;
+
+    private bool canMove = true;
     [SerializeField] private float jumpForce = 7f;
     [SerializeField] private float crouchSpeed = 2.5f;
     public AudioSource AudioSource;
@@ -26,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private float lastStepTime = 0f;
     private float stepInterval = 0f;
 
-    [SerializeField] private int glowStickNumber = 5;
+    [SerializeField] private int glowStickNumber = 3;
     [SerializeField] private float walkStepInterval = 0.5f;
     [SerializeField] private float runStepInterval = 0.3f;
     public bool isRunning { get; private set; }
@@ -59,69 +61,72 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
-        Vector3 forward = transform.forward * moveZ;
-        Vector3 right = transform.right * moveX;
+        if(canMove)
+        {
+            float moveX = Input.GetAxis("Horizontal");
+            float moveZ = Input.GetAxis("Vertical");
+            horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
+            Vector3 forward = transform.forward * moveZ;
+            Vector3 right = transform.right * moveX;
 
-        moveDirection = (forward + right).normalized;
+            moveDirection = (forward + right).normalized;
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
-        if (currentStamina >= 0 && Input.GetKey(KeyCode.LeftShift))
-        {
-            isRunning = true;
-            speed = runningSpeed;
-            stepInterval = runStepInterval;
-        }
-        else
-        {
-            isRunning = false;
-            speed = normalSpeed;
-            stepInterval = walkStepInterval;
-        }
-        isMoving = moveDirection != Vector3.zero;
-        // isRunning = isGrounded && Input.GetKey(KeyCode.LeftShift);
-        if (isRunning&&isMoving)
-        {
-            currentStamina--;
-            lastRunTime = Time.time;
-            UpdateStaminaBar();
-        }
-        else if (Time.time - lastRunTime > staminaRecoveryDelay && currentStamina < maxStamina)
-        {
-            currentStamina += (int)(staminaRecoveryRate * Time.deltaTime);
-            currentStamina = Mathf.Min(currentStamina, maxStamina);
-            UpdateStaminaBar();
-        }
-
-        if (Input.GetKey(KeyCode.Q) && glowStickNumber > 0)
-        {
-            DropGlowStick();
-        }
-
-        glowStickTimer-= Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            RaycastHit hit;
-
-            Ray ray = new Ray(CameraIntractPointer.position, CameraIntractPointer.forward);
-            if (Physics.SphereCast(ray, sphereRadius,out hit, 2.5f))
+            if (Input.GetButtonDown("Jump") && isGrounded)
             {
-                if (hit.collider.gameObject.CompareTag("GlowStick"))
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            }
+            if (currentStamina >= 0 && Input.GetKey(KeyCode.LeftShift))
+            {
+                isRunning = true;
+                speed = runningSpeed;
+                stepInterval = runStepInterval;
+            }
+            else
+            {
+                isRunning = false;
+                speed = normalSpeed;
+                stepInterval = walkStepInterval;
+            }
+            isMoving = moveDirection != Vector3.zero;
+            // isRunning = isGrounded && Input.GetKey(KeyCode.LeftShift);
+            if (isRunning&&isMoving)
+            {
+                currentStamina--;
+                lastRunTime = Time.time;
+                UpdateStaminaBar();
+            }
+            else if (Time.time - lastRunTime > staminaRecoveryDelay && currentStamina < maxStamina)
+            {
+                currentStamina += (int)(staminaRecoveryRate * Time.deltaTime);
+                currentStamina = Mathf.Min(currentStamina, maxStamina);
+                UpdateStaminaBar();
+            }
+
+            if (Input.GetKey(KeyCode.Q) && glowStickNumber > 0)
+            {
+                DropGlowStick();
+            }
+
+            glowStickTimer-= Time.deltaTime;
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                RaycastHit hit;
+
+                Ray ray = new Ray(CameraIntractPointer.position, CameraIntractPointer.forward);
+                if (Physics.SphereCast(ray, sphereRadius,out hit, 2.5f))
                 {
-                    glowStickNumber++;
-                    Destroy(hit.collider.gameObject);
+                    if (hit.collider.gameObject.CompareTag("GlowStick"))
+                    {
+                        glowStickNumber++;
+                        Destroy(hit.collider.gameObject);
+                    }
                 }
             }
+            UpdateGlowStickPickUpUI();
+            UpdateGlowStickNumberUI();
         }
-        UpdateGlowStickPickUpUI();
-        UpdateGlowStickNumberUI();
     }
     private void UpdateGlowStickPickUpUI()
     {
@@ -172,6 +177,10 @@ public class PlayerMovement : MonoBehaviour
         {
             staminaBar.fillAmount = (float)currentStamina / maxStamina;
         }
+    }
+    public void SetCanMove(bool c)
+    {
+        canMove = c;
     }
 
     private void DropGlowStick()

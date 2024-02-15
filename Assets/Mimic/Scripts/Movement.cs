@@ -8,6 +8,9 @@ namespace MimicSpace
     public class Movement : MonoBehaviour
     {
         [Header("Controls")]
+        public Light importantLight;
+
+        public GameObject ghostPlatform;
         [SerializeField] public float chaseDistance = 10f;
         [SerializeField] public UniversalRendererData rendererData;
         private ScriptableRendererFeature vhsFeature;
@@ -31,6 +34,7 @@ namespace MimicSpace
         private float initialRoamTime = 10f;
         private float lastChaseTime = 0f;
         private float stepInterval = 0f;
+        private bool isDragging = false;
         private void Awake()
         {
             AudioSource = gameObject.AddComponent<AudioSource>();
@@ -40,6 +44,11 @@ namespace MimicSpace
 
         private void Start()
         {
+            GameObject lightGameObject = GameObject.FindGameObjectWithTag("MimicLight");
+                if (lightGameObject != null)
+            {
+                importantLight = lightGameObject.GetComponent<Light>();
+            }
             vhsFeature = rendererData.rendererFeatures.Find(feature => feature.name == "FullScreenPassRendererFeature");
             myMimic = GetComponentInChildren<Mimic>();
             mPlayer = FindObjectOfType<PlayerMovement>();
@@ -62,20 +71,20 @@ namespace MimicSpace
 
             UpdateVHSParameters(lerpFactor);
 
-            if (distanceToPlayer <= chaseDistance) //enter range, chase player
+            if (distanceToPlayer <= chaseDistance && !isDragging) //enter range, chase player
             {
                 Debug.Log("Chasing Player!!!");
                 navMeshAgent.isStopped = false;
                 StartChasing();
             }
-            else if (distanceToPlayer > stopChaseDistance && isChasing)//if is chasing, player run out, stop
+            else if (distanceToPlayer > stopChaseDistance && isChasing && !isDragging)//if is chasing, player run out, stop
             {
                 Debug.Log("Stop Chasing");
                 navMeshAgent.isStopped = false;
                 StopChasing();
-                StartCoroutine(StopChasingWithDelay());
+                // StartCoroutine(StopChasingWithDelay());
             }
-            else if (isRoaming && !isChasing)//no chasing,roaming
+            else if (isRoaming && !isChasing && !isDragging)//no chasing,roaming
             {
                 Debug.Log("Start Roam");
                 navMeshAgent.isStopped = false;
@@ -116,6 +125,7 @@ namespace MimicSpace
 
         private void SetRandomInitialPosition()
         {
+            
             Vector3 randomPosition = GenerateRandomPosition();
             NavMeshHit hit;
             int attempts = 0;
@@ -187,7 +197,7 @@ namespace MimicSpace
                 vhsMaterial.SetFloat("_Shake", shake);
                 vhsMaterial.SetFloat("_Speed", speed);
             }
-        }    
+        }
         public void EnableVHSFeature()
         {
             if (vhsFeature != null)
@@ -211,6 +221,92 @@ namespace MimicSpace
             yield return new WaitForSeconds(WaitingTime);
             isRoaming = true;
         }
-    }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player") && !isDragging)
+            {
+                isDragging = true;
+                isChasing = false;
+                isRoaming = false;
+                StartCoroutine(FollowMimicWithDelay(other.transform));
+                // isDragging = false;
+                // isChasing = false;
+                // isRoaming = true;
+            }
+        }
 
+        private IEnumerator FollowMimicWithDelay(Transform playerTransform)
+        {
+            Color originalColor = Color.white;
+            if (importantLight != null)
+            {
+                originalColor = importantLight.color;
+                importantLight.color = Color.red;
+            }
+            Collider playerCollider = playerTransform.GetComponent<Collider>();
+            if (playerCollider != null)
+            {
+                playerCollider.enabled = false;
+            }
+            if (ghostPlatform != null)
+            {
+                ghostPlatform.GetComponent<Collider>().enabled = true;
+            }
+            PlayerMovement playerMovement = playerTransform.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.SetCanMove(false);
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+            Vector3 destination = RandomNavMeshLocation(roamDistance);
+            navMeshAgent.SetDestination(destination);
+            float startTime = Time.time;
+            while (Time.time - startTime < 10f)
+            {
+                playerTransform.position = Vector3.Lerp(playerTransform.position, this.transform.position, Time.deltaTime * navMeshAgent.speed);
+                yield return null;
+            }
+            if (playerCollider != null)
+            {
+                playerCollider.enabled = true;
+            }
+            if (ghostPlatform != null)
+            {
+                ghostPlatform.GetComponent<Collider>().enabled = false;
+            }
+            if (playerMovement != null)
+            {
+                playerMovement.SetCanMove(true);
+            }
+            
+            yield return new WaitForSeconds(10f);
+
+            isDragging = false;
+            
+            if (importantLight != null)
+            {
+                importantLight.color = originalColor;
+            }
+        }
+
+        private Vector3 RandomNavMeshLocation(float radius)
+        {
+            Vector3 randomDirection = Random.insideUnitSphere * radius;
+            randomDirection += transform.position;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomDirection, out hit, radius, NavMesh.AllAreas))
+            {
+                return hit.position;
+            }
+            return transform.position;
+        }
+
+        private bool HasReachedDestination()
+        {
+            return !navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance;
+        }
+
+    }
 }
