@@ -83,12 +83,9 @@ namespace MimicSpace
                     isChasing = false;
                     isRoaming = false;
                     StartCoroutine(FollowMimicWithDelay(GameObject.FindGameObjectWithTag("Player").transform));
-                    // isDragging = false;
-                    // isChasing = false;
-                    // isRoaming = true;
                 }   
             }
-            if (distanceToPlayer <= chaseDistance && !isDragging) //enter range, chase player
+            else if (distanceToPlayer <= chaseDistance && !isDragging) //enter range, chase player
             {
                 Debug.Log("Chasing Player!!!");
                 navMeshAgent.isStopped = false;
@@ -107,10 +104,10 @@ namespace MimicSpace
                 navMeshAgent.isStopped = false;
                 Roam();
             }
-            // else
-            // {
-            //     Debug.Log("Not Activated");
-            // }
+            else
+            {
+                Roam();
+            }
         }
 
         private void StartChasing()
