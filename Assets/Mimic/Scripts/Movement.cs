@@ -71,7 +71,20 @@ namespace MimicSpace
 
             UpdateVHSParameters(lerpFactor);
 
-            if (distanceToPlayer <= chaseDistance && !isDragging) //enter range, chase player
+            if(distanceToPlayer<=0.5f)
+            {
+                if (GameObject.FindGameObjectWithTag("Player") && !isDragging)
+                {
+                    isDragging = true;
+                    isChasing = false;
+                    isRoaming = false;
+                    StartCoroutine(FollowMimicWithDelay(GameObject.FindGameObjectWithTag("Player").transform));
+                    // isDragging = false;
+                    // isChasing = false;
+                    // isRoaming = true;
+                }   
+            }
+            else if (distanceToPlayer <= chaseDistance && !isDragging) //enter range, chase player
             {
                 Debug.Log("Chasing Player!!!");
                 navMeshAgent.isStopped = false;
@@ -221,19 +234,19 @@ namespace MimicSpace
             yield return new WaitForSeconds(WaitingTime);
             isRoaming = true;
         }
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.CompareTag("Player") && !isDragging)
-            {
-                isDragging = true;
-                isChasing = false;
-                isRoaming = false;
-                StartCoroutine(FollowMimicWithDelay(other.transform));
-                // isDragging = false;
-                // isChasing = false;
-                // isRoaming = true;
-            }
-        }
+        // private void OnTriggerEnter(Collider other)
+        // {
+        //     if (other.CompareTag("Player") && !isDragging)
+        //     {
+        //         isDragging = true;
+        //         isChasing = false;
+        //         isRoaming = false;
+        //         StartCoroutine(FollowMimicWithDelay(other.transform));
+        //         // isDragging = false;
+        //         // isChasing = false;
+        //         // isRoaming = true;
+        //     }
+        // }
 
         private IEnumerator FollowMimicWithDelay(Transform playerTransform)
         {
