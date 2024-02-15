@@ -56,6 +56,10 @@ namespace MimicSpace
             SetRandomInitialPosition();
             initialPosition = transform.position;
             navMeshAgent.isStopped = true;
+            Debug.Log("Start Roam");
+            navMeshAgent.isStopped = false;
+            Roam();
+            isRoaming = true;
             // DisableVHSFeature();
         }
 
@@ -84,7 +88,7 @@ namespace MimicSpace
                     // isRoaming = true;
                 }   
             }
-            else if (distanceToPlayer <= chaseDistance && !isDragging) //enter range, chase player
+            if (distanceToPlayer <= chaseDistance && !isDragging) //enter range, chase player
             {
                 Debug.Log("Chasing Player!!!");
                 navMeshAgent.isStopped = false;
@@ -103,10 +107,10 @@ namespace MimicSpace
                 navMeshAgent.isStopped = false;
                 Roam();
             }
-            else
-            {
-                Debug.Log("Not Activated");
-            }
+            // else
+            // {
+            //     Debug.Log("Not Activated");
+            // }
         }
 
         private void StartChasing()
