@@ -88738,7 +88738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 751965472444413287, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
       propertyPath: m_SpotAngle
-      value: 55
+      value: 67
       objectReference: {fileID: 0}
     - target: {fileID: 751965472444413287, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
       propertyPath: m_Lightmapping
@@ -88746,7 +88746,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 751965472444413287, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
       propertyPath: m_InnerSpotAngle
-      value: 20
+      value: 37
       objectReference: {fileID: 0}
     - target: {fileID: 751965472444413287, guid: 6289a1b48fde8d44ba71f1c7d8940a3c, type: 3}
       propertyPath: m_Shadows.m_Type
@@ -97541,7 +97541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8195298357482453947, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: m_Mass
-      value: 0.01
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
