@@ -95,14 +95,14 @@ Material:
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DisplacementIntensity: 0.05
+    - _DisplacementIntensity: 0.2
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
-    - _NoiseScale: 3
+    - _NoiseScale: 5
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueControl: 0
@@ -119,11 +119,11 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     - _metallic: 0
-    - _smoothness: 0.727
+    - _smoothness: 0.754
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _base_color: {r: 0.018584657, g: 0, b: 0.084905684, a: 0}
+    - _base_color: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &419664647932587922
 MonoBehaviour:
