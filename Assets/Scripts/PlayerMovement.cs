@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isMoving { get; private set; }
     private Rigidbody rb;
     private Vector3 moveDirection;
-    private bool isGrounded;
+    private bool isGrounded = true;
     public float horizontal;
     public float vertical;
     [SerializeField] public int maxStamina = 100;
@@ -74,17 +74,20 @@ public class PlayerMovement : MonoBehaviour
 
             if (Input.GetButtonDown("Jump") && isGrounded)
             {
+                Debug.Log("Jumping!");
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             }
             if (currentStamina >= 0 && Input.GetKey(KeyCode.LeftShift))
             {
                 isRunning = true;
+                Debug.Log("Running!");
                 speed = runningSpeed;
                 stepInterval = runStepInterval;
             }
             else
             {
                 isRunning = false;
+                Debug.Log("Walking!");
                 speed = normalSpeed;
                 stepInterval = walkStepInterval;
             }
@@ -94,12 +97,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 currentStamina--;
                 lastRunTime = Time.time;
+                speed = runningSpeed;
                 UpdateStaminaBar();
             }
             else if (Time.time - lastRunTime > staminaRecoveryDelay && currentStamina < maxStamina)
             {
                 currentStamina += (int)(staminaRecoveryRate * Time.deltaTime);
                 currentStamina = Mathf.Min(currentStamina, maxStamina);
+                speed = normalSpeed;
                 UpdateStaminaBar();
             }
 
