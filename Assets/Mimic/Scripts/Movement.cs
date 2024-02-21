@@ -56,7 +56,7 @@ namespace MimicSpace
             SetRandomInitialPosition();
             initialPosition = transform.position;
             navMeshAgent.isStopped = true;
-            Debug.Log("Start Roam");
+            // Debug.Log("Start Roam");
             navMeshAgent.isStopped = false;
             Roam();
             isRoaming = true;
@@ -87,20 +87,20 @@ namespace MimicSpace
             }
             else if (distanceToPlayer <= chaseDistance && !isDragging) //enter range, chase player
             {
-                Debug.Log("Chasing Player!!!");
+                // Debug.Log("Chasing Player!!!");
                 navMeshAgent.isStopped = false;
                 StartChasing();
             }
             else if (distanceToPlayer > stopChaseDistance && isChasing && !isDragging)//if is chasing, player run out, stop
             {
-                Debug.Log("Stop Chasing");
+                // Debug.Log("Stop Chasing");
                 navMeshAgent.isStopped = false;
                 StopChasing();
                 // StartCoroutine(StopChasingWithDelay());
             }
             else if (isRoaming && !isChasing && !isDragging)//no chasing,roaming
             {
-                Debug.Log("Start Roam");
+                // Debug.Log("Start Roam");
                 navMeshAgent.isStopped = false;
                 Roam();
             }
@@ -161,7 +161,7 @@ namespace MimicSpace
 
         private Vector3 GenerateRandomPosition()
         {
-            return new Vector3(Random.Range(-27f, 27f), 0, Random.Range(-27f, 10f));
+            return new Vector3(Random.Range(-27f, 27f), 0, Random.Range(0f, 27f));
         }
 
 
@@ -235,19 +235,6 @@ namespace MimicSpace
             yield return new WaitForSeconds(WaitingTime);
             isRoaming = true;
         }
-        // private void OnTriggerEnter(Collider other)
-        // {
-        //     if (other.CompareTag("Player") && !isDragging)
-        //     {
-        //         isDragging = true;
-        //         isChasing = false;
-        //         isRoaming = false;
-        //         StartCoroutine(FollowMimicWithDelay(other.transform));
-        //         // isDragging = false;
-        //         // isChasing = false;
-        //         // isRoaming = true;
-        //     }
-        // }
 
         private IEnumerator FollowMimicWithDelay(Transform playerTransform)
         {

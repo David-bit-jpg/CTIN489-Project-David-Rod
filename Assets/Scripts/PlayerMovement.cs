@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Prefabs")]
     [SerializeField] private GameObject glowStick;
     [SerializeField] private Text glowStickPickupText;
+    [SerializeField] private GameObject vhsEffectStatusText;
+
+    private bool rKeyPressed = false;
+
     [SerializeField] private Text glowStickNumberText; 
     float sphereRadius = 1.3f;
     [Header("Config")]
     [SerializeField] public Transform CameraIntractPointer;
+    private ScriptableRendererFeature vhsFeature;
+    private bool featureAble = false;
+    [SerializeField] public UniversalRendererData rendererData;
     [SerializeField] private float normalSpeed = 2.0f;
     [SerializeField] private float runningSpeed = 5.0f;
     private float speed;
@@ -35,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isMoving { get; private set; }
     private Rigidbody rb;
     private Vector3 moveDirection;
-    private bool isGrounded;
+    private bool isGrounded = true;
     public float horizontal;
     public float vertical;
     [SerializeField] public int maxStamina = 100;
@@ -47,9 +54,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float glowStickCoolDown = 1.0f;
     private float glowStickTimer;
 
+
     private void Awake()
     {
         currentStamina = maxStamina;
+        vhsFeature = rendererData.rendererFeatures.Find(feature => feature.name == "FullScreenPassRendererFeature");
         rb = GetComponent<Rigidbody>();
         cameraControl = FindObjectOfType<CameraControl>();
         AudioSource = gameObject.AddComponent<AudioSource>();
@@ -57,6 +66,11 @@ public class PlayerMovement : MonoBehaviour
         AudioSource.volume = volume;
         animator = GetComponent<Animator>();
         glowStickTimer = 0.0f;
+        DisableVHSFeature();
+        if (vhsEffectStatusText != null)
+        {
+            vhsEffectStatusText.gameObject.SetActive(false);
+        }
     }
 
     void Update()
@@ -74,17 +88,20 @@ public class PlayerMovement : MonoBehaviour
 
             if (Input.GetButtonDown("Jump") && isGrounded)
             {
+                // Debug.Log("Jumping!");   
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             }
             if (currentStamina >= 0 && Input.GetKey(KeyCode.LeftShift))
             {
                 isRunning = true;
+                // Debug.Log("Running!"); 
                 speed = runningSpeed;
                 stepInterval = runStepInterval;
             }
             else
             {
                 isRunning = false;
+                // Debug.Log("Walking!");
                 speed = normalSpeed;
                 stepInterval = walkStepInterval;
             }
@@ -94,12 +111,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 currentStamina--;
                 lastRunTime = Time.time;
+                speed = runningSpeed;
                 UpdateStaminaBar();
             }
             else if (Time.time - lastRunTime > staminaRecoveryDelay && currentStamina < maxStamina)
             {
                 currentStamina += (int)(staminaRecoveryRate * Time.deltaTime);
                 currentStamina = Mathf.Min(currentStamina, maxStamina);
+                speed = normalSpeed;
                 UpdateStaminaBar();
             }
 
@@ -107,6 +126,28 @@ public class PlayerMovement : MonoBehaviour
             {
                 DropGlowStick();
             }
+            if (Input.GetKey(KeyCode.R) && !rKeyPressed)
+            {
+                rKeyPressed = true;
+
+                if (featureAble)
+                {
+                    DisableVHSFeature();
+                    featureAble = false;
+                    UpdateVHSEffectStatus(false);
+                }
+                else
+                {
+                    EnableVHSFeature();
+                    featureAble = true;
+                    UpdateVHSEffectStatus(true);
+                }
+            }
+            else if (!Input.GetKey(KeyCode.R))
+            {
+                rKeyPressed = false;
+            }
+
 
             glowStickTimer-= Time.deltaTime;
 
@@ -221,6 +262,35 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
+        }
+    }
+
+    public void EnableVHSFeature()
+    {
+        // if(CameraTimer <= 0.0f)
+        // {
+            if (vhsFeature != null)
+            {
+                vhsFeature.SetActive(true);
+            }
+        // }
+    }
+
+    public void DisableVHSFeature()
+    {
+        // if(CameraTimer <= 0.0f)
+        // {
+            if (vhsFeature != null)
+            {
+                vhsFeature.SetActive(false);
+            }
+        // }
+    }
+    private void UpdateVHSEffectStatus(bool isActive)
+    {
+        if (vhsEffectStatusText != null)
+        {
+            vhsEffectStatusText.gameObject.SetActive(isActive);
         }
     }
 
