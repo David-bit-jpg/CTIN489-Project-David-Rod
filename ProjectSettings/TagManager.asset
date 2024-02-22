@@ -9,6 +9,8 @@ TagManager:
   - CinemachineTarget
   - GlowStick
   - MimicLight
+  - Door
+  - ChargingStation
   layers:
   - Default
   - TransparentFX

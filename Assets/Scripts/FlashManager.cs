@@ -3,8 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEditor;
 
-namespace M4DOOM
-{
     public class FlashManager : MonoBehaviour
     {
         #region Variables
@@ -21,10 +19,6 @@ namespace M4DOOM
 
         //Battery Life Span.
         public int BatteryLife;
-        //Battery Count.
-        public int BatteryCount;
-        //Intract Range.
-        public int BatteryPickRange;
 
         //Track Speed.
         public float TrackSpeed;
@@ -38,8 +32,6 @@ namespace M4DOOM
 
         //Intract Keys
         public KeyCode UseKey;
-        public KeyCode PickBatteryKey;
-        public KeyCode ReloadKey;
 
         //Sound Effects
         public AudioSource SwitchOnSFX;
@@ -48,8 +40,6 @@ namespace M4DOOM
 
         //Instruction Display.
         public Text inGameText;
-        //Battery Count Display.
-        public Text BatteryCountText;
         //Battery Life Display.
         public Slider BatterySlider;
         //Screen Middle Point Display.
@@ -64,6 +54,7 @@ namespace M4DOOM
 
         //Flash Status.
         bool LightOn;
+        private bool isCharging = false;
         //One Method Call.
         bool OneCall;
         //On Noise.
@@ -97,14 +88,13 @@ namespace M4DOOM
                 StartCoroutine(NoiseCaller());
             }
 
-            //Set Battery Life span Max Value to BatteryLife.
             BatterySlider.maxValue = BatteryLife;
+            DrainTime = BatteryLife;
+            BatterySlider.value = DrainTime;
 
             //Set LightCookie Texture to Flashlight.
             LightSource.cookie = LightCookie;
-
-            //Call UseBattery Method.
-            UseBattery();
+            LightSource.enabled = false;
 
             //Assing light rotation.
             LightRotation = LightSource.transform.localRotation;
@@ -125,48 +115,6 @@ namespace M4DOOM
                 //Call FlashModeChanger Mehtod.
                 FlashModeChanger();
             }
-            //Input Key is ReloadKey.
-            else if (Input.GetKeyDown(ReloadKey))
-            {
-                //Call UseBattery Mehtod.
-                UseBattery();
-            }
-
-            //Create Ray from Camera to forward direction.
-            ray = new Ray(CameraIntractPointer.position, CameraIntractPointer.forward);
-
-            //if Ray hit Battery Layer.
-            if (Physics.Raycast(ray, out RaycastHit hit, BatteryPickRange) && hit.transform.gameObject.name.StartsWith("Battery"))
-            {
-                //Enable Hand Image.
-                HandImage.enabled = true;
-                //Disable Hand Image.
-                NormalImage.enabled = false;
-
-                //Display Text.
-                inGameText.text = "Press {E} To Collect";
-
-                //Input Key is PickBatteryKey.
-                if (Input.GetKeyDown(PickBatteryKey))
-                {
-                    //Call addBatery Method.
-                    AddBattery();
-
-                    //Destroy Battery Object.
-                    Destroy(hit.transform.gameObject);
-                }
-            }
-            else
-            {
-                //Disable Hand Image.
-                HandImage.enabled = false;
-                //Enable Hand Image.
-                NormalImage.enabled = true;
-
-                //Display Empty Text.
-                inGameText.text = string.Empty;
-            }
-
             //Light is On and DrainTime more than or equal 0.
             if (LightOn && DrainTime >= 0)
             {
@@ -180,7 +128,7 @@ namespace M4DOOM
                 if (UseIntensity)
                 {
                     //Flash Intensity to drainTimeF.
-                    LightSource.intensity = drainTimeF* 8.5f;
+                    LightSource.intensity = drainTimeF * 15.0f;
                 }
                 //Battery Slider to drainTimeF.
                 BatterySlider.value = DrainTime;
@@ -321,47 +269,21 @@ namespace M4DOOM
             }
         }
 
-        //Method to Use Battery.
-        private void UseBattery()
+        public void ChargeBattery()
         {
-            //If batteries more than 0 and DrainTime less than BatteryLife/3.
-            if (BatteryCount > 0 && DrainTime < BatteryLife / 2)
+            float chargingRate = 2.0f;
+            if (DrainTime < BatteryLife)
             {
-                //DrainTime to Battery Life span.
-                DrainTime = BatteryLife;
-
-                //BatterySlider to BatteryLife.
-                BatterySlider.value = BatteryLife;
-
-                //LightSource intensity to 1.
-                LightSource.intensity = 10;
-
-                //Decrement Batteries.
-                BatteryCount--;
-
-                //Call DisplayBattery Method.
-                DisplayBattery();
-
-                //Set NoiseLight to true.
-                NoiseLight = true;
-
-                //Call Noise Method.
-                StartCoroutine(Noise());
-
-                //Call NoiseTimer Method.
-                StartCoroutine(NoiseTimer());
-
-
-                //OneCall to true.
-                OneCall = true;
+                DrainTime += Time.deltaTime * chargingRate;
+                DrainTime = Mathf.Min(DrainTime, BatteryLife);
+                BatterySlider.value = DrainTime;
             }
         }
+
 
         //Method to Increment Battries.
         private void AddBattery()
         {
-            //Increment Battries.
-            BatteryCount++;
 
             //Call DisplayBattery Method.
             DisplayBattery();
@@ -370,8 +292,6 @@ namespace M4DOOM
         //Method to display Battries.
         private void DisplayBattery()
         {
-            //Display Batteries.
-            BatteryCountText.text = "" + BatteryCount;
         }
 
         #endregion
@@ -417,13 +337,10 @@ namespace M4DOOM
 
             GUILayout.Label("Battery", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Bold, fontSize = 13 }, GUILayout.ExpandWidth(true));
             fm.BatteryLife = EditorGUILayout.IntSlider(new GUIContent("Battery Life", "Battery life span."), fm.BatteryLife, 20, 300);
-            fm.BatteryCount = EditorGUILayout.IntSlider(new GUIContent("Battery Count", "Start battery count."), fm.BatteryCount, 0, 30);
-            fm.BatteryPickRange = EditorGUILayout.IntSlider(new GUIContent("Battery Pick Range", "Distace to intract with battery."), fm.BatteryPickRange, 0, 220);
             EditorGUILayout.Space();
 
             GUILayout.Label("User Interface", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Bold, fontSize = 13 }, GUILayout.ExpandWidth(true));
             fm.inGameText = (Text)EditorGUILayout.ObjectField(new GUIContent("Game Text", "Game instruction text display."), fm.inGameText, typeof(Text), true);
-            fm.BatteryCountText = (Text)EditorGUILayout.ObjectField(new GUIContent("Battery Count Text", "Battery count text display."), fm.BatteryCountText, typeof(Text), true);
             fm.BatterySlider = (Slider)EditorGUILayout.ObjectField(new GUIContent("Battery Drain Slider", "Battery life span slider display."), fm.BatterySlider, typeof(Slider), true);
             fm.NormalImage = (Image)EditorGUILayout.ObjectField(new GUIContent("Screen Pointer", "screen pointer image."), fm.NormalImage, typeof(Image), true);
             fm.HandImage = (Image)EditorGUILayout.ObjectField(new GUIContent("Screen Hand", "screen hand pointer image."), fm.HandImage, typeof(Image), true);
@@ -431,8 +348,6 @@ namespace M4DOOM
 
             GUILayout.Label("Intracting Keys", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Bold, fontSize = 13 }, GUILayout.ExpandWidth(true));
             fm.UseKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Use Key", "Toggle flash light."), fm.UseKey);
-            fm.ReloadKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Reload Key", "Reload flash battery."), fm.ReloadKey);
-            fm.PickBatteryKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Pick Battery Key", "Pick up battery."), fm.PickBatteryKey);
             EditorGUILayout.Space();
 
             GUILayout.Label("Sound Effects", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Bold, fontSize = 13 }, GUILayout.ExpandWidth(true));
@@ -451,4 +366,3 @@ namespace M4DOOM
 #endif
 
     #endregion
-}

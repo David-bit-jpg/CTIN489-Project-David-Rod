@@ -3,18 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
-
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Prefabs")]
+    [Header("Texts")]
     [SerializeField] private GameObject glowStick;
     [SerializeField] private Text glowStickPickupText;
+    [SerializeField] private Text doorMoveUpText;
+    [SerializeField] private Text chargingText;
+    [SerializeField] private Image redDot;
     [SerializeField] private GameObject vhsEffectStatusText;
-
     private bool rKeyPressed = false;
+    private bool isCharging = false;
+    public Text timerText;
 
-    [SerializeField] private Text glowStickNumberText; 
-    float sphereRadius = 1.3f;
+    bool startedRed = false;
+
+    private float startTime = 0.0f;
+    private bool timerActive = false;
+    private float elapsedTime = 0f;
+    [SerializeField] private Text glowStickNumberText;
+
+    float sphereRadius = 1f;
     [Header("Config")]
     [SerializeField] public Transform CameraIntractPointer;
     private ScriptableRendererFeature vhsFeature;
@@ -23,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float normalSpeed = 2.0f;
     [SerializeField] private float runningSpeed = 5.0f;
     private float speed;
-
+    public float moveSpeed = 1f;
     private bool canMove = true;
     [SerializeField] private float jumpForce = 7f;
     [SerializeField] private float crouchSpeed = 2.5f;
@@ -53,11 +62,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float staminaRecoveryRate = 1.0f;
     [SerializeField] private float glowStickCoolDown = 1.0f;
     private float glowStickTimer;
-
+    [SerializeField] float DrainTime;
+    public Image BatterySlider;
+    FlashManager flashManager;
+    [SerializeField] private Transform flashTransform;
+    [SerializeField] public int BatteryLife = 20;
 
     private void Awake()
     {
         currentStamina = maxStamina;
+        glowStickPickupText.gameObject.SetActive(false);
+        doorMoveUpText.gameObject.SetActive(false);
+        chargingText.gameObject.SetActive(false);
         vhsFeature = rendererData.rendererFeatures.Find(feature => feature.name == "FullScreenPassRendererFeature");
         rb = GetComponent<Rigidbody>();
         cameraControl = FindObjectOfType<CameraControl>();
@@ -66,7 +82,9 @@ public class PlayerMovement : MonoBehaviour
         AudioSource.volume = volume;
         animator = GetComponent<Animator>();
         glowStickTimer = 0.0f;
+        DrainTime = BatteryLife;
         DisableVHSFeature();
+        flashManager = flashTransform.GetComponent<FlashManager>();
         if (vhsEffectStatusText != null)
         {
             vhsEffectStatusText.gameObject.SetActive(false);
@@ -75,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if(canMove)
+        if (canMove)
         {
             float moveX = Input.GetAxis("Horizontal");
             float moveZ = Input.GetAxis("Vertical");
@@ -88,26 +106,22 @@ public class PlayerMovement : MonoBehaviour
 
             if (Input.GetButtonDown("Jump") && isGrounded)
             {
-                // Debug.Log("Jumping!");   
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             }
             if (currentStamina >= 0 && Input.GetKey(KeyCode.LeftShift))
             {
                 isRunning = true;
-                // Debug.Log("Running!"); 
                 speed = runningSpeed;
                 stepInterval = runStepInterval;
             }
             else
             {
                 isRunning = false;
-                // Debug.Log("Walking!");
                 speed = normalSpeed;
                 stepInterval = walkStepInterval;
             }
             isMoving = moveDirection != Vector3.zero;
-            // isRunning = isGrounded && Input.GetKey(KeyCode.LeftShift);
-            if (isRunning&&isMoving)
+            if (isRunning && isMoving)
             {
                 currentStamina--;
                 lastRunTime = Time.time;
@@ -136,58 +150,153 @@ public class PlayerMovement : MonoBehaviour
                     featureAble = false;
                     UpdateVHSEffectStatus(false);
                 }
-                else
+                else if (!featureAble && DrainTime >= 0)
                 {
                     EnableVHSFeature();
                     featureAble = true;
                     UpdateVHSEffectStatus(true);
                 }
+                ToggleTimer();
             }
             else if (!Input.GetKey(KeyCode.R))
             {
                 rKeyPressed = false;
             }
+            if (featureAble)
+            {
+                DrainTime -= 0.2f * Time.deltaTime;
+                UpdateBatteryBar();
+                if(!startedRed)
+                StartCoroutine(ToggleStateCoroutine());
+            }
+            if(featureAble)
+            {
+                if(DrainTime <= 0)
+                {
+                    DisableVHSFeature();
+                    UpdateVHSEffectStatus(false);
+                    featureAble = false;
+                }
+            }
 
 
-            glowStickTimer-= Time.deltaTime;
+            glowStickTimer -= Time.deltaTime;
+            RaycastHit hit;
+            Ray ray = new Ray(CameraIntractPointer.position, CameraIntractPointer.forward);
+            if (Physics.SphereCast(ray, sphereRadius, out hit, 2.5f))
+            {
+                UpdateInteractionUI(hit);
+                UpdateGlowStickNumberUI();
+            }
+            bool hitChargingStation = Physics.SphereCast(CameraIntractPointer.position, sphereRadius, CameraIntractPointer.forward, out hit, 2.5f) && hit.collider.CompareTag("ChargingStation");
+            if (Input.GetKey(KeyCode.E) && hitChargingStation)
+            {
+                isCharging = true;
+                ChargeBattery();
+                flashManager.ChargeBattery();
+            }
+            else if (Input.GetKeyUp(KeyCode.E) || !hitChargingStation)
+            {
+                isCharging = false;
+            }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                RaycastHit hit;
-
-                Ray ray = new Ray(CameraIntractPointer.position, CameraIntractPointer.forward);
-                if (Physics.SphereCast(ray, sphereRadius,out hit, 2.5f))
+                if (Physics.SphereCast(ray, sphereRadius, out hit, 2.5f))
                 {
-                    if (hit.collider.gameObject.CompareTag("GlowStick"))
-                    {
-                        glowStickNumber++;
-                        Destroy(hit.collider.gameObject);
-                    }
+                    HandleInteraction(hit);
                 }
             }
-            UpdateGlowStickPickUpUI();
-            UpdateGlowStickNumberUI();
+
+            Vector3 rayStart = CameraIntractPointer.position;
+            Vector3 rayDirection = CameraIntractPointer.forward;
+            Debug.DrawRay(CameraIntractPointer.position, CameraIntractPointer.forward * 2.5f, Color.red);
+            float sphereCastDistance = 2.5f;
+            Color debugColor = Color.red;
+
+            DrawSphereCast(rayStart, rayDirection, sphereRadius, sphereCastDistance, debugColor);
+            if (timerActive)
+            {
+                float t = elapsedTime + (Time.time - startTime);
+
+                string minutes = ((int)t / 60).ToString();
+                string seconds = (t % 60).ToString("f2");
+
+                timerText.text = minutes + ":" + seconds;
+            }
         }
     }
-    private void UpdateGlowStickPickUpUI()
+    IEnumerator ToggleStateCoroutine()
     {
-        RaycastHit hit;
-        Ray ray = new Ray(CameraIntractPointer.position, CameraIntractPointer.forward);
-        if (Physics.SphereCast(ray,sphereRadius, out hit, 2.5f))
+        while (true)
         {
-            if (hit.collider.gameObject.CompareTag("GlowStick"))
-            {
-                glowStickPickupText.gameObject.SetActive(true);
-            }
-            else
-            {
-                glowStickPickupText.gameObject.SetActive(false);
-            }
+            startedRed = true;
+            yield return new WaitForSeconds(0.7f);
+            redDot.gameObject.SetActive(!redDot.gameObject.activeSelf);
+        }
+        startedRed = false;
+    }
+    public void ToggleTimer()
+    {
+        if (timerActive)
+        {
+            elapsedTime += Time.time - startTime;
         }
         else
         {
-            glowStickPickupText.gameObject.SetActive(false);
+            startTime = Time.time;
         }
+
+        timerActive = !timerActive;
+    }
+    private void ChargeBattery()
+    {
+        float chargingRate = 1.5f;
+        if (DrainTime < BatteryLife)
+        {
+            DrainTime += Time.deltaTime * chargingRate;
+            DrainTime = Mathf.Min(DrainTime, BatteryLife);
+            UpdateBatteryBar();
+        }
+    }
+    
+    IEnumerator MoveDoorUp(Transform doorTransform)
+    {
+        float targetYPosition = doorTransform.position.y + 3;
+        Vector3 startPosition = doorTransform.position;
+        Vector3 endPosition = new Vector3(doorTransform.position.x, targetYPosition, doorTransform.position.z);
+
+        float elapsedTime = 0;
+        while (elapsedTime < moveSpeed)
+        {
+            doorTransform.position = Vector3.Lerp(startPosition, endPosition, (elapsedTime / moveSpeed));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        doorTransform.position = endPosition;
+    }
+    void HandleInteraction(RaycastHit hit)
+    {
+        switch (hit.collider.gameObject.tag)
+        {
+            case "GlowStick":
+                glowStickNumber++;
+                Destroy(hit.collider.gameObject);
+                UpdateGlowStickNumberUI();
+                break;
+            case "Door":
+                StartCoroutine(MoveDoorUp(hit.collider.gameObject.transform));
+                break;
+            default:
+                break;
+        }
+        UpdateInteractionUI(hit);
+    }
+    void UpdateInteractionUI(RaycastHit hit)
+    {
+        glowStickPickupText.gameObject.SetActive(hit.collider.gameObject.CompareTag("GlowStick"));
+        doorMoveUpText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Door"));
+        chargingText.gameObject.SetActive(hit.collider.gameObject.CompareTag("ChargingStation"));
     }
     private void UpdateGlowStickNumberUI()
     {
@@ -219,6 +328,13 @@ public class PlayerMovement : MonoBehaviour
             staminaBar.fillAmount = (float)currentStamina / maxStamina;
         }
     }
+    private void UpdateBatteryBar()
+    {
+        if (BatterySlider != null)
+        {
+            BatterySlider.fillAmount = (float)DrainTime / BatteryLife;
+        }
+    }
     public void SetCanMove(bool c)
     {
         canMove = c;
@@ -226,7 +342,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void DropGlowStick()
     {
-        if(glowStickTimer <= 0.0f)
+        if (glowStickTimer <= 0.0f)
         {
             glowStickNumber--;
             glowStickTimer = glowStickCoolDown;
@@ -267,24 +383,18 @@ public class PlayerMovement : MonoBehaviour
 
     public void EnableVHSFeature()
     {
-        // if(CameraTimer <= 0.0f)
-        // {
-            if (vhsFeature != null)
-            {
-                vhsFeature.SetActive(true);
-            }
-        // }
+        if (vhsFeature != null)
+        {
+            vhsFeature.SetActive(true);
+        }
     }
 
     public void DisableVHSFeature()
     {
-        // if(CameraTimer <= 0.0f)
-        // {
-            if (vhsFeature != null)
-            {
-                vhsFeature.SetActive(false);
-            }
-        // }
+        if (vhsFeature != null)
+        {
+            vhsFeature.SetActive(false);
+        }
     }
     private void UpdateVHSEffectStatus(bool isActive)
     {
@@ -294,4 +404,41 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //Debug
+    void DrawSphereCast(Vector3 origin, Vector3 direction, float radius, float distance, Color color)
+    {
+        Debug.DrawRay(origin, direction * distance, color);
+
+        DrawWireSphere(origin, radius, color);
+
+        Vector3 endPosition = origin + direction * distance;
+        DrawWireSphere(endPosition, radius, color);
+    }
+    void DrawWireSphere(Vector3 center, float radius, Color color)
+    {
+        float angleStep = 10.0f;
+        Vector3 prevPoint = center + Quaternion.Euler(0, 0, 0) * Vector3.up * radius;
+        for (float angle = angleStep; angle <= 360.0f; angle += angleStep)
+        {
+            Vector3 point = center + Quaternion.Euler(0, angle, 0) * Vector3.up * radius;
+            Debug.DrawLine(prevPoint, point, color);
+            prevPoint = point;
+        }
+
+        prevPoint = center + Quaternion.Euler(0, 0, 0) * Vector3.forward * radius;
+        for (float angle = angleStep; angle <= 360.0f; angle += angleStep)
+        {
+            Vector3 point = center + Quaternion.Euler(angle, 0, 0) * Vector3.forward * radius;
+            Debug.DrawLine(prevPoint, point, color);
+            prevPoint = point;
+        }
+
+        prevPoint = center + Quaternion.Euler(0, 0, 0) * Vector3.right * radius;
+        for (float angle = angleStep; angle <= 360.0f; angle += angleStep)
+        {
+            Vector3 point = center + Quaternion.Euler(0, 0, angle) * Vector3.right * radius;
+            Debug.DrawLine(prevPoint, point, color);
+            prevPoint = point;
+        }
+    }
 }

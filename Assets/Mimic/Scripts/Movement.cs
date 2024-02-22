@@ -8,7 +8,7 @@ namespace MimicSpace
     public class Movement : MonoBehaviour
     {
         [Header("Controls")]
-        public Light importantLight;
+        // public Light importantLight;
 
         public GameObject ghostPlatform;
         [SerializeField] public float chaseDistance = 10f;
@@ -44,11 +44,11 @@ namespace MimicSpace
 
         private void Start()
         {
-            GameObject lightGameObject = GameObject.FindGameObjectWithTag("MimicLight");
-                if (lightGameObject != null)
-            {
-                importantLight = lightGameObject.GetComponent<Light>();
-            }
+            // GameObject lightGameObject = GameObject.FindGameObjectWithTag("MimicLight");
+            //     if (lightGameObject != null)
+            // {
+            //     importantLight = lightGameObject.GetComponent<Light>();
+            // }
             vhsFeature = rendererData.rendererFeatures.Find(feature => feature.name == "FullScreenPassRendererFeature");
             myMimic = GetComponentInChildren<Mimic>();
             mPlayer = FindObjectOfType<PlayerMovement>();
@@ -75,7 +75,7 @@ namespace MimicSpace
 
             UpdateVHSParameters(lerpFactor);
 
-            if(distanceToPlayer<=0.5f)
+            if (distanceToPlayer <= 0.5f)
             {
                 if (GameObject.FindGameObjectWithTag("Player") && !isDragging)
                 {
@@ -83,7 +83,7 @@ namespace MimicSpace
                     isChasing = false;
                     isRoaming = false;
                     StartCoroutine(FollowMimicWithDelay(GameObject.FindGameObjectWithTag("Player").transform));
-                }   
+                }
             }
             else if (distanceToPlayer <= chaseDistance && !isDragging) //enter range, chase player
             {
@@ -139,7 +139,7 @@ namespace MimicSpace
 
         private void SetRandomInitialPosition()
         {
-            
+
             Vector3 randomPosition = GenerateRandomPosition();
             NavMeshHit hit;
             int attempts = 0;
@@ -229,7 +229,7 @@ namespace MimicSpace
         }
         private IEnumerator StopChasingWithDelay()
         {
-            isChasing = false; 
+            isChasing = false;
             isRoaming = false;
             // DisableVHSFeature();
             yield return new WaitForSeconds(WaitingTime);
@@ -238,12 +238,12 @@ namespace MimicSpace
 
         private IEnumerator FollowMimicWithDelay(Transform playerTransform)
         {
-            Color originalColor = Color.white;
-            if (importantLight != null)
-            {
-                originalColor = importantLight.color;
-                importantLight.color = Color.red;
-            }
+            // Color originalColor = Color.white;
+            // if (importantLight != null)
+            // {
+            //     originalColor = importantLight.color;
+            //     importantLight.color = Color.red;
+            // }
             Collider playerCollider = playerTransform.GetComponent<Collider>();
             if (playerCollider != null)
             {
@@ -281,15 +281,15 @@ namespace MimicSpace
             {
                 playerMovement.SetCanMove(true);
             }
-            
+
             yield return new WaitForSeconds(10f);
 
             isDragging = false;
-            
-            if (importantLight != null)
-            {
-                importantLight.color = originalColor;
-            }
+
+            // if (importantLight != null)
+            // {
+            //     importantLight.color = originalColor;
+            // }
         }
 
         private Vector3 RandomNavMeshLocation(float radius)
