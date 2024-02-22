@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Text glowStickNumberText;
 
-    float sphereRadius = 0.5f;
+    float sphereRadius = 1f;
     [Header("Config")]
     [SerializeField] public Transform CameraIntractPointer;
     private ScriptableRendererFeature vhsFeature;
@@ -217,7 +217,7 @@ public class PlayerMovement : MonoBehaviour
             UpdateBatteryBar();
         }
     }
-
+    
     IEnumerator MoveDoorUp(Transform doorTransform)
     {
         float targetYPosition = doorTransform.position.y + 3;
