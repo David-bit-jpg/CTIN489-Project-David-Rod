@@ -10,10 +10,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Text glowStickPickupText;
     [SerializeField] private Text doorMoveUpText;
     [SerializeField] private Text chargingText;
+    [SerializeField] private Image redDot;
     [SerializeField] private GameObject vhsEffectStatusText;
     private bool rKeyPressed = false;
     private bool isCharging = false;
+    public Text timerText;
 
+    bool startedRed = false;
+
+    private float startTime = 0.0f;
+    private bool timerActive = false;
+    private float elapsedTime = 0f;
     [SerializeField] private Text glowStickNumberText;
 
     float sphereRadius = 1f;
@@ -149,6 +156,7 @@ public class PlayerMovement : MonoBehaviour
                     featureAble = true;
                     UpdateVHSEffectStatus(true);
                 }
+                ToggleTimer();
             }
             else if (!Input.GetKey(KeyCode.R))
             {
@@ -158,6 +166,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 DrainTime -= 0.2f * Time.deltaTime;
                 UpdateBatteryBar();
+                if(!startedRed)
+                StartCoroutine(ToggleStateCoroutine());
             }
             if(featureAble)
             {
@@ -205,7 +215,39 @@ public class PlayerMovement : MonoBehaviour
             Color debugColor = Color.red;
 
             DrawSphereCast(rayStart, rayDirection, sphereRadius, sphereCastDistance, debugColor);
+            if (timerActive)
+            {
+                float t = elapsedTime + (Time.time - startTime);
+
+                string minutes = ((int)t / 60).ToString();
+                string seconds = (t % 60).ToString("f2");
+
+                timerText.text = minutes + ":" + seconds;
+            }
         }
+    }
+    IEnumerator ToggleStateCoroutine()
+    {
+        while (true)
+        {
+            startedRed = true;
+            yield return new WaitForSeconds(0.7f);
+            redDot.gameObject.SetActive(!redDot.gameObject.activeSelf);
+        }
+        startedRed = false;
+    }
+    public void ToggleTimer()
+    {
+        if (timerActive)
+        {
+            elapsedTime += Time.time - startTime;
+        }
+        else
+        {
+            startTime = Time.time;
+        }
+
+        timerActive = !timerActive;
     }
     private void ChargeBattery()
     {

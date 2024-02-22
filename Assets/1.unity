@@ -5345,6 +5345,85 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &421372455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 421372456}
+  - component: {fileID: 421372458}
+  - component: {fileID: 421372457}
+  m_Layer: 7
+  m_Name: Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!224 &421372456
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421372455}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 39.125183}
+  m_LocalScale: {x: 0.81851864, y: 0.81851864, z: 0.81851864}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1543976307}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 632.71466, y: 16.370338}
+  m_SizeDelta: {x: 300, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &421372457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421372455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 38
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 45
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1
+--- !u!222 &421372458
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421372455}
+  m_CullTransparentMesh: 1
 --- !u!43 &426274178
 Mesh:
   m_ObjectHideFlags: 0
@@ -18995,6 +19074,7 @@ Transform:
   - {fileID: 28956959}
   - {fileID: 1994371293}
   - {fileID: 567255188}
+  - {fileID: 421372456}
   m_Father: {fileID: 5038958684988112458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1550208367
@@ -25562,9 +25642,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 547918049067362318, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: redDot
+      value: 
+      objectReference: {fileID: 1444416334}
+    - target: {fileID: 547918049067362318, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: ReloadKey
       value: 116
       objectReference: {fileID: 0}
+    - target: {fileID: 547918049067362318, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
+      propertyPath: timerText
+      value: 
+      objectReference: {fileID: 421372457}
     - target: {fileID: 547918049067362318, guid: e80563e01aed94f7e9fcb464acc57b0d, type: 3}
       propertyPath: staminaBar
       value: 
@@ -26232,7 +26320,7 @@ PrefabInstance:
       objectReference: {fileID: 443977318}
     - target: {fileID: 4434582952203091496, guid: 88eeb23cda5424675ada594d2497fa43, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4602097938838427975, guid: 88eeb23cda5424675ada594d2497fa43, type: 3}
       propertyPath: m_Mesh
