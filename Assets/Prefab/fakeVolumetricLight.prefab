@@ -26,9 +26,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1417154805816737467}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.1999998, z: 6.06}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2652, y: 2.1170592, z: 1.2652}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7109418201221255233}
@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1417154805816737467}
-  m_Mesh: {fileID: -2432090755550338912, guid: 1f1f932399f77874589572dbf3bab155, type: 3}
+  m_Mesh: {fileID: -2432090755550338912, guid: 256c2fc40f3b2484a9c7092c9fdeb412, type: 3}
 --- !u!23 &4784784260225862448
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62,12 +62,12 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 17df4e92a52f28845ac91cb624b0ff59, type: 2}
+  - {fileID: 2100000, guid: 2104454c3a5ed4fcf810dcc9a4f7c724, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
   m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
+  m_ProbeAnchor: {fileID: -8679921383154817045, guid: 256c2fc40f3b2484a9c7092c9fdeb412, type: 3}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_ReceiveGI: 1
@@ -110,13 +110,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5892066130390285999}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.6158362, y: -0, z: -0, w: 0.7878742}
+  m_LocalPosition: {x: -0.047423232, y: 1.4939632, z: 1.4797674}
+  m_LocalScale: {x: 0.7903888, y: 0.7605264, z: 0.48370394}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2026316188778670442}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!108 &4348683356822684123
 Light:
   m_ObjectHideFlags: 0
@@ -128,11 +128,11 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 15.72
+  m_Color: {r: 0.9622642, g: 0.8997024, b: 0.5764507, a: 1}
+  m_Intensity: 10
   m_Range: 10
-  m_SpotAngle: 96.48915
-  m_InnerSpotAngle: 21.80208
+  m_SpotAngle: 78.75392
+  m_InnerSpotAngle: 36.453117
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
