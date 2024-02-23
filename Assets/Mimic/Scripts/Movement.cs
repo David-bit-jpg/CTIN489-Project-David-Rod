@@ -12,6 +12,8 @@ namespace MimicSpace
 
         public GameObject ghostPlatform;
         [SerializeField] public float chaseDistance = 10f;
+        public Transform cageTransform;
+        bool isStop = false;
         [SerializeField] public UniversalRendererData rendererData;
         private ScriptableRendererFeature vhsFeature;
         private float nextPlayTime = 0f;
@@ -27,6 +29,8 @@ namespace MimicSpace
         Mimic myMimic;
         PlayerMovement mPlayer;
         NavMeshAgent navMeshAgent;
+
+        // NavMeshAgent navMeshAgent;
         public bool isDead = false;
         private bool isChasing = false;
         private bool isRoaming = false;
@@ -65,7 +69,8 @@ namespace MimicSpace
 
         void Update()
         {
-            if (isDead)
+            // CheckAndStopNearCage(); 
+            if (isStop)
             {
                 return;
             }
@@ -109,6 +114,25 @@ namespace MimicSpace
                 Roam();
             }
         }
+        // private void CheckAndStopNearCage()
+        // {
+
+        //     Vector3 cagePosition = new Vector3(); 
+        //     float stoppingDistance = 5f;
+
+        //     if (Vector3.Distance(transform.position, cagePosition) <= stoppingDistance)
+        //     {
+        //         navMeshAgent.isStopped = true;
+        //         isStop = true;
+        //     }
+        // }
+
+        // private void RestartNavigation(Vector3 newDestination)
+        // {
+        //     navMeshAgent.isStopped = false;
+        //     navMeshAgent.SetDestination(newDestination);
+        // }
+
 
         private void StartChasing()
         {
@@ -286,11 +310,8 @@ namespace MimicSpace
 
             isDragging = false;
 
-            // if (importantLight != null)
-            // {
-            //     importantLight.color = originalColor;
-            // }
         }
+
 
         private Vector3 RandomNavMeshLocation(float radius)
         {

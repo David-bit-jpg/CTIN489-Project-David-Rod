@@ -19,12 +19,16 @@ public class PlayerMovement : MonoBehaviour
     bool startedRed = false;
 
     private float startTime = 0.0f;
-    private bool timerActive = false;
+    private bool CameraTimerActive = false;
+
     private float elapsedTime = 0f;
     [SerializeField] private Text glowStickNumberText;
 
     float sphereRadius = 1f;
+
     [Header("Config")]
+    private float countdownTime = 300f;
+
     [SerializeField] public Transform CameraIntractPointer;
     private ScriptableRendererFeature vhsFeature;
     private bool featureAble = false;
@@ -215,7 +219,7 @@ public class PlayerMovement : MonoBehaviour
             Color debugColor = Color.red;
 
             DrawSphereCast(rayStart, rayDirection, sphereRadius, sphereCastDistance, debugColor);
-            if (timerActive)
+            if (CameraTimerActive)
             {
                 float t = elapsedTime + (Time.time - startTime);
 
@@ -238,7 +242,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void ToggleTimer()
     {
-        if (timerActive)
+        if (CameraTimerActive)
         {
             elapsedTime += Time.time - startTime;
         }
@@ -247,7 +251,7 @@ public class PlayerMovement : MonoBehaviour
             startTime = Time.time;
         }
 
-        timerActive = !timerActive;
+        CameraTimerActive = !CameraTimerActive;
     }
     private void ChargeBattery()
     {
