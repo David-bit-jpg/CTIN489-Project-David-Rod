@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float staminaRecoveryRate = 1.0f;
     [SerializeField] private float glowStickCoolDown = 1.0f;
     private float glowStickTimer;
-    [SerializeField] float DrainTime;
+    [SerializeField] public float DrainTime;
     public Image BatterySlider;
     FlashManager flashManager;
     [SerializeField] private Transform flashTransform;
@@ -93,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
         {
             vhsEffectStatusText.gameObject.SetActive(false);
         }
+        UpdateGlowStickNumberUI();
     }
 
     void Update()
@@ -168,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (featureAble)
             {
-                DrainTime -= 0.2f * Time.deltaTime;
+                DrainTime -= 0.1f * Time.deltaTime;
                 UpdateBatteryBar();
                 if(!startedRed)
                 StartCoroutine(ToggleStateCoroutine());
@@ -255,29 +256,13 @@ public class PlayerMovement : MonoBehaviour
     }
     private void ChargeBattery()
     {
-        float chargingRate = 1.5f;
+        float chargingRate = 4.0f;
         if (DrainTime < BatteryLife)
         {
             DrainTime += Time.deltaTime * chargingRate;
             DrainTime = Mathf.Min(DrainTime, BatteryLife);
             UpdateBatteryBar();
         }
-    }
-    
-    IEnumerator MoveDoorUp(Transform doorTransform)
-    {
-        float targetYPosition = doorTransform.position.y + 3;
-        Vector3 startPosition = doorTransform.position;
-        Vector3 endPosition = new Vector3(doorTransform.position.x, targetYPosition, doorTransform.position.z);
-
-        float elapsedTime = 0;
-        while (elapsedTime < moveSpeed)
-        {
-            doorTransform.position = Vector3.Lerp(startPosition, endPosition, (elapsedTime / moveSpeed));
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        doorTransform.position = endPosition;
     }
     void HandleInteraction(RaycastHit hit)
     {
@@ -289,7 +274,11 @@ public class PlayerMovement : MonoBehaviour
                 UpdateGlowStickNumberUI();
                 break;
             case "Door":
-                StartCoroutine(MoveDoorUp(hit.collider.gameObject.transform));
+                DoorController doorController = hit.collider.GetComponent<DoorController>();
+                if (doorController != null)
+                {
+                    doorController.ToggleDoor();
+                }
                 break;
             default:
                 break;
@@ -332,7 +321,7 @@ public class PlayerMovement : MonoBehaviour
             staminaBar.fillAmount = (float)currentStamina / maxStamina;
         }
     }
-    private void UpdateBatteryBar()
+    public void UpdateBatteryBar()
     {
         if (BatterySlider != null)
         {

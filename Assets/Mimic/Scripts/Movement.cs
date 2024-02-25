@@ -74,7 +74,6 @@ namespace MimicSpace
             {
                 return;
             }
-
             float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
             float lerpFactor = Mathf.InverseLerp(stopChaseDistance, chaseDistance, distanceToPlayer);
 
@@ -278,9 +277,12 @@ namespace MimicSpace
                 ghostPlatform.GetComponent<Collider>().enabled = true;
             }
             PlayerMovement playerMovement = playerTransform.GetComponent<PlayerMovement>();
+            Transform FlashLightTransform = GameObject.FindGameObjectWithTag("FlashLight").transform;
+            FlashManager flashManager = FlashLightTransform.GetComponent<FlashManager>();
             if (playerMovement != null)
             {
                 playerMovement.SetCanMove(false);
+                StartCoroutine(ReduceDrainTimeCoroutine(playerMovement, flashManager, 2.0f, 10.0f));
             }
 
             yield return new WaitForSeconds(0.5f);
@@ -307,9 +309,36 @@ namespace MimicSpace
             }
 
             yield return new WaitForSeconds(10f);
-
             isDragging = false;
 
+        }
+        private IEnumerator ReduceDrainTimeCoroutine(PlayerMovement playerMovement, FlashManager flashManager, float targetFactor, float duration)
+        {
+            if (playerMovement == null || flashManager == null) yield break;
+
+            float startTime = Time.time;
+            float endTime = startTime + duration;
+
+            float initialPlayerDrainTime = playerMovement.DrainTime;
+            float initialFlashDrainTime = flashManager.DrainTime;
+
+            while (Time.time < endTime)
+            {
+                float elapsed = Time.time - startTime;
+                float progress = elapsed / duration;
+
+                playerMovement.DrainTime = Mathf.Lerp(initialPlayerDrainTime, initialPlayerDrainTime / targetFactor, progress);
+                flashManager.DrainTime = Mathf.Lerp(initialFlashDrainTime, initialFlashDrainTime / targetFactor, progress);
+
+                playerMovement.UpdateBatteryBar();
+                flashManager.UpdateBatteryBar();
+
+                yield return null;
+            }
+            playerMovement.DrainTime = initialPlayerDrainTime / targetFactor;
+            flashManager.DrainTime = initialFlashDrainTime / targetFactor;
+            playerMovement.UpdateBatteryBar();
+            flashManager.UpdateBatteryBar();
         }
 
 
