@@ -12,6 +12,7 @@ TagManager:
   - Door
   - ChargingStation
   - Cage
+  - FlashLight
   layers:
   - Default
   - TransparentFX

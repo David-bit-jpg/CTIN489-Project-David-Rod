@@ -48,7 +48,7 @@ using UnityEditor;
         public Image HandImage;
 
         //Battery Lifespan.
-        float DrainTime;
+        public float DrainTime;
         //Rotate Time.
         float RotationTime = 2;
 
@@ -119,7 +119,7 @@ using UnityEditor;
             if (LightOn && DrainTime >= 0)
             {
                 //Decrement DrainTime.
-                DrainTime -= Time.deltaTime * 0.2f;
+                DrainTime -= Time.deltaTime * 0.1f;
 
                 //drainTimeF to DrainTime / BatteryLife.
                 float drainTimeF = DrainTime / BatteryLife;
@@ -128,7 +128,7 @@ using UnityEditor;
                 if (UseIntensity)
                 {
                     //Flash Intensity to drainTimeF.
-                    LightSource.intensity = drainTimeF * 15.0f;
+                    LightSource.intensity = 15.0f;
                 }
                 //Battery Slider to drainTimeF.
                 BatterySlider.value = DrainTime;
@@ -268,10 +268,13 @@ using UnityEditor;
                 }
             }
         }
-
+        public void UpdateBatteryBar()
+        {
+             BatterySlider.value = DrainTime;
+        }
         public void ChargeBattery()
         {
-            float chargingRate = 2.0f;
+            float chargingRate = 4.0f;
             if (DrainTime < BatteryLife)
             {
                 DrainTime += Time.deltaTime * chargingRate;
