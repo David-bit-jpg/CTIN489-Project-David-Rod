@@ -35,6 +35,7 @@ public class DoorController : MonoBehaviour
                 if (currentAnimationTime >= animationTime)
                 {
                     isOpened = true;
+                    doorTransform.localRotation = openRotation;
                 }
             }
         }
@@ -47,6 +48,7 @@ public class DoorController : MonoBehaviour
                 if (currentAnimationTime <= 0.0f)
                 {
                     isOpened = false;
+                    doorTransform.localRotation = closedRotation;
                 }
             }
         }
@@ -59,12 +61,12 @@ public class DoorController : MonoBehaviour
             float yRotation = doorTransform.localEulerAngles.y % 360;
             yRotation = (yRotation > 180) ? yRotation - 360 : yRotation;
 
-            if (Mathf.Abs(yRotation - closeAngle) < 1.0f)
+            if (Mathf.Abs(yRotation - closeAngle) < 5.0f)
             {
                 isOpening = true;
                 currentAnimationTime = 0.0f;
             }
-            else if (Mathf.Abs(yRotation - openAngle) < 1.0f)
+            else if (Mathf.Abs(yRotation - openAngle) < 5.0f)
             {
                 isOpening = false;
                 currentAnimationTime = animationTime - currentAnimationTime;

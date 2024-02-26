@@ -141,7 +141,10 @@ namespace MimicSpace
         {
             isDoor = true;
             Debug.Log("1");
-            yield return new WaitForSeconds(0.1f);
+            if(isChasing)
+                yield return new WaitForSeconds(1.0f);
+            else
+                yield return new WaitForSeconds(0.1f);
             DoorController doorController = hit.collider.GetComponent<DoorController>();
             if (doorController != null && !doorController.isOpening && !doorController.isProcessing)
             {
