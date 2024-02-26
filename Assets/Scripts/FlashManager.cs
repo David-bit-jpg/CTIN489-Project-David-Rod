@@ -9,6 +9,8 @@ using UnityEditor;
 
         //Track Camera.
         public Camera TrackCamera;
+
+        private PlayerMovement playerMovement;
         //Track Camera.
         public Transform CameraIntractPointer;
         //Flash Light.
@@ -104,12 +106,13 @@ using UnityEditor;
             {
                 XYMotion[i].Set(Mathf.Cos(Random.value), Mathf.Sin(Random.value));
             }
+            playerMovement = FindObjectOfType<PlayerMovement>();
         }
 
         //Every Frame.
         private void Update()
         {
-            //Input Key is UseKey.
+            // Input Key is UseKey.
             if (Input.GetKeyDown(UseKey))
             {
                 //Call FlashModeChanger Mehtod.
@@ -119,7 +122,7 @@ using UnityEditor;
             if (LightOn && DrainTime >= 0)
             {
                 //Decrement DrainTime.
-                DrainTime -= Time.deltaTime * 0.1f;
+                DrainTime -= Time.deltaTime * 1f;
 
                 //drainTimeF to DrainTime / BatteryLife.
                 float drainTimeF = DrainTime / BatteryLife;
@@ -141,6 +144,18 @@ using UnityEditor;
 
                     //Set OneCall to false.
                     OneCall = false;
+                }
+            }
+            if(DrainTime <= 0)
+            {
+                LightSource.enabled = false;
+                //LightOn to false.
+                LightOn = false;
+                //If NoiseLight is false.
+                if (!NoiseLight)
+                {
+                    //Play Switch Off Sound Effect.
+                    SwitchOffSFX.Play();
                 }
             }
 

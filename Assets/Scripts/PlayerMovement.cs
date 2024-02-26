@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] public Transform CameraIntractPointer;
     private ScriptableRendererFeature vhsFeature;
-    private bool featureAble = false;
+    public bool featureAble = false;
     [SerializeField] public UniversalRendererData rendererData;
     [SerializeField] private float normalSpeed = 2.0f;
     [SerializeField] private float runningSpeed = 5.0f;
@@ -169,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (featureAble)
             {
-                DrainTime -= 0.1f * Time.deltaTime;
+                DrainTime -= 1f * Time.deltaTime;
                 UpdateBatteryBar();
                 if(!startedRed)
                 StartCoroutine(ToggleStateCoroutine());
