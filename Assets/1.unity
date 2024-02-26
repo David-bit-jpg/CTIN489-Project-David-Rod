@@ -6546,6 +6546,7 @@ MonoBehaviour:
   WaitingTime: 5
   volume: 0.6
   isDead: 0
+  rayLength: 5
 --- !u!43 &506190896
 Mesh:
   m_ObjectHideFlags: 0
@@ -12229,7 +12230,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 888965807}
-  - component: {fileID: 888965809}
   - component: {fileID: 888965808}
   m_Layer: 0
   m_Name: NavMesh
@@ -12284,19 +12284,6 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 2a0cd116636c38445b217cbee59a2941, type: 2}
   m_BuildHeightMesh: 0
---- !u!114 &888965809
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 888965805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27cfeb2ac2b054c57a0464cbb57101a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  surface: {fileID: 0}
 --- !u!43 &895874228
 Mesh:
   m_ObjectHideFlags: 0
@@ -27414,6 +27401,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 80761734}
+    - target: {fileID: 3755294605707762947, guid: 88eeb23cda5424675ada594d2497fa43, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 3764807504403401109, guid: 88eeb23cda5424675ada594d2497fa43, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -27468,7 +27459,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: c3f78293c7276fe4c81512adf5f10c17, type: 2}
     - target: {fileID: 4434582952203091496, guid: 88eeb23cda5424675ada594d2497fa43, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4595508344273328601, guid: 88eeb23cda5424675ada594d2497fa43, type: 3}
       propertyPath: m_Materials.Array.data[0]

@@ -275,10 +275,12 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "Door":
                 DoorController doorController = hit.collider.GetComponent<DoorController>();
-                if (doorController != null)
+                if (doorController != null && !doorController.isProcessing)
                 {
+                    doorController.isProcessing = true;
                     doorController.ToggleDoor();
                     doorController.ToggleDoor();
+                    doorController.isProcessing = false;
                 }
                 break;
             default:

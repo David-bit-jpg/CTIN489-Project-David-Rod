@@ -7,18 +7,17 @@ public class DoorController : MonoBehaviour
     public float openAngle = 90.0f;
     public float closeAngle = 0.0f;
     public float animationTime = 2.0f;
+    public bool isProcessing = false;
     private Quaternion closedRotation;
     private Quaternion openRotation;
-    private bool isOpening = false;
+    public bool isOpening = false;
 
-    private bool isOpened = false;
+    public bool isOpened = false;
     private float currentAnimationTime = 0.0f;
-    NavMeshController navMeshController;
     void Start()
     {
         closedRotation = Quaternion.Euler(doorTransform.localEulerAngles.x, closeAngle, doorTransform.localEulerAngles.z);
         openRotation = Quaternion.Euler(doorTransform.localEulerAngles.x, openAngle, doorTransform.localEulerAngles.z);
-        navMeshController = FindObjectOfType<NavMeshController>();
         if (navMeshLink != null)
         {
             navMeshLink.enabled = false;
@@ -55,24 +54,37 @@ public class DoorController : MonoBehaviour
 
     public void ToggleDoor()
     {
-        float yRotation = doorTransform.localEulerAngles.y % 360;
-        yRotation = (yRotation > 180) ? yRotation - 360 : yRotation;
-        if (Mathf.Abs(yRotation - closeAngle) < 1.0f)
+        if (isProcessing)
         {
-            isOpening = true;
-            currentAnimationTime = 0.0f;
-            // navMeshController.UpdateNavMesh();
+            float yRotation = doorTransform.localEulerAngles.y % 360;
+            yRotation = (yRotation > 180) ? yRotation - 360 : yRotation;
+
+            if (Mathf.Abs(yRotation - closeAngle) < 1.0f)
+            {
+                isOpening = true;
+                currentAnimationTime = 0.0f;
+            }
+            else if (Mathf.Abs(yRotation - openAngle) < 1.0f)
+            {
+                isOpening = false;
+                currentAnimationTime = animationTime - currentAnimationTime;
+            }
+            if (navMeshLink != null)
+            {
+                bool shouldLinkBeEnabled = isOpening && !navMeshLink.enabled;
+                bool shouldLinkBeDisabled = !isOpening && navMeshLink.enabled;
+
+                if (shouldLinkBeEnabled)
+                {
+                    navMeshLink.enabled = true;
+                }
+                else if (shouldLinkBeDisabled)
+                {
+                    navMeshLink.enabled = false;
+                }
+                // navMeshLink.UpdateLink();
+            }
         }
-        else if (Mathf.Abs(yRotation - openAngle) < 1.0f)
-        {
-            isOpening = false;
-            currentAnimationTime = animationTime - currentAnimationTime;
-            // navMeshController.UpdateNavMesh();
-        }
-        if (navMeshLink != null)
-        {
-            navMeshLink.enabled = isOpening;
-        }
-        navMeshLink.UpdateLink();
     }
+
 }
