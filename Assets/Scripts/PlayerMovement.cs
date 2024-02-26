@@ -169,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (featureAble)
             {
-                DrainTime -= 1f * Time.deltaTime;
+                DrainTime -= 0.1f * Time.deltaTime;
                 UpdateBatteryBar();
                 if(!startedRed)
                 StartCoroutine(ToggleStateCoroutine());
