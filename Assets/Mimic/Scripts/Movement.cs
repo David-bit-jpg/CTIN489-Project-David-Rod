@@ -30,6 +30,8 @@ namespace MimicSpace
         PlayerMovement mPlayer;
         NavMeshAgent navMeshAgent;
 
+        [SerializeField] NavMeshSurface navMeshSurface;
+
         // NavMeshAgent navMeshAgent;
         public bool isDead = false;
         private bool isChasing = false;
@@ -74,6 +76,7 @@ namespace MimicSpace
             {
                 return;
             }
+            // navMeshSurface.BuildNavMesh();
             float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
             float lerpFactor = Mathf.InverseLerp(stopChaseDistance, chaseDistance, distanceToPlayer);
 

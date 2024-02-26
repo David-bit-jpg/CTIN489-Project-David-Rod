@@ -13412,7 +13412,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Start Mission  [E]
+  m_Text: Open/Close  [E]
 --- !u!222 &1021509462
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18483,10 +18483,6 @@ PrefabInstance:
       value: Wall_doorway_med_set
       objectReference: {fileID: 0}
     - target: {fileID: 6804030576852187953, guid: aaf5e73c5a3dfad4ea7542ee9aae82b6, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6804030576852187953, guid: aaf5e73c5a3dfad4ea7542ee9aae82b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.41
       objectReference: {fileID: 0}
@@ -18526,19 +18522,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6953057789775784639, guid: aaf5e73c5a3dfad4ea7542ee9aae82b6, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7011937667906647103, guid: aaf5e73c5a3dfad4ea7542ee9aae82b6, type: 3}
+    - target: {fileID: 8377167449565712802, guid: aaf5e73c5a3dfad4ea7542ee9aae82b6, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7011937667906647103, guid: aaf5e73c5a3dfad4ea7542ee9aae82b6, type: 3}
+    - target: {fileID: 8377167449565712802, guid: aaf5e73c5a3dfad4ea7542ee9aae82b6, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7011937667906647103, guid: aaf5e73c5a3dfad4ea7542ee9aae82b6, type: 3}
+    - target: {fileID: 8377167449565712802, guid: aaf5e73c5a3dfad4ea7542ee9aae82b6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}

@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private float elapsedTime = 0f;
     [SerializeField] private Text glowStickNumberText;
 
-    float sphereRadius = 1f;
+    float sphereRadius = 0.1f;
 
     [Header("Config")]
     private float countdownTime = 300f;
@@ -277,6 +277,7 @@ public class PlayerMovement : MonoBehaviour
                 DoorController doorController = hit.collider.GetComponent<DoorController>();
                 if (doorController != null)
                 {
+                    doorController.ToggleDoor();
                     doorController.ToggleDoor();
                 }
                 break;
