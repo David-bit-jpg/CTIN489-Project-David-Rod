@@ -216,13 +216,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112943878795723385}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0.008726558, z: 0, w: 0.999962}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7164496967675933351}
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 1, z: 0}
 --- !u!137 &3658052937955265711
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -514,6 +514,59 @@ Transform:
   - {fileID: 1585838756077627667}
   m_Father: {fileID: 4533861380212193321}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2475912533334838234
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1622875705889706772}
+  - component: {fileID: 8043346815946007010}
+  m_Layer: 0
+  m_Name: GhostCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1622875705889706772
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2475912533334838234}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: 0.008, y: 0.65, z: 0.236}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7164496967675933351}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8043346815946007010
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2475912533334838234}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 0.03, y: 0.263435, z: 0.03}
+  m_Center: {x: 0, y: -0.36828244, z: 0}
 --- !u!1 &2875665257767614759
 GameObject:
   m_ObjectHideFlags: 0
@@ -1393,7 +1446,7 @@ GameObject:
   - component: {fileID: 5879499277457477716}
   m_Layer: 7
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1414,6 +1467,7 @@ Transform:
   - {fileID: 3959720149928456325}
   - {fileID: 1277621478502020059}
   - {fileID: 5594285669669794527}
+  - {fileID: 1622875705889706772}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3038356330420083783
@@ -1450,13 +1504,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glowStick: {fileID: 2032091049035948798, guid: cd7ce34a6c8b1f449b6ecab0c63b14be, type: 3}
+  glowStickPickupText: {fileID: 0}
+  doorMoveUpText: {fileID: 0}
+  chargingText: {fileID: 0}
+  redDot: {fileID: 0}
+  vhsEffectStatusText: {fileID: 0}
+  timerText: {fileID: 0}
+  glowStickNumberText: {fileID: 0}
+  CameraIntractPointer: {fileID: 5594285669669794527}
+  rendererData: {fileID: 11400000, guid: 3b12d022ce37c094abaefbcd68d8c571, type: 2}
   normalSpeed: 2
   runningSpeed: 4
+  moveSpeed: 1
   jumpForce: 7
   crouchSpeed: 2.5
   AudioSource: {fileID: 0}
   volume: 0.7
   Audio: {fileID: 8300000, guid: 0891be443592a2b4ca86fea4272a8957, type: 3}
+  glowStickNumber: 5
   walkStepInterval: 0.5
   runStepInterval: 0.3
   horizontal: 0
@@ -1466,6 +1531,10 @@ MonoBehaviour:
   staminaRecoveryDelay: 3
   staminaRecoveryRate: 500
   glowStickCoolDown: 1
+  DrainTime: 0
+  BatterySlider: {fileID: 0}
+  flashTransform: {fileID: 0}
+  BatteryLife: 20
 --- !u!54 &8195298357482453947
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1631,7 +1700,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 20.784609
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -1646,7 +1715,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1

@@ -24,14 +24,14 @@ public class PlayerMovement : MonoBehaviour
     private float elapsedTime = 0f;
     [SerializeField] private Text glowStickNumberText;
 
-    float sphereRadius = 1f;
+    float sphereRadius = 0.1f;
 
     [Header("Config")]
     private float countdownTime = 300f;
 
     [SerializeField] public Transform CameraIntractPointer;
     private ScriptableRendererFeature vhsFeature;
-    private bool featureAble = false;
+    public bool featureAble = false;
     [SerializeField] public UniversalRendererData rendererData;
     [SerializeField] private float normalSpeed = 2.0f;
     [SerializeField] private float runningSpeed = 5.0f;
@@ -169,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (featureAble)
             {
-                DrainTime -= 0.1f * Time.deltaTime;
+                DrainTime -= 1f * Time.deltaTime;
                 UpdateBatteryBar();
                 if(!startedRed)
                 StartCoroutine(ToggleStateCoroutine());
@@ -275,9 +275,12 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "Door":
                 DoorController doorController = hit.collider.GetComponent<DoorController>();
-                if (doorController != null)
+                if (doorController != null && !doorController.isProcessing)
                 {
+                    doorController.isProcessing = true;
                     doorController.ToggleDoor();
+                    doorController.ToggleDoor();
+                    doorController.isProcessing = false;
                 }
                 break;
             default:

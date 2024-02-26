@@ -29,7 +29,6 @@ namespace MimicSpace
         Mimic myMimic;
         PlayerMovement mPlayer;
         NavMeshAgent navMeshAgent;
-
         // NavMeshAgent navMeshAgent;
         public bool isDead = false;
         private bool isChasing = false;
@@ -39,6 +38,10 @@ namespace MimicSpace
         private float lastChaseTime = 0f;
         private float stepInterval = 0f;
         private bool isDragging = false;
+        public float rayLength = 0.001f;
+        float sphereRadius = 1f;
+
+        bool isDoor = false;
         private void Awake()
         {
             AudioSource = gameObject.AddComponent<AudioSource>();
@@ -112,6 +115,57 @@ namespace MimicSpace
             {
                 Roam();
             }
+            CheckForDoor();
+        }
+        void CheckForDoor()
+        {
+            RaycastHit hit;
+            Vector3 rayStart = transform.position + new Vector3(0,1,0);
+            Vector3 rayDirection = transform.forward;
+            Debug.DrawRay(rayStart, rayDirection * rayLength, Color.red);
+            float sphereCastDistance = rayLength;
+            Color debugColor = Color.red;
+
+            DrawSphereCast(rayStart, rayDirection, sphereRadius, sphereCastDistance, debugColor);
+            Ray ray = new Ray(rayStart, rayDirection);
+            if (Physics.SphereCast(ray, sphereRadius, out hit, rayLength))
+            {
+                if (hit.collider.CompareTag("Door") && !isDoor)
+                {
+                    StartCoroutine(InteractWithDoor(hit));
+                }
+            }
+        }
+
+        IEnumerator InteractWithDoor(RaycastHit hit)
+        {
+            isDoor = true;
+            Debug.Log("1");
+            if(isChasing)
+                yield return new WaitForSeconds(1.0f);
+            else
+                yield return new WaitForSeconds(0.1f);
+            DoorController doorController = hit.collider.GetComponent<DoorController>();
+            if (doorController != null && !doorController.isOpening && !doorController.isProcessing)
+            {
+                doorController.isProcessing = true;
+                doorController.ToggleDoor();//open
+                yield return new WaitForSeconds(4.0f);
+                CloseDoor(doorController);
+                doorController.isProcessing = false;
+            }
+            isDoor = false;
+            doorController.isProcessing = false;
+        }
+        void CloseDoor(DoorController doorController)
+        {
+            Debug.Log("2");
+            if (doorController != null)
+            {
+                doorController.ToggleDoor();//close
+                doorController.ToggleDoor();
+            }
+            doorController.isProcessing = false;
         }
         // private void CheckAndStopNearCage()
         // {
@@ -358,6 +412,42 @@ namespace MimicSpace
         {
             return !navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance;
         }
+        //Debug
+        void DrawSphereCast(Vector3 origin, Vector3 direction, float radius, float distance, Color color)
+        {
+            Debug.DrawRay(origin, direction * distance, color);
 
+            DrawWireSphere(origin, radius, color);
+
+            Vector3 endPosition = origin + direction * distance;
+            DrawWireSphere(endPosition, radius, color);
+        }
+        void DrawWireSphere(Vector3 center, float radius, Color color)
+        {
+            float angleStep = 10.0f;
+            Vector3 prevPoint = center + Quaternion.Euler(0, 0, 0) * Vector3.up * radius;
+            for (float angle = angleStep; angle <= 360.0f; angle += angleStep)
+            {
+                Vector3 point = center + Quaternion.Euler(0, angle, 0) * Vector3.up * radius;
+                Debug.DrawLine(prevPoint, point, color);
+                prevPoint = point;
+            }
+
+            prevPoint = center + Quaternion.Euler(0, 0, 0) * Vector3.forward * radius;
+            for (float angle = angleStep; angle <= 360.0f; angle += angleStep)
+            {
+                Vector3 point = center + Quaternion.Euler(angle, 0, 0) * Vector3.forward * radius;
+                Debug.DrawLine(prevPoint, point, color);
+                prevPoint = point;
+            }
+
+            prevPoint = center + Quaternion.Euler(0, 0, 0) * Vector3.right * radius;
+            for (float angle = angleStep; angle <= 360.0f; angle += angleStep)
+            {
+                Vector3 point = center + Quaternion.Euler(0, 0, angle) * Vector3.right * radius;
+                Debug.DrawLine(prevPoint, point, color);
+                prevPoint = point;
+            }
+        }
     }
 }
