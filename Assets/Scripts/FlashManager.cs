@@ -19,6 +19,8 @@ using UnityEditor;
         //Light Texture Cookie.
         public Texture LightCookie;
 
+        private bool CanMove = true;
+
         //Battery Life Span.
         public int BatteryLife;
 
@@ -113,7 +115,7 @@ using UnityEditor;
         private void Update()
         {
             // Input Key is UseKey.
-            if (Input.GetKeyDown(UseKey))
+            if (Input.GetKeyDown(UseKey) && CanMove)
             {
                 //Call FlashModeChanger Mehtod.
                 FlashModeChanger();
@@ -122,7 +124,7 @@ using UnityEditor;
             if (LightOn && DrainTime >= 0)
             {
                 //Decrement DrainTime.
-                DrainTime -= Time.deltaTime * 1f;
+                DrainTime -= Time.deltaTime * 0.1f;
 
                 //drainTimeF to DrainTime / BatteryLife.
                 float drainTimeF = DrainTime / BatteryLife;
@@ -246,6 +248,10 @@ using UnityEditor;
 
             //Set NoiseLight to false.
             NoiseLight = false;
+        }
+        public void SetCanMove(bool b)
+        {
+            CanMove = b;
         }
 
         //Method to Change Flash Mode.
