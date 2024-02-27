@@ -336,7 +336,9 @@ namespace MimicSpace
             if (playerMovement != null)
             {
                 playerMovement.SetCanMove(false);
+                flashManager.SetCanMove(false);
                 StartCoroutine(ReduceDrainTimeCoroutine(playerMovement, flashManager, 2.0f, 10.0f));
+
             }
 
             yield return new WaitForSeconds(0.5f);
@@ -360,6 +362,10 @@ namespace MimicSpace
             if (playerMovement != null)
             {
                 playerMovement.SetCanMove(true);
+            }
+            if (flashManager != null)
+            {
+                flashManager.SetCanMove(true);
             }
 
             yield return new WaitForSeconds(10f);
