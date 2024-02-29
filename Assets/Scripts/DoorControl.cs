@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
+
 public class DoorController : MonoBehaviour
 {
     public NavMeshLink navMeshLink; 
@@ -14,8 +16,15 @@ public class DoorController : MonoBehaviour
 
     public bool isOpened = false;
     private float currentAnimationTime = 0.0f;
+
+    [SerializeField] private AudioClip Audio;
+    [SerializeField] public float volume = 0.2f;
+    private AudioSource AudioSource;
     void Start()
     {
+        AudioSource = gameObject.AddComponent<AudioSource>();
+        AudioSource.clip = Audio;
+        AudioSource.volume = volume;
         closedRotation = Quaternion.Euler(doorTransform.localEulerAngles.x, closeAngle, doorTransform.localEulerAngles.z);
         openRotation = Quaternion.Euler(doorTransform.localEulerAngles.x, openAngle, doorTransform.localEulerAngles.z);
         if (navMeshLink != null)
@@ -26,7 +35,12 @@ public class DoorController : MonoBehaviour
 
     void Update()
     {
-        if (isOpening)
+        if (!isProcessing)
+        {
+            return;
+        }
+
+        if (!isOpened)
         {
             if (currentAnimationTime < animationTime)
             {
@@ -35,19 +49,21 @@ public class DoorController : MonoBehaviour
                 if (currentAnimationTime >= animationTime)
                 {
                     isOpened = true;
+                    isProcessing = false;
                     doorTransform.localRotation = openRotation;
                 }
             }
         }
         else
         {
-            if (currentAnimationTime > 0.0f)
+            if (currentAnimationTime < animationTime)
             {
-                doorTransform.localRotation = Quaternion.Lerp(openRotation, closedRotation, (animationTime - currentAnimationTime) / animationTime);
-                currentAnimationTime -= Time.deltaTime;
-                if (currentAnimationTime <= 0.0f)
+                doorTransform.localRotation = Quaternion.Lerp(openRotation, closedRotation, currentAnimationTime / animationTime);
+                currentAnimationTime += Time.deltaTime;
+                if (currentAnimationTime >= animationTime)
                 {
                     isOpened = false;
+                    isProcessing = false;
                     doorTransform.localRotation = closedRotation;
                 }
             }
@@ -58,35 +74,53 @@ public class DoorController : MonoBehaviour
     {
         if (isProcessing)
         {
+            return;
+        }
+
+        float targetAngle;
+        if (isOpened)
+        {
+            targetAngle = closeAngle;
+        }
+        else
+        {
+            targetAngle = openAngle;
+        }
+
+        AudioSource.Play();
+
+        isProcessing = true;
+        currentAnimationTime = 0.0f;
+
+        if (navMeshLink != null)
+        {
+            bool shouldLinkBeEnabled = isOpened && !navMeshLink.enabled;
+            bool shouldLinkBeDisabled = !isOpened && navMeshLink.enabled;
+
+            if (shouldLinkBeEnabled)
+            {
+                navMeshLink.enabled = true;
+            }
+            else if (shouldLinkBeDisabled)
+            {
+                navMeshLink.enabled = false;
+            }
+            // navMeshLink.UpdateLink();
+        }
+
+        /*if (isProcessing)
+        {
             float yRotation = doorTransform.localEulerAngles.y % 360;
             yRotation = (yRotation > 180) ? yRotation - 360 : yRotation;
 
-            if (Mathf.Abs(yRotation - closeAngle) < 5.0f)
+            if (Mathf.Abs(yRotation - targetAngle) < 5.0f)
             {
-                isOpening = true;
+                isProcessing = true;
                 currentAnimationTime = 0.0f;
             }
-            else if (Mathf.Abs(yRotation - openAngle) < 5.0f)
-            {
-                isOpening = false;
-                currentAnimationTime = animationTime - currentAnimationTime;
-            }
-            if (navMeshLink != null)
-            {
-                bool shouldLinkBeEnabled = isOpening && !navMeshLink.enabled;
-                bool shouldLinkBeDisabled = !isOpening && navMeshLink.enabled;
-
-                if (shouldLinkBeEnabled)
-                {
-                    navMeshLink.enabled = true;
-                }
-                else if (shouldLinkBeDisabled)
-                {
-                    navMeshLink.enabled = false;
-                }
-                // navMeshLink.UpdateLink();
-            }
-        }
+            
+            
+        }*/
     }
 
 }

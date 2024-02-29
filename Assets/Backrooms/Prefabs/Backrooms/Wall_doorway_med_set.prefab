@@ -284,12 +284,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2441374785932515254, guid: 1856dd2aa78d4f645a310c8d577a4377, type: 3}
+      propertyPath: Audio
+      value: 
+      objectReference: {fileID: 8300000, guid: 5c96cebbcc011a84d937355741d681e6, type: 3}
+    - target: {fileID: 2441374785932515254, guid: 1856dd2aa78d4f645a310c8d577a4377, type: 3}
       propertyPath: navMeshLink
       value: 
       objectReference: {fileID: 8216167775413765529}
     - target: {fileID: 2441374785932515254, guid: 1856dd2aa78d4f645a310c8d577a4377, type: 3}
       propertyPath: animationTime
-      value: 0.5
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 2441374785932515254, guid: 1856dd2aa78d4f645a310c8d577a4377, type: 3}
       propertyPath: doorTransform
