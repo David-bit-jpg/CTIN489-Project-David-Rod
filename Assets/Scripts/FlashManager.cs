@@ -124,7 +124,7 @@ using UnityEditor;
             if (LightOn && DrainTime >= 0)
             {
                 //Decrement DrainTime.
-                DrainTime -= Time.deltaTime * 0.1f;
+                DrainTime -= Time.deltaTime * 0.3f;
 
                 //drainTimeF to DrainTime / BatteryLife.
                 float drainTimeF = DrainTime / BatteryLife;
