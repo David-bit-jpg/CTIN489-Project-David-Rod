@@ -198,7 +198,7 @@ using UnityEditor;
                 StartCoroutine(Noise());
 
                 //Call NoiseTimer Mehtod.
-                StartCoroutine(NoiseTimer());
+                // StartCoroutine(NoiseTimer());
             }
 
             //Call NoiseCaller Mehtod.
