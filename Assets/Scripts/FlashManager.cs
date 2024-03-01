@@ -89,7 +89,7 @@ using UnityEditor;
             if (UseNoise)
             {
                 //Call NoiseCaller Mehtod.
-                StartCoroutine(NoiseCaller());
+                // StartCoroutine(NoiseCaller());
             }
 
             BatterySlider.maxValue = BatteryLife;
@@ -198,7 +198,7 @@ using UnityEditor;
                 StartCoroutine(Noise());
 
                 //Call NoiseTimer Mehtod.
-                // StartCoroutine(NoiseTimer());
+                StartCoroutine(NoiseTimer());
             }
 
             //Call NoiseCaller Mehtod.
