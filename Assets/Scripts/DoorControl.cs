@@ -17,10 +17,14 @@ public class DoorController : MonoBehaviour
     public bool isOpened = false;
     private float currentAnimationTime = 0.0f;
 
-    public AudioSource AudioSource;
+    [SerializeField] private AudioClip Audio;
+    [SerializeField] public float volume = 0.2f;
+    private AudioSource AudioSource;
     void Start()
     {
-        //AudioSource = gameObject.GetComponent<AudioSource>();
+        AudioSource = gameObject.AddComponent<AudioSource>();
+        AudioSource.clip = Audio;
+        AudioSource.volume = volume;
         closedRotation = Quaternion.Euler(doorTransform.localEulerAngles.x, closeAngle, doorTransform.localEulerAngles.z);
         openRotation = Quaternion.Euler(doorTransform.localEulerAngles.x, openAngle, doorTransform.localEulerAngles.z);
         if (navMeshLink != null)
