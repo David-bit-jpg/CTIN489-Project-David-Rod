@@ -72,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform flashTransform;
     [SerializeField] public int BatteryLife = 20;
 
+    ChargingStation chargingStation = null;
     private void Awake()
     {
         currentStamina = maxStamina;
@@ -193,16 +194,34 @@ public class PlayerMovement : MonoBehaviour
                 UpdateInteractionUI(hit);
                 UpdateGlowStickNumberUI();
             }
+
+            
             bool hitChargingStation = Physics.SphereCast(CameraIntractPointer.position, sphereRadius, CameraIntractPointer.forward, out hit, 2.5f) && hit.collider.CompareTag("ChargingStation");
+            
+            if (hitChargingStation)
+            {
+                chargingStation = hit.collider.gameObject.GetComponent<ChargingStation>();
+            }
+            
             if (Input.GetKey(KeyCode.E) && hitChargingStation)
             {
                 isCharging = true;
                 ChargeBattery();
                 flashManager.ChargeBattery();
+                if (chargingStation)
+                {
+                    chargingStation.Charge();
+                }
+                
             }
             else if (Input.GetKeyUp(KeyCode.E) || !hitChargingStation)
             {
                 isCharging = false;
+                
+                if (chargingStation)
+                {
+                    chargingStation.StopCharge();
+                }  
             }
 
             if (Input.GetKeyDown(KeyCode.E))
