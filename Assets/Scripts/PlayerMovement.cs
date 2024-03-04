@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Text glowStickPickupText;
     [SerializeField] private Text doorMoveUpText;
     [SerializeField] private Text chargingText;
+
+    [SerializeField] private Text balloonText;
     [SerializeField] private Image redDot;
     [SerializeField] private GameObject vhsEffectStatusText;
     private bool rKeyPressed = false;
@@ -79,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
         glowStickPickupText.gameObject.SetActive(false);
         doorMoveUpText.gameObject.SetActive(false);
         chargingText.gameObject.SetActive(false);
+        balloonText.gameObject.SetActive(false);
         vhsFeature = rendererData.rendererFeatures.Find(feature => feature.name == "FullScreenPassRendererFeature");
         rb = GetComponent<Rigidbody>();
         cameraControl = FindObjectOfType<CameraControl>();
@@ -297,9 +300,11 @@ public class PlayerMovement : MonoBehaviour
                 if (doorController != null)
                 {
                     doorController.ToggleDoor();
-                    //doorController.ToggleDoor();
-                    //doorController.isProcessing = false;
                 }
+                break;
+            case "Balloon":
+                Break_Ghost break_Ghost = hit.collider.GetComponent<Break_Ghost>();
+                break_Ghost.Is_Breaked = true;
                 break;
             default:
                 break;
@@ -311,6 +316,7 @@ public class PlayerMovement : MonoBehaviour
         glowStickPickupText.gameObject.SetActive(hit.collider.gameObject.CompareTag("GlowStick"));
         doorMoveUpText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Door"));
         chargingText.gameObject.SetActive(hit.collider.gameObject.CompareTag("ChargingStation"));
+        balloonText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Balloon"));
     }
     private void UpdateGlowStickNumberUI()
     {
