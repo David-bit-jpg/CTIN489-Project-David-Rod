@@ -25,7 +25,7 @@ public class Break_Ghost : MonoBehaviour
         {
             ghost_Parts.SetActive(true);
             ghost_normal.SetActive(false);
-            transform.position = new Vector3(transform.position.x, transform.position.y-0.0002f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y-0.001f, transform.position.z);
             if(transform.position.y <= -1.0f)
             {
                 Destroy(gameObject);
