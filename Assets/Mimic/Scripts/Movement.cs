@@ -120,12 +120,11 @@ namespace MimicSpace
         void CheckForDoor()
         {
             RaycastHit hit;
-            Vector3 rayStart = transform.position + new Vector3(0,1,0);
+            Vector3 rayStart = transform.position + new Vector3(0f,1.0f,0);
             Vector3 rayDirection = transform.forward;
             Debug.DrawRay(rayStart, rayDirection * rayLength, Color.red);
             float sphereCastDistance = rayLength;
             Color debugColor = Color.red;
-
             DrawSphereCast(rayStart, rayDirection, sphereRadius, sphereCastDistance, debugColor);
             Ray ray = new Ray(rayStart, rayDirection);
             if (Physics.SphereCast(ray, sphereRadius, out hit, rayLength))

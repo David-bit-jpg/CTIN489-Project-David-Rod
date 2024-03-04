@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GhostMovement : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GhostMovement : MonoBehaviour
     [SerializeField] private GameObject redBalloon;
     [SerializeField] private GameObject pinkBalloon;
     [SerializeField] private GameObject yellowBalloon;
+
     [Header("Controls")]
     [SerializeField] public float chaseDistance = 10f;
     // public Transform cageTransform;
@@ -31,8 +33,11 @@ public class GhostMovement : MonoBehaviour
     private float initialRoamTime = 10f;
     private float lastChaseTime = 0f;
     private float stepInterval = 0f;
-    public float rayLength = 0.001f;
-    float sphereRadius = 1f;
+    public float rayLength = 100.0f;
+    float sphereRadius = 1.0f;
+    private List<GameObject> spawnedBalloons = new List<GameObject>();
+
+    [SerializeField] public Animator ghost;
 
     bool isDoor = false;
     private void Awake()
@@ -52,6 +57,7 @@ public class GhostMovement : MonoBehaviour
         navMeshAgent.isStopped = false;
         Roam();
         isRoaming = true;
+        StartCoroutine(SpawnBalloonWithInterval());
     }
 
     void Update()
@@ -62,9 +68,12 @@ public class GhostMovement : MonoBehaviour
         }
         float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
         float lerpFactor = Mathf.InverseLerp(stopChaseDistance, chaseDistance, distanceToPlayer);
-
         if (distanceToPlayer <= 0.5f)
         {
+            if(isRoaming)
+            {
+                StopRoaming();
+            }
             if (GameObject.FindGameObjectWithTag("Player"))
             {
                 isChasing = false;
@@ -95,18 +104,21 @@ public class GhostMovement : MonoBehaviour
     void CheckForDoor()
     {
         RaycastHit hit;
-        Vector3 rayStart = transform.position + new Vector3(0,1,0);
+        Vector3 rayStart = transform.position;
         Vector3 rayDirection = transform.forward;
         Debug.DrawRay(rayStart, rayDirection * rayLength, Color.red);
         float sphereCastDistance = rayLength;
         Color debugColor = Color.red;
+        Debug.Log("Ray Start: " + rayStart + ", Ray Direction: " + rayDirection);
 
         DrawSphereCast(rayStart, rayDirection, sphereRadius, sphereCastDistance, debugColor);
         Ray ray = new Ray(rayStart, rayDirection);
+
         if (Physics.SphereCast(ray, sphereRadius, out hit, rayLength))
         {
             if (hit.collider.CompareTag("Door") && !isDoor)
             {
+                Debug.Log("HEREH");
                 StartCoroutine(InteractWithDoor(hit));
             }
         }
@@ -146,6 +158,10 @@ public class GhostMovement : MonoBehaviour
             AudioSource.Play();
             nextPlayTime = Time.time + Random.Range(1f, 4f);
         }
+        if(isRoaming)
+        {
+            StopRoaming();
+        }
         isChasing = true;
         navMeshAgent.isStopped = false;
         ChasePlayer();
@@ -162,8 +178,26 @@ public class GhostMovement : MonoBehaviour
     {
         navMeshAgent.SetDestination(mPlayer.gameObject.transform.position);
     }
-
-
+    private IEnumerator SpawnBalloonWithInterval()
+    {
+        yield return new WaitForSeconds(Random.Range(20f, 30f));
+        if (isRoaming && !isChasing)
+        {
+            navMeshAgent.isStopped = true;
+            yield return new WaitForSeconds(2.0f);
+            SpawnRandomBalloon();
+            navMeshAgent.isStopped = false;
+        }
+        StartCoroutine(SpawnBalloonWithInterval());
+    }
+    private void SpawnRandomBalloon()
+    {
+        GameObject[] balloons = new GameObject[] { redBalloon, pinkBalloon, yellowBalloon };
+        int index = Random.Range(0, balloons.Length);
+        Vector3 spawnPosition = transform.position;
+        GameObject spawnedBalloon = Instantiate(balloons[index], spawnPosition, Quaternion.identity);
+        spawnedBalloons.Add(spawnedBalloon);
+    }
     private void SetRandomInitialPosition()
     {
 
@@ -205,6 +239,7 @@ public class GhostMovement : MonoBehaviour
 
     private void StartRandomRoaming()
     {
+        isRoaming = true;
         if (!navMeshAgent.pathPending)
         {
             Vector3 forwardDirection = transform.forward;
@@ -218,6 +253,10 @@ public class GhostMovement : MonoBehaviour
                 navMeshAgent.SetDestination(hit.position);
             }
         }
+    }
+    private void StopRoaming()
+    {
+        isRoaming = false;
     }
     private IEnumerator StopChasingWithDelay()
     {
