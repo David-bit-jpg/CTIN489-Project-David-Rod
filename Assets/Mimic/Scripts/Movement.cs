@@ -140,7 +140,6 @@ namespace MimicSpace
         IEnumerator InteractWithDoor(RaycastHit hit)
         {
             isDoor = true;
-            Debug.Log("1");
             if(isChasing)
                 yield return new WaitForSeconds(1.0f);
             else
@@ -159,10 +158,8 @@ namespace MimicSpace
         }
         void CloseDoor(DoorController doorController)
         {
-            Debug.Log("2");
             if (doorController != null)
             {
-                doorController.ToggleDoor();//close
                 doorController.ToggleDoor();
             }
             doorController.isProcessing = false;

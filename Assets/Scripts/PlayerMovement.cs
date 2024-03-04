@@ -304,7 +304,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "Balloon":
                 Break_Ghost break_Ghost = hit.collider.GetComponent<Break_Ghost>();
-                if(!break_Ghost.Is_Breaked)
+                if(break_Ghost!=null && !break_Ghost.Is_Breaked)
                     break_Ghost.Is_Breaked = true;
                 break;
             default:
@@ -317,9 +317,7 @@ public class PlayerMovement : MonoBehaviour
         glowStickPickupText.gameObject.SetActive(hit.collider.gameObject.CompareTag("GlowStick"));
         doorMoveUpText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Door"));
         chargingText.gameObject.SetActive(hit.collider.gameObject.CompareTag("ChargingStation"));
-        Break_Ghost break_Ghost = hit.collider.GetComponent<Break_Ghost>();
-        if(!break_Ghost.Is_Breaked)
-            balloonText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Balloon"));
+        balloonText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Balloon"));
     }
     private void UpdateGlowStickNumberUI()
     {
