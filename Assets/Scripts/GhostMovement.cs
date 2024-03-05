@@ -6,43 +6,23 @@ using System.Collections.Generic;
 
 public class GhostMovement : MonoBehaviour
 {
-    [Header("Balloons")]
-    [SerializeField] private GameObject redBalloon;
-    [SerializeField] private GameObject pinkBalloon;
-    [SerializeField] private GameObject yellowBalloon;
-
     [Header("Controls")]
-    [SerializeField] public float chaseDistance = 10f;
-    // public Transform cageTransform;
-    bool isStop = false;
+    [SerializeField] public float chaseDistance = 15f;
+    [SerializeField] public float stopChaseDistance = 8f;
     private float nextPlayTime = 0f;
-    [SerializeField] public float stopChaseDistance = 15f;
-    [SerializeField] public float roamDistance = 40f;
     public AudioSource AudioSource;
     [SerializeField] private AudioClip Audio;
-    [SerializeField] private float WaitingTime = 5.0f;
-    private Vector3 initialPosition;
     public float volume = 0f;
     Vector3 velocity = Vector3.zero;
     PlayerMovement mPlayer;
     NavMeshAgent navMeshAgent;
-    public bool isDead = false;
     private bool isChasing = false;
-    private bool isRoaming = false;
-    private float roamTimer = 0f;
-    private float initialRoamTime = 10f;
-    private float lastChaseTime = 0f;
-    private float stepInterval = 0f;
-    public float rayLength = 100.0f;
-    float sphereRadius = 1.0f;
-    private List<GameObject> spawnedBalloons = new List<GameObject>();
-
     [SerializeField] public Animator ghost;
 
+    public float rayLength = 0.001f;
+    float sphereRadius = 1f;
     bool isDoor = false;
 
-    bool shouldChase = false;
-    bool haveBreaked = false;
     private void Awake()
     {
         AudioSource = gameObject.AddComponent<AudioSource>();
@@ -54,94 +34,53 @@ public class GhostMovement : MonoBehaviour
     {
         mPlayer = FindObjectOfType<PlayerMovement>();
         navMeshAgent = GetComponent<NavMeshAgent>();
-        SetRandomInitialPosition();
-        initialPosition = transform.position;
         navMeshAgent.isStopped = true;
         navMeshAgent.isStopped = false;
-        navMeshAgent.stoppingDistance = 10f;
-        Roam();
-        isRoaming = true;
-        StartCoroutine(SpawnBalloonWithInterval());
+        navMeshAgent.stoppingDistance = 3.0f;
     }
 
     void Update()
     {
-        if (isStop)
-        {
-            return;
-        }
-        CheckForBreakedBalloons();
         float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
-        if (distanceToPlayer <= 0.5f) //caught
+        if (distanceToPlayer <= 3.5f)
         {
-            if(isRoaming)
-            {
-                StopRoaming();
-            }
             if (GameObject.FindGameObjectWithTag("Player"))
             {
                 isChasing = false;
-                isRoaming = false;
-            }
+            }//Attack
         }
-        else if (shouldChase)
+        else if (distanceToPlayer <= chaseDistance) //enter range, chase player
         {
+            Debug.Log("Chasing Player!!!");
             navMeshAgent.isStopped = false;
             StartChasing();
         }
-        else if (distanceToPlayer > stopChaseDistance && isChasing && shouldChase)//if is chasing, player run out, stop
+        else if (distanceToPlayer > stopChaseDistance && isChasing)//if is chasing, player run out, stop
         {
+            Debug.Log("Stop Chasing");
             navMeshAgent.isStopped = false;
-            shouldChase = false;
             StopChasing();
-        }
-        else if (isRoaming && !isChasing)//no chasing,roaming
-        {
-            navMeshAgent.isStopped = false;
-            Roam();
-        }
-        else
-        {
-            Roam();
         }
         CheckForDoor();
     }
-    void CheckForBreakedBalloons()
-    {
-        foreach (GameObject b in new List<GameObject>(spawnedBalloons))
-        {
-            Break_Ghost balloonScript = b.GetComponent<Break_Ghost>();
-            if (balloonScript != null && balloonScript.Is_Breaked)
-            {
-                spawnedBalloons.Remove(b);
-                shouldChase = true;
-                return;
-            }
-        }
-    }
-
     void CheckForDoor()
     {
         RaycastHit hit;
-        Vector3 rayStart = transform.position;
+        Vector3 rayStart = transform.position + new Vector3(0f,1.0f,0);
         Vector3 rayDirection = transform.forward;
         Debug.DrawRay(rayStart, rayDirection * rayLength, Color.red);
         float sphereCastDistance = rayLength;
         Color debugColor = Color.red;
-
         DrawSphereCast(rayStart, rayDirection, sphereRadius, sphereCastDistance, debugColor);
         Ray ray = new Ray(rayStart, rayDirection);
-
         if (Physics.SphereCast(ray, sphereRadius, out hit, rayLength))
         {
             if (hit.collider.CompareTag("Door") && !isDoor)
             {
-                Debug.Log("HEREH");
                 StartCoroutine(InteractWithDoor(hit));
             }
         }
     }
-
     IEnumerator InteractWithDoor(RaycastHit hit)
     {
         isDoor = true;
@@ -165,22 +104,18 @@ public class GhostMovement : MonoBehaviour
     {
         if (doorController != null)
         {
-            doorController.ToggleDoor();//close
+            doorController.ToggleDoor();
         }
         doorController.isProcessing = false;
     }
+
     private void StartChasing()
     {
-        navMeshAgent.speed += 1.0f;
         ghost.SetBool("IsFlying", true);
         if (Time.time >= nextPlayTime)
         {
             AudioSource.Play();
             nextPlayTime = Time.time + Random.Range(1f, 4f);
-        }
-        if(isRoaming)
-        {
-            StopRoaming();
         }
         isChasing = true;
         navMeshAgent.isStopped = false;
@@ -189,120 +124,15 @@ public class GhostMovement : MonoBehaviour
 
     private void StopChasing()
     {
-        navMeshAgent.speed -= 1.0f;
         ghost.SetBool("IsFlying", false);
         AudioSource.Stop();
         isChasing = false;//no chasing
-        isRoaming = true;//start Roam
+        Destroy(gameObject);
     }
 
     private void ChasePlayer()
     {
         navMeshAgent.SetDestination(mPlayer.gameObject.transform.position);
-    }
-    private IEnumerator SpawnBalloonWithInterval()
-    {
-        yield return new WaitForSeconds(Random.Range(20f, 30f));
-        if (isRoaming && !isChasing)
-        {
-            navMeshAgent.isStopped = true;
-            yield return new WaitForSeconds(2.0f);
-            SpawnRandomBalloon();
-            navMeshAgent.isStopped = false;
-        }
-        StartCoroutine(SpawnBalloonWithInterval());
-    }
-    private void SpawnRandomBalloon()
-    {
-        GameObject[] balloons = new GameObject[] { redBalloon, pinkBalloon, yellowBalloon };
-        int index = Random.Range(0, balloons.Length);
-        Vector3 spawnPosition = transform.position;
-        GameObject spawnedBalloon = Instantiate(balloons[index], spawnPosition, Quaternion.identity);
-        spawnedBalloons.Add(spawnedBalloon);
-    }
-    private void SetRandomInitialPosition()
-    {
-
-        Vector3 randomPosition = GenerateRandomPosition();
-        NavMeshHit hit;
-        int attempts = 0;
-        while (!NavMesh.SamplePosition(randomPosition, out hit, 5.0f, NavMesh.AllAreas) && attempts < 10)
-        {
-            randomPosition = GenerateRandomPosition();
-            attempts++;
-        }
-        if (attempts < 10)
-        {
-            initialPosition = hit.position;
-            transform.position = initialPosition;
-        }
-        else
-        {
-            Debug.LogError("Failed to find a valid random position on NavMesh.");
-        }
-    }
-
-    private Vector3 GenerateRandomPosition()
-    {
-        return new Vector3(Random.Range(-27f, 27f), 1.5f, Random.Range(0f, 27f));
-    }
-
-
-    private void Roam()
-    {
-        if (!navMeshAgent.pathPending)
-        {
-            if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
-            {
-                StartRandomRoaming();
-            }
-        }
-    }
-
-    private void StartRandomRoaming()
-    {
-        isRoaming = true;
-        if (!navMeshAgent.pathPending)
-        {
-            Vector3 forwardDirection = transform.forward;
-            Vector3 randomDirection = forwardDirection * Random.Range(0.5f * roamDistance, 1.5f * roamDistance);
-            Vector3 randomPosition = transform.position + randomDirection;
-            randomPosition += new Vector3(Random.Range(-roamDistance, roamDistance), 0, Random.Range(-roamDistance, roamDistance));
-
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomPosition, out hit, roamDistance, NavMesh.AllAreas))
-            {
-                navMeshAgent.SetDestination(hit.position);
-            }
-        }
-    }
-    private void StopRoaming()
-    {
-        isRoaming = false;
-    }
-    private IEnumerator StopChasingWithDelay()
-    {
-        isChasing = false;
-        isRoaming = false;
-
-        yield return new WaitForSeconds(WaitingTime);
-        isRoaming = true;
-    }
-    private Vector3 RandomNavMeshLocation(float radius)
-    {
-        Vector3 randomDirection = Random.insideUnitSphere * radius;
-        randomDirection += transform.position;
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomDirection, out hit, radius, NavMesh.AllAreas))
-        {
-            return hit.position;
-        }
-        return transform.position;
-    }
-
-    private bool HasReachedDestination()
-    {
-        return !navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance;
     }
     //Debug
     void DrawSphereCast(Vector3 origin, Vector3 direction, float radius, float distance, Color color)
