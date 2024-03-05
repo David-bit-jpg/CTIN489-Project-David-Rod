@@ -40,6 +40,9 @@ public class GhostMovement : MonoBehaviour
     [SerializeField] public Animator ghost;
 
     bool isDoor = false;
+
+    bool shouldChase = false;
+    bool haveBreaked = false;
     private void Awake()
     {
         AudioSource = gameObject.AddComponent<AudioSource>();
@@ -55,6 +58,7 @@ public class GhostMovement : MonoBehaviour
         initialPosition = transform.position;
         navMeshAgent.isStopped = true;
         navMeshAgent.isStopped = false;
+        navMeshAgent.stoppingDistance = 10f;
         Roam();
         isRoaming = true;
         StartCoroutine(SpawnBalloonWithInterval());
@@ -66,9 +70,9 @@ public class GhostMovement : MonoBehaviour
         {
             return;
         }
+        CheckForBreakedBalloons();
         float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
-        float lerpFactor = Mathf.InverseLerp(stopChaseDistance, chaseDistance, distanceToPlayer);
-        if (distanceToPlayer <= 0.5f)
+        if (distanceToPlayer <= 0.5f) //caught
         {
             if(isRoaming)
             {
@@ -80,14 +84,15 @@ public class GhostMovement : MonoBehaviour
                 isRoaming = false;
             }
         }
-        else if (distanceToPlayer <= chaseDistance)
+        else if (shouldChase)
         {
             navMeshAgent.isStopped = false;
             StartChasing();
         }
-        else if (distanceToPlayer > stopChaseDistance && isChasing)//if is chasing, player run out, stop
+        else if (distanceToPlayer > stopChaseDistance && isChasing && shouldChase)//if is chasing, player run out, stop
         {
             navMeshAgent.isStopped = false;
+            shouldChase = false;
             StopChasing();
         }
         else if (isRoaming && !isChasing)//no chasing,roaming
@@ -101,6 +106,20 @@ public class GhostMovement : MonoBehaviour
         }
         CheckForDoor();
     }
+    void CheckForBreakedBalloons()
+    {
+        foreach (GameObject b in new List<GameObject>(spawnedBalloons))
+        {
+            Break_Ghost balloonScript = b.GetComponent<Break_Ghost>();
+            if (balloonScript != null && balloonScript.Is_Breaked)
+            {
+                spawnedBalloons.Remove(b);
+                shouldChase = true;
+                return;
+            }
+        }
+    }
+
     void CheckForDoor()
     {
         RaycastHit hit;
@@ -109,7 +128,6 @@ public class GhostMovement : MonoBehaviour
         Debug.DrawRay(rayStart, rayDirection * rayLength, Color.red);
         float sphereCastDistance = rayLength;
         Color debugColor = Color.red;
-        Debug.Log("Ray Start: " + rayStart + ", Ray Direction: " + rayDirection);
 
         DrawSphereCast(rayStart, rayDirection, sphereRadius, sphereCastDistance, debugColor);
         Ray ray = new Ray(rayStart, rayDirection);
@@ -153,6 +171,8 @@ public class GhostMovement : MonoBehaviour
     }
     private void StartChasing()
     {
+        navMeshAgent.speed += 1.0f;
+        ghost.SetBool("IsFlying", true);
         if (Time.time >= nextPlayTime)
         {
             AudioSource.Play();
@@ -169,6 +189,8 @@ public class GhostMovement : MonoBehaviour
 
     private void StopChasing()
     {
+        navMeshAgent.speed -= 1.0f;
+        ghost.SetBool("IsFlying", false);
         AudioSource.Stop();
         isChasing = false;//no chasing
         isRoaming = true;//start Roam
