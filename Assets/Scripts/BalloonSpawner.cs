@@ -10,13 +10,15 @@ public class BalloonSpawner : MonoBehaviour
     [SerializeField] private GameObject redBalloon;
     [SerializeField] private GameObject pinkBalloon;
     [SerializeField] private GameObject yellowBalloon;
-    [SerializeField] public float xMin = -28.0f, xMax = 28.0f;
-    [SerializeField] public float zMin = -28.0f, zMax = 28.0f;
+    [SerializeField] public float xMin = -27.0f, xMax = 27.0f;
+    [SerializeField] public float zMin = -27.0f, zMax = 27.0f;
     [SerializeField] private GameObject ghostPrefab;
     [SerializeField] private Text warningText;
+    [SerializeField] private int spawnNum = 6;
     public float raycastDistance = 50.0f;
     public float safeDistance = 0.4f;
     PlayerMovement mPlayer;
+
     private List<GameObject> spawnedBalloons = new List<GameObject>();
     void Start()
     {
@@ -60,7 +62,10 @@ public class BalloonSpawner : MonoBehaviour
     private IEnumerator SpawnBalloonWithInterval()
     {
         yield return new WaitForSeconds(Random.Range(10f, 20f));
-        SpawnRandomBalloon();
+        if(spawnedBalloons.Count <= spawnNum)
+        {
+            SpawnRandomBalloon();
+        }
         StartCoroutine(SpawnBalloonWithInterval());
     }
     private void SpawnRandomBalloon()
