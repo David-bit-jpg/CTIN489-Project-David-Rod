@@ -13,6 +13,7 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private float bobbingAmount = 0.025f;
     [SerializeField] private float bobbingSpeed = 12f;
     private float timer = 0f;
+    public bool canMove = true;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -23,24 +24,27 @@ public class CameraControl : MonoBehaviour
 
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-
-        yRotation += mouseX;
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-        UpdateCameraRotation();
-        if (playerMovement.isMoving)
+        if (canMove)
         {
-            timer += Time.deltaTime * bobbingSpeed;
-            float newY = originalYPos + Mathf.Sin(timer) * bobbingAmount;
-            transform.localPosition = new Vector3(transform.localPosition.x, newY, transform.localPosition.z);
-        }
-        else
-        {
-            timer = 0;
-            transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(transform.localPosition.y, originalYPos, Time.deltaTime * bobbingSpeed), transform.localPosition.z);
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+
+            yRotation += mouseX;
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+            UpdateCameraRotation();
+            if (playerMovement.isMoving)
+            {
+                timer += Time.deltaTime * bobbingSpeed;
+                float newY = originalYPos + Mathf.Sin(timer) * bobbingAmount;
+                transform.localPosition = new Vector3(transform.localPosition.x, newY, transform.localPosition.z);
+            }
+            else
+            {
+                timer = 0;
+                transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(transform.localPosition.y, originalYPos, Time.deltaTime * bobbingSpeed), transform.localPosition.z);
+            }
         }
     }
 

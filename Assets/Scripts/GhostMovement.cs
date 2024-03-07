@@ -22,6 +22,7 @@ public class GhostMovement : MonoBehaviour
     public float rayLength = 0.001f;
     float sphereRadius = 1f;
     bool isDoor = false;
+    bool isCaught = false;
 
     private void Awake()
     {
@@ -44,19 +45,23 @@ public class GhostMovement : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
         if (distanceToPlayer <= 3.5f)
         {
-            if (GameObject.FindGameObjectWithTag("Player"))
+            if (GameObject.FindGameObjectWithTag("Player") && !isCaught)
             {
                 isChasing = false;
+                StartCoroutine(WaitFiveSeconds());
+                isCaught = true;
             }//Attack
         }
         else if (distanceToPlayer <= chaseDistance) //enter range, chase player
         {
+            isCaught = false;
             Debug.Log("Chasing Player!!!");
             navMeshAgent.isStopped = false;
             StartChasing();
         }
         else if (distanceToPlayer > stopChaseDistance && isChasing)//if is chasing, player run out, stop
         {
+            isCaught = false;
             Debug.Log("Stop Chasing");
             navMeshAgent.isStopped = false;
             StopChasing();
@@ -66,7 +71,7 @@ public class GhostMovement : MonoBehaviour
     void CheckForDoor()
     {
         RaycastHit hit;
-        Vector3 rayStart = transform.position + new Vector3(0f,1.0f,0);
+        Vector3 rayStart = transform.position + new Vector3(0f, 1.0f, 0);
         Vector3 rayDirection = transform.forward;
         Debug.DrawRay(rayStart, rayDirection * rayLength, Color.red);
         float sphereCastDistance = rayLength;
@@ -81,10 +86,28 @@ public class GhostMovement : MonoBehaviour
             }
         }
     }
+    IEnumerator WaitFiveSeconds()
+    {
+        yield return new WaitForSeconds(5.0f);
+        float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
+        if (distanceToPlayer <= 3.5f)
+        {
+            float initialDistanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
+            if (initialDistanceToPlayer < 3.5f)
+            {
+                Vector3 directionToPlayer = (mPlayer.transform.position - transform.position).normalized;
+                mPlayer.transform.position = transform.position + directionToPlayer * 3.5f;
+            }
+            mPlayer.SetCanMove(false);
+            ghost.SetBool("IsFlying", false);
+            mPlayer.cameraControl.canMove = false;
+            StartCoroutine(TurnCameraTowards(transform, 2.0f));
+        }
+    }
     IEnumerator InteractWithDoor(RaycastHit hit)
     {
         isDoor = true;
-        if(isChasing)
+        if (isChasing)
             yield return new WaitForSeconds(1.0f);
         else
             yield return new WaitForSeconds(0.1f);
@@ -99,6 +122,21 @@ public class GhostMovement : MonoBehaviour
         }
         isDoor = false;
         doorController.isProcessing = false;
+    }
+    IEnumerator TurnCameraTowards(Transform target, float duration)
+    {
+        Transform cameraTransform = mPlayer.cameraControl.transform;
+        Quaternion startRotation = cameraTransform.rotation;
+        Quaternion endRotation = Quaternion.LookRotation(target.position - cameraTransform.position);
+
+        float time = 0.0f;
+        while (time < duration)
+        {
+            cameraTransform.rotation = Quaternion.Slerp(startRotation, endRotation, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        cameraTransform.rotation = endRotation;
     }
     void CloseDoor(DoorController doorController)
     {

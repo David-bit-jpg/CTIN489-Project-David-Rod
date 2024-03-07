@@ -28,7 +28,7 @@ public class BalloonSpawner : MonoBehaviour
     }
     void Update()
     {
-        if(CheckForBreakedBalloons())
+        if (CheckForBreakedBalloons())
         {
             SpawnGhostNearPlayer();
         }
@@ -41,7 +41,7 @@ public class BalloonSpawner : MonoBehaviour
 
         float angle = Random.Range(-180, 180);
         Vector3 randomDirection = Quaternion.Euler(0, angle, 0) * playerForward * Random.Range(0.5f, 6.0f);
-        
+
         if (angle > -45 && angle < 45)
         {
             randomDirection += playerRight * 6.0f;
@@ -61,8 +61,8 @@ public class BalloonSpawner : MonoBehaviour
 
     private IEnumerator SpawnBalloonWithInterval()
     {
-        yield return new WaitForSeconds(Random.Range(10f, 20f));
-        if(spawnedBalloons.Count <= spawnNum)
+        yield return new WaitForSeconds(Random.Range(15f, 25f));
+        if (spawnedBalloons.Count <= spawnNum)
         {
             SpawnRandomBalloon();
         }

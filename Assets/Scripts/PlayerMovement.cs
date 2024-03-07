@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float volume = 0.2f;
     [SerializeField] private AudioClip Audio;
     private Animator animator;
-    private CameraControl cameraControl;
+    public CameraControl cameraControl;
     private float lastStepTime = 0f;
     private float stepInterval = 0f;
 
@@ -175,12 +175,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 DrainTime -= 0.3f * Time.deltaTime;
                 UpdateBatteryBar();
-                if(!startedRed)
-                StartCoroutine(ToggleStateCoroutine());
+                if (!startedRed)
+                    StartCoroutine(ToggleStateCoroutine());
             }
-            if(featureAble)
+            if (featureAble)
             {
-                if(DrainTime <= 0)
+                if (DrainTime <= 0)
                 {
                     DisableVHSFeature();
                     UpdateVHSEffectStatus(false);
@@ -198,14 +198,14 @@ public class PlayerMovement : MonoBehaviour
                 UpdateGlowStickNumberUI();
             }
 
-            
+
             bool hitChargingStation = Physics.SphereCast(CameraIntractPointer.position, sphereRadius, CameraIntractPointer.forward, out hit, 2.5f) && hit.collider.CompareTag("ChargingStation");
-            
+
             if (hitChargingStation)
             {
                 chargingStation = hit.collider.gameObject.GetComponent<ChargingStation>();
             }
-            
+
             if (Input.GetKey(KeyCode.E) && hitChargingStation)
             {
                 isCharging = true;
@@ -215,16 +215,16 @@ public class PlayerMovement : MonoBehaviour
                 {
                     chargingStation.Charge();
                 }
-                
+
             }
             else if (Input.GetKeyUp(KeyCode.E) || !hitChargingStation)
             {
                 isCharging = false;
-                
+
                 if (chargingStation)
                 {
                     chargingStation.StopCharge();
-                }  
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -304,7 +304,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "Balloon":
                 Break_Ghost break_Ghost = hit.collider.GetComponent<Break_Ghost>();
-                if(break_Ghost!=null && !break_Ghost.Is_Breaked)
+                if (break_Ghost != null && !break_Ghost.Is_Breaked)
                     break_Ghost.Is_Breaked = true;
                 break;
             default:
