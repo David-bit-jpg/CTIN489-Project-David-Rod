@@ -12,7 +12,7 @@ public class BalloonSpawnerGood : MonoBehaviour
     [SerializeField] private GameObject yellowBalloon;
     [SerializeField] public float xMin = -27.0f, xMax = 27.0f;
     [SerializeField] public float zMin = -27.0f, zMax = 27.0f;
-    [SerializeField] private int spawnNum = 6;
+    [SerializeField] private int spawnNum = 7;
     public float safeDistance = 0.4f;
     PlayerMovement mPlayer;
 

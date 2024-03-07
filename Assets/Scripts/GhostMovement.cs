@@ -60,11 +60,13 @@ public class GhostMovement : MonoBehaviour
             isCaught = false;
             Debug.Log("Chasing Player!!!");
             navMeshAgent.isStopped = false;
+            mPlayer.chased = true;
             StartChasing();
         }
         else if (distanceToPlayer > stopChaseDistance && isChasing)//if is chasing, player run out, stop
         {
             isCaught = false;
+            mPlayer.chased = false;
             Debug.Log("Stop Chasing");
             navMeshAgent.isStopped = false;
             StopChasing();
@@ -91,17 +93,19 @@ public class GhostMovement : MonoBehaviour
     }
     IEnumerator WaitFiveSeconds()
     {
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(15.0f);
         float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
         if (distanceToPlayer <= 3.5f)
         {
             float initialDistanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
             if (initialDistanceToPlayer < 3.5f)
             {
+                mPlayer.SetCanMove(false);
                 Vector3 directionToPlayer = (mPlayer.transform.position - transform.position).normalized;
                 mPlayer.transform.position = transform.position + directionToPlayer * 3.5f;
+                mPlayer.fixPos =  mPlayer.transform.position = transform.position + directionToPlayer * 3.5f;
+                mPlayer.killed = true;
             }
-            mPlayer.SetCanMove(false);
             ghost.SetBool("IsAttacking", false);
             ghost.SetBool("IsFlying", false);
             mPlayer.cameraControl.canMove = false;

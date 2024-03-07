@@ -74,6 +74,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform flashTransform;
     [SerializeField] public int BatteryLife = 20;
 
+    public bool chased = false;
+
+    public bool killed = false;
+
+    public Vector3 fixPos = Vector3.zero;
+
     ChargingStation chargingStation = null;
     private void Awake()
     {
@@ -252,6 +258,10 @@ public class PlayerMovement : MonoBehaviour
                 timerText.text = minutes + ":" + seconds;
             }
         }
+        if(killed)
+        {
+            transform.position = fixPos;
+        }
     }
     IEnumerator ToggleStateCoroutine()
     {
@@ -303,9 +313,12 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "Balloon":
-                Break_Ghost break_Ghost = hit.collider.GetComponent<Break_Ghost>();
-                if (break_Ghost != null && !break_Ghost.Is_Breaked)
-                    break_Ghost.Is_Breaked = true;
+                if(!chased)
+                {
+                    Break_Ghost break_Ghost = hit.collider.GetComponent<Break_Ghost>();
+                    if (break_Ghost != null && !break_Ghost.Is_Breaked)
+                        break_Ghost.Is_Breaked = true;
+                }
                 break;
             default:
                 break;
@@ -317,7 +330,7 @@ public class PlayerMovement : MonoBehaviour
         glowStickPickupText.gameObject.SetActive(hit.collider.gameObject.CompareTag("GlowStick"));
         doorMoveUpText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Door"));
         chargingText.gameObject.SetActive(hit.collider.gameObject.CompareTag("ChargingStation"));
-        balloonText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Balloon"));
+        balloonText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Balloon")&&!chased);
     }
     private void UpdateGlowStickNumberUI()
     {

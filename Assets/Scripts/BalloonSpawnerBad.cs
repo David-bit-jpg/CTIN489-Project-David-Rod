@@ -14,8 +14,8 @@ public class BalloonSpawnerBad : MonoBehaviour
     [SerializeField] public float zMin = -27.0f, zMax = 27.0f;
     [SerializeField] private GameObject ghostPrefab;
     [SerializeField] private Text warningText;
-    [SerializeField] private int spawnNumLong = 5;
-    [SerializeField] private int spawnNumShort = 5;
+    [SerializeField] private int spawnNumLong = 8;
+    [SerializeField] private int spawnNumShort = 3;
     public float raycastDistance = 50.0f;
     public float safeDistance = 0.4f;
     PlayerMovement mPlayer;
@@ -64,7 +64,7 @@ public class BalloonSpawnerBad : MonoBehaviour
     private IEnumerator SpawnBalloonWithIntervalLong()
     {
         yield return new WaitForSeconds(Random.Range(15f, 25f));
-        if (spawnedBalloons.Count <= spawnNumLong + spawnNumShort)
+        if (spawnedBalloons.Count <= spawnNumLong)
         {
             SpawnRandomBalloon();
         }
@@ -72,7 +72,7 @@ public class BalloonSpawnerBad : MonoBehaviour
     }
     private IEnumerator SpawnBalloonWithIntervalShort()
     {
-        yield return new WaitForSeconds(Random.Range(1f, 5f));
+        yield return new WaitForSeconds(Random.Range(1f, 2f));
         if (spawnedBalloons.Count <= spawnNumShort)
         {
             SpawnRandomBalloon();
@@ -126,7 +126,10 @@ public class BalloonSpawnerBad : MonoBehaviour
     }
     public void TriggerTextAnimation()
     {
-        StartCoroutine(AnimateText());
+        if(!warningText.gameObject.activeSelf)
+        {
+            StartCoroutine(AnimateText());
+        }
     }
 
     private IEnumerator AnimateText()
