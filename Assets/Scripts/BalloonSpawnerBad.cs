@@ -19,6 +19,7 @@ public class BalloonSpawnerBad : MonoBehaviour
     public float raycastDistance = 50.0f;
     public float safeDistance = 0.4f;
     PlayerMovement mPlayer;
+    bool textStarted = false;
 
     private List<GameObject> spawnedBalloons = new List<GameObject>();
     void Start()
@@ -126,7 +127,7 @@ public class BalloonSpawnerBad : MonoBehaviour
     }
     public void TriggerTextAnimation()
     {
-        if(!warningText.gameObject.activeSelf)
+        if(!textStarted)
         {
             StartCoroutine(AnimateText());
         }
@@ -134,6 +135,7 @@ public class BalloonSpawnerBad : MonoBehaviour
 
     private IEnumerator AnimateText()
     {
+        textStarted = true;
         float duration = 2.0f;
         float holdTime = 1.0f;
         float startSize = 0f;
@@ -145,13 +147,10 @@ public class BalloonSpawnerBad : MonoBehaviour
             warningText.fontSize = (int)Mathf.Lerp(startSize, endSize, progress);
             yield return null;
         }
-
         warningText.fontSize = (int)endSize;
-
         yield return new WaitForSeconds(holdTime);
-
         warningText.fontSize = (int)startSize;
-        warningText.text = "";
         warningText.gameObject.SetActive(false);
+        textStarted = false;
     }
 }

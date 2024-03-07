@@ -89,7 +89,8 @@ namespace MimicSpace
                     isDragging = true;
                     isChasing = false;
                     isRoaming = false;
-                    StartCoroutine(FollowMimicWithDelay(GameObject.FindGameObjectWithTag("Player").transform));
+                    if(!mPlayer.killed)
+                        StartCoroutine(FollowMimicWithDelay(GameObject.FindGameObjectWithTag("Player").transform));
                 }
             }
             else if (distanceToPlayer <= chaseDistance && !isDragging) //enter range, chase player
