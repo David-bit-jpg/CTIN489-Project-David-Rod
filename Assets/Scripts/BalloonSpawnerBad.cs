@@ -14,7 +14,8 @@ public class BalloonSpawnerBad : MonoBehaviour
     [SerializeField] public float zMin = -27.0f, zMax = 27.0f;
     [SerializeField] private GameObject ghostPrefab;
     [SerializeField] private Text warningText;
-    [SerializeField] private int spawnNum = 6;
+    [SerializeField] private int spawnNumLong = 5;
+    [SerializeField] private int spawnNumShort = 5;
     public float raycastDistance = 50.0f;
     public float safeDistance = 0.4f;
     PlayerMovement mPlayer;
@@ -24,7 +25,8 @@ public class BalloonSpawnerBad : MonoBehaviour
     {
         warningText.gameObject.SetActive(false);
         mPlayer = FindObjectOfType<PlayerMovement>();
-        StartCoroutine(SpawnBalloonWithInterval());
+        StartCoroutine(SpawnBalloonWithIntervalShort());
+        StartCoroutine(SpawnBalloonWithIntervalLong());
     }
     void Update()
     {
@@ -59,14 +61,23 @@ public class BalloonSpawnerBad : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnBalloonWithInterval()
+    private IEnumerator SpawnBalloonWithIntervalLong()
     {
         yield return new WaitForSeconds(Random.Range(15f, 25f));
-        if (spawnedBalloons.Count <= spawnNum)
+        if (spawnedBalloons.Count <= spawnNumLong + spawnNumShort)
         {
             SpawnRandomBalloon();
         }
-        StartCoroutine(SpawnBalloonWithInterval());
+        StartCoroutine(SpawnBalloonWithIntervalLong());
+    }
+    private IEnumerator SpawnBalloonWithIntervalShort()
+    {
+        yield return new WaitForSeconds(Random.Range(1f, 5f));
+        if (spawnedBalloons.Count <= spawnNumShort)
+        {
+            SpawnRandomBalloon();
+        }
+        StartCoroutine(SpawnBalloonWithIntervalShort());
     }
     private void SpawnRandomBalloon()
     {
