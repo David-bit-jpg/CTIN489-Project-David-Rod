@@ -47,6 +47,8 @@ public class GhostMovement : MonoBehaviour
         {
             if (GameObject.FindGameObjectWithTag("Player") && !isCaught)
             {
+                ghost.SetBool("IsFlying", false);
+                ghost.SetBool("IsAttacking", true);
                 isChasing = false;
                 StartCoroutine(WaitFiveSeconds());
                 isCaught = true;
@@ -54,6 +56,7 @@ public class GhostMovement : MonoBehaviour
         }
         else if (distanceToPlayer <= chaseDistance) //enter range, chase player
         {
+
             isCaught = false;
             Debug.Log("Chasing Player!!!");
             navMeshAgent.isStopped = false;
@@ -99,6 +102,7 @@ public class GhostMovement : MonoBehaviour
                 mPlayer.transform.position = transform.position + directionToPlayer * 3.5f;
             }
             mPlayer.SetCanMove(false);
+            ghost.SetBool("IsAttacking", false);
             ghost.SetBool("IsFlying", false);
             mPlayer.cameraControl.canMove = false;
             StartCoroutine(TurnCameraTowards(transform, 2.0f));
@@ -149,6 +153,7 @@ public class GhostMovement : MonoBehaviour
 
     private void StartChasing()
     {
+        ghost.SetBool("IsAttacking", false);
         ghost.SetBool("IsFlying", true);
         if (Time.time >= nextPlayTime)
         {
@@ -162,6 +167,7 @@ public class GhostMovement : MonoBehaviour
 
     private void StopChasing()
     {
+        ghost.SetBool("IsAttacking", true);
         ghost.SetBool("IsFlying", false);
         AudioSource.Stop();
         isChasing = false;//no chasing
