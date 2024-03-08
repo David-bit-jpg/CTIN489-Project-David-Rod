@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2911597060950134292}
   m_Layer: 10
   m_Name: Ghost_Bottom
-  m_TagString: Balloon
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -619,7 +619,7 @@ GameObject:
   - component: {fileID: 2911597060950134376}
   m_Layer: 10
   m_Name: Ghost_Top
-  m_TagString: Balloon
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -784,7 +784,7 @@ GameObject:
   - component: {fileID: 2911597060950134294}
   m_Layer: 10
   m_Name: Ghost_Middle
-  m_TagString: Balloon
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
