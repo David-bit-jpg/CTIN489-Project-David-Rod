@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -40,13 +41,21 @@ public class TaskManager : MonoBehaviour
     }
     public void RemoveTaskByType(TaskType taskType)
     {
-        foreach(var task in tasks)
+        var toRemove = new List<Task>();
+
+        foreach (var task in tasks)
         {
             if(task.Type == taskType)
             {
-                tasks.Remove(task);
+                toRemove.Add(task);
             }
         }
+
+        foreach (var item in toRemove)
+        {
+            tasks.Remove(item);
+        }
+            
         UpdateTaskText();
     }
 
