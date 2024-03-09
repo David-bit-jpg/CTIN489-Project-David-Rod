@@ -51,6 +51,12 @@ public class TaskManager : MonoBehaviour
             }
         }
 
+        if(toRemove.Count <= 0)
+        {
+            Debug.LogWarning("No tasks of type: " + taskType + " Found");
+            return;
+        }
+
         foreach (var item in toRemove)
         {
             tasks.Remove(item);
