@@ -7,7 +7,7 @@ public class FaceSpawner : MonoBehaviour
     public float minDistance = 2f; 
     public float maxDistance = 4f; 
     public float spawnInterval = 20f;
-    public int spawnNum = 5;
+    public int spawnNum = 4;
 
     PlayerMovement mPlayer;
     private List<Vector3> spawnedPositions = new List<Vector3>();
@@ -22,13 +22,13 @@ public class FaceSpawner : MonoBehaviour
     {
         while (true)
         {
+            yield return new WaitForSeconds(spawnInterval);
             spawnedPositions.Clear();
             for (int i = 0; i < spawnNum; i++)
             {
                 SpawnHorrorFaceNearPlayer();
                 yield return null;
             }
-            yield return new WaitForSeconds(spawnInterval);
         }
     }
 
@@ -50,7 +50,7 @@ public class FaceSpawner : MonoBehaviour
             Vector3 potentialSpawnPosition = playerPosition + randomDirection * distance;
             potentialSpawnPosition.y = Random.Range(1f, 2.5f);
             bool tooClose = false;
-            float minFaceDist = 5f;
+            float minFaceDist = 10f;
             foreach (Vector3 pos in spawnedPositions)
             {
                 if (Vector3.Distance(new Vector3(potentialSpawnPosition.x, 0, potentialSpawnPosition.z), new Vector3(pos.x, 0, pos.z)) < minFaceDist)
