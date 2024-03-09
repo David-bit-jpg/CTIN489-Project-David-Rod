@@ -38,6 +38,17 @@ public class TaskManager : MonoBehaviour
         tasks.Remove(task);
         UpdateTaskText();
     }
+    public void RemoveTaskByType(TaskType taskType)
+    {
+        foreach(var task in tasks)
+        {
+            if(task.Type == taskType)
+            {
+                tasks.Remove(task);
+            }
+        }
+        UpdateTaskText();
+    }
 
     void UpdateTaskText()
     {
@@ -50,11 +61,6 @@ public class TaskManager : MonoBehaviour
 
             if(task.Type == TaskType.BalloonTask)
             {
-                if(balloonSpawnerGood.balloonCount == 0)
-                {
-                    tasks.Remove(task);
-                    continue;
-                }
                 taskString = taskString + ": " + balloonSpawnerGood.spawnNum;
             }
 
