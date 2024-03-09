@@ -21,12 +21,18 @@ public class BalloonSpawnerGood : MonoBehaviour
     void Start()
     {
         StartCoroutine(SpawnBalloonWithInterval());
+        balloonCount = spawnNum;
     }
     void Update()
     {
         if (CheckForBreakedBalloons())
         {
             //yet to be done
+        }
+
+        if (balloonCount == 0)
+        {
+            TaskManager.Instance.RemoveTaskByType(TaskType.BalloonTask);
         }
     }
 

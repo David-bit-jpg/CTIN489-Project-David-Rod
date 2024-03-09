@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -38,6 +39,25 @@ public class TaskManager : MonoBehaviour
         tasks.Remove(task);
         UpdateTaskText();
     }
+    public void RemoveTaskByType(TaskType taskType)
+    {
+        var toRemove = new List<Task>();
+
+        foreach (var task in tasks)
+        {
+            if(task.Type == taskType)
+            {
+                toRemove.Add(task);
+            }
+        }
+
+        foreach (var item in toRemove)
+        {
+            tasks.Remove(item);
+        }
+            
+        UpdateTaskText();
+    }
 
     void UpdateTaskText()
     {
@@ -50,11 +70,6 @@ public class TaskManager : MonoBehaviour
 
             if(task.Type == TaskType.BalloonTask)
             {
-                if(balloonSpawnerGood.balloonCount == 0)
-                {
-                    tasks.Remove(task);
-                    continue;
-                }
                 taskString = taskString + ": " + balloonSpawnerGood.spawnNum;
             }
 
