@@ -38,9 +38,21 @@ public class FaceSpawner : MonoBehaviour
         {
             attempts++;
             Vector3 randomDirection = Random.insideUnitSphere.normalized;
+            randomDirection.y = Random.Range(1f, 2.5f);
             float distance = Random.Range(minDistance, maxDistance);
-            spawnPosition = playerPosition + randomDirection * distance;
-            spawnPosition.y = Random.Range(1f, 2.5f);
+
+            Vector3 tempSpawnPosition = playerPosition + randomDirection * distance;
+
+            tempSpawnPosition.x = Mathf.Clamp(tempSpawnPosition.x, -27.0f, 27.0f);
+            tempSpawnPosition.z = Mathf.Clamp(tempSpawnPosition.z, -27.0f, 27.0f);
+
+            float actualDistance = Vector3.Distance(new Vector3(tempSpawnPosition.x, playerPosition.y, tempSpawnPosition.z), playerPosition);
+            if (actualDistance < minDistance || actualDistance > maxDistance) {
+                continue;
+            }
+
+            spawnPosition = tempSpawnPosition;
+
             Bounds spawnBounds = new Bounds(spawnPosition, Vector3.one * 0.5f);
             positionInCameraView = GeometryUtility.TestPlanesAABB(cameraPlanes, spawnBounds);
 
@@ -57,6 +69,7 @@ public class FaceSpawner : MonoBehaviour
             Debug.Log("Failed to find a position outside the camera view after 100 attempts.");
         }
     }
+
     void AdjustPositionToNearestWall(GameObject horrorFace)
     {
         float minDistanceFromPlayer = 5.0f;
