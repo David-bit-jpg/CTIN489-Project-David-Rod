@@ -310,6 +310,7 @@ public class PlayerMovement : MonoBehaviour
                 if (doorController != null)
                 {
                     doorController.ToggleDoor();
+                    doorController.ToggleDoor();
                 }
                 break;
             case "Balloon":

@@ -60,13 +60,11 @@ public class GhostMovement : MonoBehaviour
             isCaught = false;
             Debug.Log("Chasing Player!!!");
             navMeshAgent.isStopped = false;
-            mPlayer.chased = true;
             StartChasing();
         }
         else if (distanceToPlayer > stopChaseDistance && isChasing)//if is chasing, player run out, stop
         {
             isCaught = false;
-            mPlayer.chased = false;
             Debug.Log("Stop Chasing");
             navMeshAgent.isStopped = false;
             StopChasing();

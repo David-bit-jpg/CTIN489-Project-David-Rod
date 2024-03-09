@@ -150,18 +150,9 @@ namespace MimicSpace
                 doorController.isProcessing = true;
                 doorController.ToggleDoor();//open
                 yield return new WaitForSeconds(4.0f);
-                CloseDoor(doorController);
                 doorController.isProcessing = false;
             }
             isDoor = false;
-            doorController.isProcessing = false;
-        }
-        void CloseDoor(DoorController doorController)
-        {
-            if (doorController != null)
-            {
-                doorController.ToggleDoor();
-            }
             doorController.isProcessing = false;
         }
         // private void CheckAndStopNearCage()
