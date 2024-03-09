@@ -25,8 +25,18 @@ public class Trap : MonoBehaviour
         if(Vector3.Distance(mimicMovement.transform.position, transform.position) <= 2.0f)
         {
             mimicMovement.isStop = true;
-            particleSystem.Play();
+            if (particleSystem.isStopped)
+            {
+                particleSystem.Play();
+            }
             TaskManager.Instance.RemoveTaskByType(TaskType.CaptuerTask);
+        }
+        else
+        {
+            if (!particleSystem.isStopped)
+            {
+                particleSystem.Stop();
+            }
         }
     }
 }
