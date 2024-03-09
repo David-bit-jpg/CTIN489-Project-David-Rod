@@ -13,7 +13,7 @@ namespace MimicSpace
         public GameObject ghostPlatform;
         [SerializeField] public float chaseDistance = 10f;
         public Transform cageTransform;
-        bool isStop = false;
+        public bool isStop = false;
         [SerializeField] public UniversalRendererData rendererData;
         private ScriptableRendererFeature vhsFeature;
         private float nextPlayTime = 0f;
