@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public class FaceSpawner : MonoBehaviour
 {
     public GameObject horrorFacePrefab; 
-    public float minDistance = 10f; 
-    public float maxDistance = 20f; 
+    public float minDistance = 1f; 
+    public float maxDistance = 2f; 
     public float spawnInterval = 20f;
 
     PlayerMovement mPlayer;
@@ -38,20 +38,14 @@ public class FaceSpawner : MonoBehaviour
         {
             attempts++;
             Vector3 randomDirection = Random.insideUnitSphere.normalized;
-            randomDirection.y = Random.Range(1f, 2.5f);
             float distance = Random.Range(minDistance, maxDistance);
+            spawnPosition = playerPosition + randomDirection * distance;
+            spawnPosition.y = Random.Range(1f, 2.5f);
+            if (spawnPosition.x > 27.0f) spawnPosition.x = 27.0f;
+            if (spawnPosition.x < -27.0f) spawnPosition.x = -27.0f;
 
-            Vector3 tempSpawnPosition = playerPosition + randomDirection * distance;
-
-            tempSpawnPosition.x = Mathf.Clamp(tempSpawnPosition.x, -27.0f, 27.0f);
-            tempSpawnPosition.z = Mathf.Clamp(tempSpawnPosition.z, -27.0f, 27.0f);
-
-            float actualDistance = Vector3.Distance(new Vector3(tempSpawnPosition.x, playerPosition.y, tempSpawnPosition.z), playerPosition);
-            if (actualDistance < minDistance || actualDistance > maxDistance) {
-                continue;
-            }
-
-            spawnPosition = tempSpawnPosition;
+            if (spawnPosition.z > 27.0f) spawnPosition.z = 27.0f;
+            if (spawnPosition.z < -27.0f) spawnPosition.z = -27.0f;
 
             Bounds spawnBounds = new Bounds(spawnPosition, Vector3.one * 0.5f);
             positionInCameraView = GeometryUtility.TestPlanesAABB(cameraPlanes, spawnBounds);
@@ -68,11 +62,11 @@ public class FaceSpawner : MonoBehaviour
         if (attempts >= 100) {
             Debug.Log("Failed to find a position outside the camera view after 100 attempts.");
         }
-    }
 
+    }
     void AdjustPositionToNearestWall(GameObject horrorFace)
     {
-        float minDistanceFromPlayer = 5.0f;
+        float minDistanceFromPlayer = 3.0f;
 
         RaycastHit[] hits = Physics.RaycastAll(horrorFace.transform.position, Vector3.down, Mathf.Infinity, LayerMask.GetMask("Wall"));
         if (hits.Length > 0)
@@ -99,6 +93,4 @@ public class FaceSpawner : MonoBehaviour
             Debug.Log("No walls detected.");
         }
     }
-
-
 }
