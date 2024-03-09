@@ -4,11 +4,13 @@ using System.Collections.Generic;
 public class FaceSpawner : MonoBehaviour
 {
     public GameObject horrorFacePrefab; 
-    public float minDistance = 1f; 
-    public float maxDistance = 2f; 
+    public float minDistance = 2f; 
+    public float maxDistance = 4f; 
     public float spawnInterval = 20f;
+    public int spawnNum = 5;
 
     PlayerMovement mPlayer;
+    private List<Vector3> spawnedPositions = new List<Vector3>();
 
     void Start()
     {
@@ -20,8 +22,13 @@ public class FaceSpawner : MonoBehaviour
     {
         while (true)
         {
+            spawnedPositions.Clear();
+            for (int i = 0; i < spawnNum; i++)
+            {
+                SpawnHorrorFaceNearPlayer();
+                yield return null;
+            }
             yield return new WaitForSeconds(spawnInterval);
-            SpawnHorrorFaceNearPlayer();
         }
     }
 
@@ -38,44 +45,56 @@ public class FaceSpawner : MonoBehaviour
         {
             attempts++;
             Vector3 randomDirection = Random.insideUnitSphere.normalized;
+            randomDirection.y = 0;
             float distance = Random.Range(minDistance, maxDistance);
-            spawnPosition = playerPosition + randomDirection * distance;
-            spawnPosition.y = Random.Range(1f, 2.5f);
-            if (spawnPosition.x > 27.0f) spawnPosition.x = 27.0f;
-            if (spawnPosition.x < -27.0f) spawnPosition.x = -27.0f;
+            Vector3 potentialSpawnPosition = playerPosition + randomDirection * distance;
+            potentialSpawnPosition.y = Random.Range(1f, 2.5f);
+            bool tooClose = false;
+            float minFaceDist = 5f;
+            foreach (Vector3 pos in spawnedPositions)
+            {
+                if (Vector3.Distance(new Vector3(potentialSpawnPosition.x, 0, potentialSpawnPosition.z), new Vector3(pos.x, 0, pos.z)) < minFaceDist)
+                {
+                    tooClose = true;
+                    break;
+                }
+            }
 
-            if (spawnPosition.z > 27.0f) spawnPosition.z = 27.0f;
-            if (spawnPosition.z < -27.0f) spawnPosition.z = -27.0f;
+            if (tooClose) continue; 
 
-            Bounds spawnBounds = new Bounds(spawnPosition, Vector3.one * 0.5f);
+            Bounds spawnBounds = new Bounds(potentialSpawnPosition, Vector3.one * 0.5f);
             positionInCameraView = GeometryUtility.TestPlanesAABB(cameraPlanes, spawnBounds);
 
             if (!positionInCameraView)
             {
-                GameObject horrorFaceInstance = Instantiate(horrorFacePrefab, spawnPosition, Quaternion.identity);
+                GameObject horrorFaceInstance = Instantiate(horrorFacePrefab, potentialSpawnPosition, Quaternion.identity);
                 AdjustPositionToNearestWall(horrorFaceInstance);
-                Debug.Log($"Spawned horror face at {spawnPosition}, distance: {distance}");
+                spawnedPositions.Add(potentialSpawnPosition);
+                Debug.Log($"Spawned horror face at {potentialSpawnPosition}, distance: {distance}");
                 break;
             }
         }
 
-        if (attempts >= 100) {
+        if (attempts >= 100)
+        {
             Debug.Log("Failed to find a position outside the camera view after 100 attempts.");
         }
-
     }
     void AdjustPositionToNearestWall(GameObject horrorFace)
     {
         float minDistanceFromPlayer = 3.0f;
-
         RaycastHit[] hits = Physics.RaycastAll(horrorFace.transform.position, Vector3.down, Mathf.Infinity, LayerMask.GetMask("Wall"));
+        Vector3 playerPosition = mPlayer.transform.position;
+        playerPosition.y = 0;
         if (hits.Length > 0)
         {
             foreach (var hit in hits)
             {
                 if (hit.collider.CompareTag("Wall"))
                 {
-                    float distanceFromPlayer = Vector3.Distance(hit.point, mPlayer.transform.position);
+                    Vector3 hitPosition = hit.point;
+                    hitPosition.y = 0; 
+                    float distanceFromPlayer = Vector3.Distance(hitPosition,playerPosition);
 
                     if (distanceFromPlayer >= minDistanceFromPlayer)
                     {
