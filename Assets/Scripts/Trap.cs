@@ -6,23 +6,23 @@ using UnityEngine;
 public class Trap : MonoBehaviour
 {
     ParticleSystem particleSystem;
+    Movement mimicMovement;
     // Start is called before the first frame update
     void Start()
     {
         particleSystem = GetComponentInChildren<ParticleSystem>();
         particleSystem.Stop();
+        mimicMovement = FindObjectOfType<Movement>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Movement mimicMovement = other.GetComponent<Movement>();
-        if (mimicMovement)
+        if (mimicMovement == null)
+        {
+            return;
+        }
+        if(Vector3.Distance(mimicMovement.transform.position, transform.position) <= 2.0f)
         {
             mimicMovement.isStop = true;
             particleSystem.Play();
