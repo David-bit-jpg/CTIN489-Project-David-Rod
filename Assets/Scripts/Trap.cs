@@ -22,7 +22,7 @@ public class Trap : MonoBehaviour
         {
             return;
         }
-        if(Vector3.Distance(mimicMovement.transform.position, transform.position) <= 2.0f)
+        if(Vector3.Distance(mimicMovement.transform.position, transform.position) <= 2.0f && mimicMovement.isChasing)
         {
             mimicMovement.isStop = true;
             if (particleSystem.isStopped)

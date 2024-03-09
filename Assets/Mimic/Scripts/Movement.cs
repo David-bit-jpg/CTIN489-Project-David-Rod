@@ -31,7 +31,7 @@ namespace MimicSpace
         NavMeshAgent navMeshAgent;
         // NavMeshAgent navMeshAgent;
         public bool isDead = false;
-        private bool isChasing = false;
+        public bool isChasing = false;
         private bool isRoaming = false;
         private float roamTimer = 0f;
         private float initialRoamTime = 10f;
