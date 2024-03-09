@@ -50,6 +50,11 @@ public class TaskManager : MonoBehaviour
 
             if(task.Type == TaskType.BalloonTask)
             {
+                if(balloonSpawnerGood.balloonCount == 0)
+                {
+                    tasks.Remove(task);
+                    continue;
+                }
                 taskString = taskString + ": " + balloonSpawnerGood.spawnNum;
             }
 
