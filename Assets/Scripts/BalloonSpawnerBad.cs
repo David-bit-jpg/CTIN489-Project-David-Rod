@@ -43,7 +43,7 @@ public class BalloonSpawnerBad : MonoBehaviour
         Vector3 playerRight = mPlayer.transform.right;
 
         float angle = Random.Range(-180, 180);
-        Vector3 randomDirection = Quaternion.Euler(0, angle, 0) * playerForward * Random.Range(0.5f, 6.0f);
+        Vector3 randomDirection = Quaternion.Euler(0, angle, 0) * playerForward * Random.Range(2.0f, 6.0f);
 
         if (angle > -45 && angle < 45)
         {
