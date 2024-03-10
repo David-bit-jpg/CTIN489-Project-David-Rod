@@ -24,7 +24,7 @@ public class CameraControl : MonoBehaviour
 
     void Update()
     {
-        if (canMove)
+        /*if (canMove)
         {
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
@@ -45,7 +45,9 @@ public class CameraControl : MonoBehaviour
                 timer = 0;
                 transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(transform.localPosition.y, originalYPos, Time.deltaTime * bobbingSpeed), transform.localPosition.z);
             }
-        }
+        }*/
+        Debug.Log(transform.rotation.eulerAngles.y);
+        playerBody.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
     }
 
     private void UpdateCameraRotation()

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
+using Cinemachine;
+
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Texts")]
@@ -81,6 +83,9 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 fixPos = Vector3.zero;
 
     ChargingStation chargingStation = null;
+
+    [SerializeField] Transform CharacterBodyTransform;
+    [SerializeField] CinemachineVirtualCamera VirtualCam;
     private void Awake()
     {
         currentStamina = maxStamina;
@@ -114,8 +119,8 @@ public class PlayerMovement : MonoBehaviour
             float moveZ = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");
-            Vector3 forward = transform.forward * moveZ;
-            Vector3 right = transform.right * moveX;
+            Vector3 forward = CharacterBodyTransform.forward * moveZ;
+            Vector3 right = CharacterBodyTransform.right * moveX;
 
             moveDirection = (forward + right).normalized;
 
@@ -257,6 +262,9 @@ public class PlayerMovement : MonoBehaviour
 
                 timerText.text = minutes + ":" + seconds;
             }
+
+            //Update Virual Cam
+            UpdateVirtualCamera();
         }
         if(killed)
         {
@@ -436,6 +444,19 @@ public class PlayerMovement : MonoBehaviour
         if (vhsEffectStatusText != null)
         {
             vhsEffectStatusText.gameObject.SetActive(isActive);
+        }
+    }
+
+    private void UpdateVirtualCamera()
+    {
+        CinemachineBasicMultiChannelPerlin VirtualCamNoise = VirtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        if (isRunning)
+        {
+            VirtualCamNoise.m_FrequencyGain = 5;
+        }
+        else
+        {
+            VirtualCamNoise.m_FrequencyGain = 2;
         }
     }
 
