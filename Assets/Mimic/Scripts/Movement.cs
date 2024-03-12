@@ -37,7 +37,7 @@ namespace MimicSpace
         private float initialRoamTime = 10f;
         private float lastChaseTime = 0f;
         private float stepInterval = 0f;
-        private bool isDragging = false;
+        private bool isAttacking = false;
         public float rayLength = 0.001f;
         float sphereRadius = 1f;
 
@@ -51,11 +51,6 @@ namespace MimicSpace
 
         private void Start()
         {
-            // GameObject lightGameObject = GameObject.FindGameObjectWithTag("MimicLight");
-            //     if (lightGameObject != null)
-            // {
-            //     importantLight = lightGameObject.GetComponent<Light>();
-            // }
             vhsFeature = rendererData.rendererFeatures.Find(feature => feature.name == "FullScreenPassRendererFeature");
             myMimic = GetComponentInChildren<Mimic>();
             mPlayer = FindObjectOfType<PlayerMovement>();
@@ -84,29 +79,27 @@ namespace MimicSpace
 
             if (distanceToPlayer <= 0.5f)
             {
-                if (GameObject.FindGameObjectWithTag("Player") && !isDragging)
+                if (GameObject.FindGameObjectWithTag("Player") && !isAttacking)
                 {
-                    isDragging = true;
+                    isAttacking = true;
                     isChasing = false;
                     isRoaming = false;
-                    if(!mPlayer.killed)
-                        StartCoroutine(FollowMimicWithDelay(GameObject.FindGameObjectWithTag("Player").transform));
                 }
             }
-            else if (distanceToPlayer <= chaseDistance && !isDragging) //enter range, chase player
+            else if (distanceToPlayer <= chaseDistance && !isAttacking) //enter range, chase player
             {
                 // Debug.Log("Chasing Player!!!");
                 navMeshAgent.isStopped = false;
                 StartChasing();
             }
-            else if (distanceToPlayer > stopChaseDistance && isChasing && !isDragging)//if is chasing, player run out, stop
+            else if (distanceToPlayer > stopChaseDistance && isChasing && !isAttacking)//if is chasing, player run out, stop
             {
                 // Debug.Log("Stop Chasing");
                 navMeshAgent.isStopped = false;
                 StopChasing();
                 // StartCoroutine(StopChasingWithDelay());
             }
-            else if (isRoaming && !isChasing && !isDragging)//no chasing,roaming
+            else if (isRoaming && !isChasing && !isAttacking)//no chasing,roaming
             {
                 // Debug.Log("Start Roam");
                 navMeshAgent.isStopped = false;
@@ -155,26 +148,6 @@ namespace MimicSpace
             isDoor = false;
             doorController.isProcessing = false;
         }
-        // private void CheckAndStopNearCage()
-        // {
-
-        //     Vector3 cagePosition = new Vector3(); 
-        //     float stoppingDistance = 5f;
-
-        //     if (Vector3.Distance(transform.position, cagePosition) <= stoppingDistance)
-        //     {
-        //         navMeshAgent.isStopped = true;
-        //         isStop = true;
-        //     }
-        // }
-
-        // private void RestartNavigation(Vector3 newDestination)
-        // {
-        //     navMeshAgent.isStopped = false;
-        //     navMeshAgent.SetDestination(newDestination);
-        // }
-
-
         private void StartChasing()
         {
             // EnableVHSFeature();
@@ -301,65 +274,6 @@ namespace MimicSpace
             isRoaming = true;
         }
 
-        private IEnumerator FollowMimicWithDelay(Transform playerTransform)
-        {
-            // Color originalColor = Color.white;
-            // if (importantLight != null)
-            // {
-            //     originalColor = importantLight.color;
-            //     importantLight.color = Color.red;
-            // }
-            Collider playerCollider = playerTransform.GetComponent<Collider>();
-            if (playerCollider != null)
-            {
-                playerCollider.enabled = false;
-            }
-            if (ghostPlatform != null)
-            {
-                ghostPlatform.GetComponent<Collider>().enabled = true;
-            }
-            PlayerMovement playerMovement = playerTransform.GetComponent<PlayerMovement>();
-            Transform FlashLightTransform = GameObject.FindGameObjectWithTag("FlashLight").transform;
-            FlashManager flashManager = FlashLightTransform.GetComponent<FlashManager>();
-            if (playerMovement != null)
-            {
-                playerMovement.SetCanMove(false);
-                flashManager.SetCanMove(false);
-                StartCoroutine(ReduceDrainTimeCoroutine(playerMovement, flashManager, 2.0f, 10.0f));
-
-            }
-
-            yield return new WaitForSeconds(0.5f);
-
-            Vector3 destination = RandomNavMeshLocation(roamDistance);
-            navMeshAgent.SetDestination(destination);
-            float startTime = Time.time;
-            while (Time.time - startTime < 10f)
-            {
-                playerTransform.position = Vector3.Lerp(playerTransform.position, this.transform.position, Time.deltaTime * navMeshAgent.speed);
-                yield return null;
-            }
-            if (playerCollider != null)
-            {
-                playerCollider.enabled = true;
-            }
-            if (ghostPlatform != null)
-            {
-                ghostPlatform.GetComponent<Collider>().enabled = false;
-            }
-            if (playerMovement != null)
-            {
-                playerMovement.SetCanMove(true);
-            }
-            if (flashManager != null)
-            {
-                flashManager.SetCanMove(true);
-            }
-
-            yield return new WaitForSeconds(10f);
-            isDragging = false;
-
-        }
         private IEnumerator ReduceDrainTimeCoroutine(PlayerMovement playerMovement, FlashManager flashManager, float targetFactor, float duration)
         {
             if (playerMovement == null || flashManager == null) yield break;
