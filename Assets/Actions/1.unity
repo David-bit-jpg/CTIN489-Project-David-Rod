@@ -6016,9 +6016,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0ba22986a1af554791e80503075c599, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  importantLight: {fileID: 0}
   ghostPlatform: {fileID: 888638992}
   chaseDistance: 8
+  cageTransform: {fileID: 0}
+  isStop: 0
   rendererData: {fileID: 11400000, guid: 3b12d022ce37c094abaefbcd68d8c571, type: 2}
   stopChaseDistance: 10
   vhsMaterial: {fileID: 2100000, guid: d2358786ae41c4bef826a9f213ee27b2, type: 2}
@@ -6028,6 +6029,8 @@ MonoBehaviour:
   WaitingTime: 5
   volume: 0.6
   isDead: 0
+  isChasing: 0
+  rayLength: 0.001
 --- !u!43 &506190896
 Mesh:
   m_ObjectHideFlags: 0
@@ -11467,7 +11470,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.1
+  m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 2a0cd116636c38445b217cbee59a2941, type: 2}
   m_BuildHeightMesh: 0

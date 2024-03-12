@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3044385525848750196}
   - component: {fileID: 2241761111138603876}
   - component: {fileID: 3252704332097283233}
+  - component: {fileID: 8813220239845807032}
   m_Layer: 0
   m_Name: Area Light
   m_TagString: Untagged
@@ -118,6 +119,24 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!220 &8813220239845807032
+LightProbeGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4911665391653906742}
+  m_Enabled: 1
+  m_SourcePositions:
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: -1}
+  - {x: 1, y: -1, z: 1}
+  - {x: 1, y: -1, z: -1}
+  - {x: -1, y: 1, z: 1}
+  - {x: -1, y: 1, z: -1}
+  - {x: -1, y: -1, z: 1}
+  - {x: -1, y: -1, z: -1}
+  m_Dering: 1
 --- !u!1 &9143150844343388356
 GameObject:
   m_ObjectHideFlags: 0
