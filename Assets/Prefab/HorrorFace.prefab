@@ -570,6 +570,7 @@ GameObject:
   m_Component:
   - component: {fileID: 893607050545250341}
   - component: {fileID: -7867682825222809686}
+  - component: {fileID: 3374204815523271213}
   m_Layer: 0
   m_Name: HorrorFace
   m_TagString: Untagged
@@ -587,7 +588,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6048333690358957543}
@@ -605,7 +606,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a94206a82ab514804afc820aefe75cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 10
+  lifetime: 15
+--- !u!65 &3374204815523271213
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6419184853081239028}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9908099, y: 0.43937635, z: 0.21273552}
+  m_Center: {x: 0.039323725, y: -0.004559636, z: -0.06887862}
 --- !u!1 &7391753059385661561
 GameObject:
   m_ObjectHideFlags: 0
