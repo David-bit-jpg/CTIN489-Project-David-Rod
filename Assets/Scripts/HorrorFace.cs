@@ -28,8 +28,4 @@ public class HorrorFace : MonoBehaviour
             transform.rotation = lookRotation;
         }
     }
-    void OnTriggerEnter(Collider other)
-    {
-        shouldRotate = false;
-    }
 }
