@@ -4,10 +4,10 @@ using System.Collections.Generic;
 public class FaceSpawner : MonoBehaviour
 {
     public GameObject horrorFacePrefab; 
-    public float minDistance = 2f; 
-    public float maxDistance = 4f; 
-    public float spawnInterval = 20f;
-    public int spawnNum = 4;
+    public float minDistance; 
+    public float maxDistance; 
+    public float spawnInterval;
+    public int spawnNum;
 
     PlayerMovement mPlayer;
     private List<Vector3> spawnedPositions = new List<Vector3>();
@@ -48,7 +48,7 @@ public class FaceSpawner : MonoBehaviour
             randomDirection.y = 0;
             float distance = Random.Range(minDistance, maxDistance);
             Vector3 potentialSpawnPosition = playerPosition + randomDirection * distance;
-            potentialSpawnPosition.y = Random.Range(1f, 2.5f);
+            potentialSpawnPosition.y = Random.Range(1.5f, 2.5f);
             bool tooClose = false;
             float minFaceDist = 10f;
             foreach (Vector3 pos in spawnedPositions)
