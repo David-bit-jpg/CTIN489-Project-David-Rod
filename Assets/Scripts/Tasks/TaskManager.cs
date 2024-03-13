@@ -73,7 +73,7 @@ public class TaskManager : MonoBehaviour
         UpdateTaskText();
     }
 
-    void UpdateTaskText()
+    public void UpdateTaskText()
     {
         //first clear the task text 
         taskTexts.text = "";
@@ -84,7 +84,7 @@ public class TaskManager : MonoBehaviour
 
             if(task.Type == TaskType.BalloonTask)
             {
-                taskString = taskString + ": " + balloonSpawnerGood.spawnNum;
+                taskString = taskString + ": " + balloonSpawnerGood.balloonCount;
             }
 
             taskString += "\n";
