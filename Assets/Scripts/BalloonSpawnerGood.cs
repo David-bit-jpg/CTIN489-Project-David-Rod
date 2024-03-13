@@ -13,18 +13,36 @@ public class BalloonSpawnerGood : MonoBehaviour
     [SerializeField] public float xMin = -27.0f, xMax = 27.0f;
     [SerializeField] public float zMin = -27.0f, zMax = 27.0f;
     [SerializeField] public int spawnNum = 7;
+    [SerializeField] string TaskDescription;
     public int balloonCount;
     public float safeDistance = 0.4f;
     PlayerMovement mPlayer;
+    Task balloonTask;
 
     private List<GameObject> spawnedBalloons = new List<GameObject>();
     void Start()
     {
-        StartCoroutine(SpawnBalloonWithInterval());
         balloonCount = spawnNum;
+
+        //spawn balloons
+        for(int i = 0; i < spawnNum;)
+        {
+            if (SpawnRandomBalloon())
+            {
+                i++;
+            }
+        }
+
+        balloonTask = new Task(TaskDescription, TaskType.BalloonTask);
+        TaskManager.Instance.AddTask(balloonTask);
     }
     void Update()
     {
+        if(spawnNum == 0)
+        {
+            Debug.LogWarning("Balloon Spawner has zero spawned ballons");
+        }
+
         if (CheckForBreakedBalloons())
         {
             //yet to be done
@@ -32,20 +50,12 @@ public class BalloonSpawnerGood : MonoBehaviour
 
         if (balloonCount == 0)
         {
-            TaskManager.Instance.RemoveTaskByType(TaskType.BalloonTask);
+            //remove this task
+            TaskManager.Instance.RemoveTask(balloonTask);
         }
     }
 
-    private IEnumerator SpawnBalloonWithInterval()
-    {
-        yield return new WaitForSeconds(Random.Range(0f, 1f));
-        if (spawnedBalloons.Count <= spawnNum)
-        {
-            SpawnRandomBalloon();
-            StartCoroutine(SpawnBalloonWithInterval());
-        }
-    }
-    private void SpawnRandomBalloon()
+    private bool SpawnRandomBalloon()
     {
         GameObject[] balloons = new GameObject[] { redBalloon, pinkBalloon, yellowBalloon };
         int index = Random.Range(0, balloons.Length);
@@ -75,7 +85,9 @@ public class BalloonSpawnerGood : MonoBehaviour
         else
         {
             Debug.Log("Failed to find a valid spawn position for the balloon.");
+            return false;
         }
+        return true;
     }
     bool CheckForBreakedBalloons()
     {
