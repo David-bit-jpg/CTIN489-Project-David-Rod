@@ -269,6 +269,14 @@ public class PlayerMovement : MonoBehaviour
         if(killed)
         {
             transform.position = fixPos;
+
+            LevelManager.Instance.ShowRestartText();
+
+            //Restart Level
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                LevelManager.Instance.RestartLevel();
+            }
         }
     }
     IEnumerator ToggleStateCoroutine()
