@@ -1311,11 +1311,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   taskTexts: {fileID: 8097188782557603113}
-  tasks:
-  - TaskDescription: Destory all ballons
-    Type: 0
-  - TaskDescription: Destory all ballons
-    Type: 0
 --- !u!1 &3004064951704061876
 GameObject:
   m_ObjectHideFlags: 0
