@@ -620,7 +620,6 @@ GameObject:
   - component: {fileID: 893607050545250341}
   - component: {fileID: 4476216056912419364}
   - component: {fileID: 3059425294186570319}
-  - component: {fileID: 5245514847265655977}
   m_Layer: 0
   m_Name: PartyGore
   m_TagString: Untagged
@@ -659,10 +658,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 3059425294186570319}
   animator: {fileID: 774462481437476436}
-  wanderRadius: 50
+  wanderRadius: 100
   pauseTimeMin: 4
   pauseTimeMax: 8
-  rayLength: 10
+  rayLength: 5
 --- !u!195 &3059425294186570319
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -673,7 +672,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 1
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -685,27 +684,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!65 &5245514847265655977
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6419184853081239028}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.0055115, y: 3.5824616, z: 0.7040073}
-  m_Center: {x: -0.015272895, y: 0.79272664, z: 0.024005273}
 --- !u!1 &7531295158149633415
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,11 +981,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2911597060502401786, guid: 69dfa58ea702c41448c6f06728744d03, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.9
+      value: -0.56
       objectReference: {fileID: 0}
     - target: {fileID: 2911597060502401786, guid: 69dfa58ea702c41448c6f06728744d03, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.47
+      value: 2.97
       objectReference: {fileID: 0}
     - target: {fileID: 2911597060502401786, guid: 69dfa58ea702c41448c6f06728744d03, type: 3}
       propertyPath: m_LocalPosition.z

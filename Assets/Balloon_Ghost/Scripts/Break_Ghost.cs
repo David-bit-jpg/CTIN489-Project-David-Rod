@@ -9,6 +9,8 @@ public class Break_Ghost : MonoBehaviour
     public GameObject ghost_Parts;
     public Animator ghost;
     int counter;
+
+    public bool isPicked = false;
     BalloonSpawnerGood balloonSpawner;
     // Start is called before the first frame update
     void Start()
@@ -21,7 +23,7 @@ public class Break_Ghost : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(transform.position.y<= 2.2f)
+        if(transform.position.y<= 2.2f && !isPicked)
             transform.position = new Vector3(transform.position.x, transform.position.y+0.002f, transform.position.z);
         if(Is_Breaked == true)
         {
