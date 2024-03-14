@@ -130,24 +130,32 @@ namespace MimicSpace
             }
         }
 
-        IEnumerator InteractWithDoor(RaycastHit hit)
+    IEnumerator InteractWithDoor(RaycastHit hit)
+    {
+        isDoor = true;
+        if(isChasing)
+            yield return new WaitForSeconds(1.0f);
+        else
+            yield return new WaitForSeconds(0.1f);
+        DoorController doorController = hit.collider.GetComponent<DoorController>();
+        if (doorController != null)
         {
-            isDoor = true;
-            if(isChasing)
-                yield return new WaitForSeconds(1.0f);
-            else
-                yield return new WaitForSeconds(0.1f);
-            DoorController doorController = hit.collider.GetComponent<DoorController>();
-            if (doorController != null && !doorController.isOpening && !doorController.isProcessing)
-            {
-                // doorController.isProcessing = true; 
-                doorController.ToggleDoor();//open
-                // yield return new WaitForSeconds(4.0f);
-                // doorController.isProcessing = false;
-            }
-            isDoor = false;
-            doorController.isProcessing = false;
+
+            Debug.Log("Want Door");
+            doorController.ToggleDoor();//open
+            StartCoroutine(CloseDoor(doorController));
         }
+        yield return new WaitForSeconds(4.0f);
+        isDoor = false;
+    }
+    IEnumerator CloseDoor(DoorController doorController)
+    {
+        yield return new WaitForSeconds(3.0f);
+        if(doorController.isOpened)
+        {
+            doorController.ToggleDoor();
+        }
+    }
         private void StartChasing()
         {
             // EnableVHSFeature();
