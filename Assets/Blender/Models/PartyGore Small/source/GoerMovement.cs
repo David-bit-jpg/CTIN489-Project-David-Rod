@@ -82,10 +82,10 @@ public class GoerMovement : MonoBehaviour
         DoorController doorController = hit.collider.GetComponent<DoorController>();
         if (doorController != null && !doorController.isOpening && !doorController.isProcessing)
         {
-            doorController.isProcessing = true;
+            // doorController.isProcessing = true;
             doorController.ToggleDoor();//open
-            yield return new WaitForSeconds(4.0f);
-            doorController.isProcessing = false;
+            // yield return new WaitForSeconds(4.0f);
+            // doorController.isProcessing = false;
         }
         isDoor = false;
         doorController.isProcessing = false;

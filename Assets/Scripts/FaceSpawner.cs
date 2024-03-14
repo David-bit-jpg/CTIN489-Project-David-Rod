@@ -70,14 +70,8 @@ public class FaceSpawner : MonoBehaviour
                 GameObject horrorFaceInstance = Instantiate(horrorFacePrefab, potentialSpawnPosition, Quaternion.identity);
                 AdjustPositionToNearestWall(horrorFaceInstance);
                 spawnedPositions.Add(potentialSpawnPosition);
-                Debug.Log($"Spawned horror face at {potentialSpawnPosition}, distance: {distance}");
                 break;
             }
-        }
-
-        if (attempts >= 100)
-        {
-            Debug.Log("Failed to find a position outside the camera view after 100 attempts.");
         }
     }
     void AdjustPositionToNearestWall(GameObject horrorFace)
@@ -104,12 +98,6 @@ public class FaceSpawner : MonoBehaviour
                     }
                 }
             }
-
-            Debug.Log("All walls are too close to the player.");
-        }
-        else
-        {
-            Debug.Log("No walls detected.");
         }
     }
 }
