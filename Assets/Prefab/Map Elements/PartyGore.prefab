@@ -659,9 +659,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 3059425294186570319}
   animator: {fileID: 774462481437476436}
-  wanderRadius: 10
-  pauseTimeMin: 2
-  pauseTimeMax: 5
+  wanderRadius: 50
+  pauseTimeMin: 4
+  pauseTimeMax: 8
+  rayLength: 10
 --- !u!195 &3059425294186570319
 NavMeshAgent:
   m_ObjectHideFlags: 0

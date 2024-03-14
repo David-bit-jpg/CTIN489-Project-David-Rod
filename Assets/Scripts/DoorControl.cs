@@ -91,6 +91,7 @@ public class DoorController : MonoBehaviour
         if (navMeshLink != null)
         {
             bool shouldLinkBeEnabled = !isOpened && !navMeshLink.enabled;
+
             bool shouldLinkBeDisabled = isOpened && navMeshLink.enabled;
 
             if (shouldLinkBeEnabled)
