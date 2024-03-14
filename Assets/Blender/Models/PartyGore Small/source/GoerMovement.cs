@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.AI; // 引入 Unity AI 命名空间
 
 public class GoerMovement : MonoBehaviour
 {
     public NavMeshAgent agent;
-    public float wanderRadius = 50f;
+    public Animator animator;
+    public float wanderRadius = 10f;
+    public float pauseTimeMin = 2f;
+    public float pauseTimeMax = 5f;
+    private float nextMoveTime;
 
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
         MoveToNewRandomPosition();
     }
 
@@ -20,11 +25,19 @@ public class GoerMovement : MonoBehaviour
     {
         if (!agent.pathPending && agent.remainingDistance < 0.5f)
         {
-            NewRandomPosition();
+            if (Time.time >= nextMoveTime)
+            {
+                MoveToNewRandomPosition();
+                animator.SetBool("IsWalking", true);
+            }
+            else
+            {
+                animator.SetBool("IsWalking", false);
+            }
         }
     }
 
-    void NewRandomPosition()
+    void MoveToNewRandomPosition()
     {
         Vector3 randomDirection = Random.insideUnitSphere * wanderRadius;
         randomDirection += transform.position;
@@ -35,5 +48,7 @@ public class GoerMovement : MonoBehaviour
             finalPosition = hit.position;
         }
         agent.SetDestination(finalPosition);
+
+        nextMoveTime = Time.time + Random.Range(pauseTimeMin, pauseTimeMax);
     }
 }
