@@ -8,7 +8,8 @@ public enum TaskType
 {
     BalloonTask,
     CaptuerTask,
-    PhotagraphyTask
+    PhotagraphyTask,
+    Exit
 }
 
 [Serializable]
@@ -40,6 +41,10 @@ public class Task
             case TaskType.PhotagraphyTask:
                 //TODO: do something when task is finished
                 Debug.Log("Photagraphy Task is finished. " + TaskDescription);
+                break;
+            case TaskType.Exit:
+                //TODO: do something when task is finished
+                Debug.Log("Exit Task is finished. " + TaskDescription);
                 break;
         }
     }
