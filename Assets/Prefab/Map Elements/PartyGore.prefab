@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 18960213648423668}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -1.056979, y: 0.48060787, z: 0.000000059604645}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 42.29697, y: 42.29697, z: 42.29697}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -181,6 +181,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 884261094399307643}
+  - component: {fileID: 774462481437476436}
   m_Layer: 0
   m_Name: PartyGoer_v3
   m_TagString: Untagged
@@ -197,14 +198,35 @@ Transform:
   m_GameObject: {fileID: 508438827093603777}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalPosition: {x: 1.06, y: 1.19, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8139503801812238309}
   - {fileID: 4049897517773714462}
   m_Father: {fileID: 893607050545250341}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &774462481437476436
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508438827093603777}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 06d197f3d73974d3e804e164ec00f15f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1110786294709881358
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,11 +618,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 893607050545250341}
-  - component: {fileID: -3087653960981679644}
-  - component: {fileID: 7178487950372295173}
   - component: {fileID: 4476216056912419364}
   - component: {fileID: 3059425294186570319}
-  - component: {fileID: 4532651614101333616}
+  - component: {fileID: 5245514847265655977}
   m_Layer: 0
   m_Name: PartyGore
   m_TagString: Untagged
@@ -618,61 +638,13 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8414411124309711106}
   - {fileID: 884261094399307643}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!95 &-3087653960981679644
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6419184853081239028}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 06d197f3d73974d3e804e164ec00f15f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!54 &7178487950372295173
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6419184853081239028}
-  serializedVersion: 4
-  m_Mass: 100
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &4476216056912419364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -686,7 +658,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 3059425294186570319}
-  animator: {fileID: -3087653960981679644}
+  animator: {fileID: 774462481437476436}
   wanderRadius: 10
   pauseTimeMin: 2
   pauseTimeMax: 5
@@ -699,7 +671,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 6419184853081239028}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.4
+  m_Radius: 1
   m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
@@ -708,12 +680,12 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.3
-  m_BaseOffset: 0.39
+  m_Height: 3.5
+  m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!136 &4532651614101333616
-CapsuleCollider:
+--- !u!65 &5245514847265655977
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -730,11 +702,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1.4695851
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.25760216, z: -0}
+  serializedVersion: 3
+  m_Size: {x: 2.0055115, y: 3.5824616, z: 0.7040073}
+  m_Center: {x: -0.015272895, y: 0.79272664, z: 0.024005273}
 --- !u!1 &7531295158149633415
 GameObject:
   m_ObjectHideFlags: 0

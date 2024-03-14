@@ -16,7 +16,7 @@ public class GoerMovement : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        // animator = GetComponent<Animator>();
         MoveToNewRandomPosition();
     }
 
