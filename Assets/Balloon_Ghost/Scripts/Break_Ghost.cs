@@ -9,11 +9,13 @@ public class Break_Ghost : MonoBehaviour
     public GameObject ghost_Parts;
     public Animator ghost;
     int counter;
+    BalloonSpawnerGood balloonSpawner;
     // Start is called before the first frame update
     void Start()
     {
         ghost_normal.SetActive(true);
         ghost_Parts.SetActive(false);
+        balloonSpawner = FindObjectOfType<BalloonSpawnerGood>();
     }
 
     // Update is called once per frame
@@ -23,13 +25,14 @@ public class Break_Ghost : MonoBehaviour
             transform.position = new Vector3(transform.position.x, transform.position.y+0.002f, transform.position.z);
         if(Is_Breaked == true)
         {
+            balloonSpawner.balloonCount --;
+            TaskManager.Instance.UpdateTaskText();
+
             ghost_Parts.SetActive(true);
+            ghost_Parts.transform.parent = null;
             ghost_normal.SetActive(false);
             transform.position = new Vector3(transform.position.x, transform.position.y-0.001f, transform.position.z);
-            if(transform.position.y <= -1.0f)
-            {
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
         
     }

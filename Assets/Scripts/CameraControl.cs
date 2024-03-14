@@ -46,7 +46,6 @@ public class CameraControl : MonoBehaviour
         //         transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(transform.localPosition.y, originalYPos, Time.deltaTime * bobbingSpeed), transform.localPosition.z);
         //     }
         // }
-        Debug.Log(transform.rotation.eulerAngles.y);
         playerBody.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
     }
 

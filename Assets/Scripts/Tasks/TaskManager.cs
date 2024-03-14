@@ -8,7 +8,7 @@ using UnityEngine;
 public class TaskManager : MonoBehaviour
 {
     [SerializeField] TextMeshPro taskTexts;
-    [SerializeField] private List<Task> tasks = new List<Task>();
+    private List<Task> tasks = new List<Task>();
     public List<Task> GetAllTasks() { return tasks; }
     public static TaskManager Instance;
     BalloonSpawnerGood balloonSpawnerGood;
@@ -34,8 +34,15 @@ public class TaskManager : MonoBehaviour
         
     }
 
+    public void AddTask(Task task)
+    {
+        tasks.Add(task);
+        UpdateTaskText();
+    }
+
     public void RemoveTask(Task task)
     {
+        task.taskFinish();
         tasks.Remove(task);
         UpdateTaskText();
     }
@@ -59,13 +66,14 @@ public class TaskManager : MonoBehaviour
 
         foreach (var item in toRemove)
         {
+            item.taskFinish();
             tasks.Remove(item);
         }
             
         UpdateTaskText();
     }
 
-    void UpdateTaskText()
+    public void UpdateTaskText()
     {
         //first clear the task text 
         taskTexts.text = "";
@@ -76,7 +84,7 @@ public class TaskManager : MonoBehaviour
 
             if(task.Type == TaskType.BalloonTask)
             {
-                taskString = taskString + ": " + balloonSpawnerGood.spawnNum;
+                taskString = taskString + ": " + balloonSpawnerGood.balloonCount;
             }
 
             taskString += "\n";

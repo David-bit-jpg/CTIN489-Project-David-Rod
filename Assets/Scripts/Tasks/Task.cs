@@ -24,8 +24,24 @@ public class Task
         taskManager = TaskManager.Instance;
         Type = type;
     }
-    public void removeTask() { 
-        taskManager.RemoveTask(this);
+
+    public void taskFinish()
+    {
+        switch (Type)
+        {
+            case TaskType.BalloonTask:
+                //TODO: do something when task is finished
+                Debug.Log("Ballon Task is finished. " + TaskDescription);
+                break;
+            case TaskType.CaptuerTask:
+                //TODO: do something when task is finished
+                Debug.Log("Captuer Task is finished. " + TaskDescription);
+                break;
+            case TaskType.PhotagraphyTask:
+                //TODO: do something when task is finished
+                Debug.Log("Photagraphy Task is finished. " + TaskDescription);
+                break;
+        }
     }
 
 }
