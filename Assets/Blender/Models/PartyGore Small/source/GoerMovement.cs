@@ -80,15 +80,23 @@ public class GoerMovement : MonoBehaviour
         else
             yield return new WaitForSeconds(0.1f);
         DoorController doorController = hit.collider.GetComponent<DoorController>();
-        if (doorController != null && !doorController.isOpening && !doorController.isProcessing)
+        if (doorController != null)
         {
-            // doorController.isProcessing = true;
+
+            Debug.Log("Want Door");
             doorController.ToggleDoor();//open
-            // yield return new WaitForSeconds(4.0f);
-            // doorController.isProcessing = false;
+            StartCoroutine(CloseDoor(doorController));
         }
+        yield return new WaitForSeconds(4.0f);
         isDoor = false;
-        doorController.isProcessing = false;
+    }
+    IEnumerator CloseDoor(DoorController doorController)
+    {
+        yield return new WaitForSeconds(3.0f);
+        if(doorController.isOpened)
+        {
+            doorController.ToggleDoor();
+        }
     }
 
     void MoveToNewRandomPosition()
