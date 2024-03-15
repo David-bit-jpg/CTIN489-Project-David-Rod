@@ -22,17 +22,19 @@ public class GoerMovement : MonoBehaviour
     bool isChasing = false;
     private GameObject currentTargetBalloon = null;
     private GameObject pickedUpBalloon = null;
-
     private bool hasPickedUpBalloon = false;
-
     public float chaseEndDistance = 6.0f;
+    private bool isMovingToObject = false;
+    private GameObject targetObject = null;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator.SetBool("IsWalking", false);
+        animator.SetBool("IsChasing", false);
+        animator.SetBool("IsEating", false);
         nextMoveTime = Time.time + Random.Range(pauseTimeMin, pauseTimeMax);
         currentBalloonSearchTime = Time.time + balloonSearchTimer;
-        
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         if (playerObject != null)
         {
@@ -42,27 +44,45 @@ public class GoerMovement : MonoBehaviour
 
     void Update()
     {
-        if(hasPickedUpBalloon && pickedUpBalloon)
+        if(animator.GetBool("IsWalking") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
         {
-            StartChase();
+            animator.Play("Walk");
         }
-        if (isChasing)
+        if(animator.GetBool("IsChasing") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
         {
-            if (Vector3.Distance(transform.position, playerTransform.position) > chaseEndDistance)
+            animator.Play("Run");
+        }
+        if (animator.GetBool("IsEating")) return;
+        DetectObjectsOnGround();
+        DetectBreakBalloon();
+        if (isMovingToObject && !agent.pathPending && agent.remainingDistance < 0.5f)
+        {
+            if (targetObject != null)
             {
-                StopChase();
+                StartCoroutine(ConsumeObject(targetObject));
+                targetObject = null;
             }
-            else
-            {
-                ChasePlayer();
-            }
+            isMovingToObject = false;
         }
         else
         {
+            if (hasPickedUpBalloon && pickedUpBalloon == null)
+            {
+                StartChase();
+            }
+            if (isChasing && Vector3.Distance(transform.position, playerTransform.position) > chaseEndDistance)
+            {
+                StopChase();
+            }
+            else if(isChasing)
+            {
+                ChasePlayer();
+            }
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
             {
                 if (Time.time >= nextMoveTime)
                 {
+                    Debug.Log("Random Roam");
                     MoveToNewRandomPosition();
                     animator.SetBool("IsWalking", true);
                 }
@@ -70,6 +90,7 @@ public class GoerMovement : MonoBehaviour
                 {
                     if (playerTransform != null)
                     {
+                        Debug.Log("Stop and look");
                         TurnTowards(playerTransform.position); 
                     }
                     animator.SetBool("IsWalking", false);
@@ -77,11 +98,13 @@ public class GoerMovement : MonoBehaviour
 
                 if (Time.time >= currentBalloonSearchTime)
                 {
+                    Debug.Log("Time to find balloon");
                     FindNearestBalloon();
                     currentBalloonSearchTime = Time.time + balloonSearchTimer;
                 }
                 if (currentTargetBalloon != null && !agent.pathPending && agent.remainingDistance < 0.5f)
                 {
+                    Debug.Log("Picking up");
                     StartCoroutine(PickupBalloon(currentTargetBalloon));
                     currentTargetBalloon = null; 
                 }
@@ -94,36 +117,120 @@ public class GoerMovement : MonoBehaviour
         if (playerTransform != null)
         {
             agent.SetDestination(playerTransform.position);
+            ResetAnimationStates();
             animator.SetBool("IsChasing", true);
         }
     }
     void StartChase()
     {
-        isChasing = true;
-        agent.speed += 1.5f; // 增加速度
-        animator.SetBool("IsChasing", true);
-        currentBalloonSearchTime = float.MaxValue; // 停止寻找气球和丢气球的计时
+        if (!isChasing)
+        {
+            Debug.Log("Chase started because balloon broke");
+            isChasing = true;
+            agent.speed += 0.5f;
+            ResetAnimationStates();
+            animator.SetBool("IsChasing", true);
+            currentBalloonSearchTime = float.MaxValue;
+        }
     }
 
     void StopChase()
     {
-        isChasing = false;
-        animator.SetBool("IsChasing", false);
-        agent.speed -= 1.5f; // 恢复速度
-        nextMoveTime = Time.time + Random.Range(pauseTimeMin, pauseTimeMax); // 重置走路计时
-        currentBalloonSearchTime = Time.time + balloonSearchTimer; // 重置寻找和丢气球计时
-        if (pickedUpBalloon != null)
+        if (isChasing)
         {
-            // 随机确定丢气球等待时间
-            float waitTime = Random.Range(20f, 30f);
-            StartCoroutine(DropBalloon(pickedUpBalloon, waitTime));
+            Debug.Log("Chase stopped because player is far away");
+            isChasing = false;
+            agent.speed -= 0.5f;
+            ResetAnimationStates();
+            animator.SetBool("IsWalking", true);
+            nextMoveTime = Time.time + Random.Range(pauseTimeMin, pauseTimeMax);
+            currentBalloonSearchTime = Time.time + balloonSearchTimer;
+            pickedUpBalloon = null;
         }
     }
+    void DetectObjectsOnGround()
+    {
+        float detectionRadius = 5.0f; 
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius);
+
+        foreach (var hitCollider in hitColliders)
+        {
+            // if (hitCollider.CompareTag("BrokenBalloon") || hitCollider.CompareTag("GlowStick"))
+            if (hitCollider.CompareTag("GlowStick"))
+            {
+                GlowStickManager gsm = hitCollider.GetComponent<GlowStickManager>();
+                gsm.isTaken = true;
+                Debug.Log("Detected " + hitCollider.tag + " within range");
+                if (!isMovingToObject)
+                {
+                    agent.SetDestination(hitCollider.transform.position);
+                    isMovingToObject = true;
+                    targetObject = hitCollider.gameObject;
+                    agent.isStopped = false;
+                    break;
+                }
+            }
+            else if (hitCollider.CompareTag("BrokenBalloon") && !isChasing)
+            {
+                Debug.Log("Detected " + hitCollider.tag + " within range");
+                if (!isMovingToObject)
+                {
+                    agent.SetDestination(hitCollider.transform.position);
+                    isMovingToObject = true;
+                    targetObject = hitCollider.gameObject;
+                    agent.isStopped = false;
+                    break;
+                }
+            }
+        }
+    }
+    void DetectBreakBalloon()
+    {
+        float detectionRadius = 10.0f; // 你希望的检测范围
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius);
+
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag("Balloon"))
+            {
+                Break_Ghost balloon = hitCollider.GetComponent<Break_Ghost>();
+                if (balloon != null && balloon.Is_Breaked)
+                {
+                    Debug.Log("Broken balloon detected. Starting chase.");
+                    StartChase();
+                    break; 
+                }
+            }
+        }
+    }
+
+    IEnumerator ConsumeObject(GameObject obj)
+    {
+        if(!isChasing)
+        {
+            agent.isStopped = true;
+            ResetAnimationStates();
+            animator.Play("Eat");
+            animator.SetBool("IsEating", true);
+            yield return new WaitForSeconds(3.18f);
+
+            obj.SetActive(false);
+
+            ResetAnimationStates();
+            animator.SetBool("IsEating", false);
+            agent.isStopped = false;
+
+            nextMoveTime = Time.time + Random.Range(pauseTimeMin, pauseTimeMax);
+            isMovingToObject = false;
+        }
+    }
+
 
     IEnumerator PickupBalloon(GameObject balloonChild)
     {
         animator.SetBool("IsWalking", false);
         yield return new WaitForSeconds(2f);
+        Debug.Log("Picking up");
         animator.SetBool("IsWalking", true);
         Transform balloonParent = balloonChild.transform;
         pickedUpBalloon = balloonParent.gameObject;
@@ -155,10 +262,15 @@ public class GoerMovement : MonoBehaviour
             {
                 bg.isPicked = false;
             }
+            hasPickedUpBalloon = false;
+            pickedUpBalloon = null;
         }
         hasPickedUpBalloon = false;
         currentBalloonSearchTime = Time.time + balloonSearchTimer;
         pickedUpBalloon = null; 
+        nextMoveTime = Time.time + Random.Range(pauseTimeMin, pauseTimeMax);
+        currentBalloonSearchTime = Time.time + balloonSearchTimer;
+        Debug.Log("Dropping");
         animator.SetBool("IsWalking", true);
     }
 
@@ -262,6 +374,13 @@ public class GoerMovement : MonoBehaviour
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
         }
+    }
+
+    void ResetAnimationStates()
+    {
+        animator.SetBool("IsWalking", false);
+        animator.SetBool("IsChasing", false);
+        animator.SetBool("IsEating", false);
     }
     //Debug
     void DrawSphereCast(Vector3 origin, Vector3 direction, float radius, float distance, Color color)

@@ -317,9 +317,13 @@ public class PlayerMovement : MonoBehaviour
         switch (hit.collider.gameObject.tag)
         {
             case "GlowStick":
-                glowStickNumber++;
-                Destroy(hit.collider.gameObject);
-                UpdateGlowStickNumberUI();
+                GlowStickManager gsm = hit.collider.GetComponent<GlowStickManager>();
+                if(!gsm.isTaken)
+                {
+                    glowStickNumber++;
+                    Destroy(hit.collider.gameObject);
+                    UpdateGlowStickNumberUI();
+                }
                 break;
             case "Door":
                 DoorController doorController = hit.collider.GetComponent<DoorController>();

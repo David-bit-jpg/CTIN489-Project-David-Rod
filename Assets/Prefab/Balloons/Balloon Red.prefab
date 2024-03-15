@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2911597060950134292}
   m_Layer: 10
   m_Name: Ghost_Bottom
-  m_TagString: Untagged
+  m_TagString: BrokenBalloon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 3450508713687542148}
   m_Layer: 10
   m_Name: Baloon_Ghost_Parts
-  m_TagString: Balloon
+  m_TagString: BrokenBalloon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -369,6 +369,7 @@ MonoBehaviour:
   ghost_normal: {fileID: 2911597060888555931}
   ghost_Parts: {fileID: 2911597060234219985}
   ghost: {fileID: 2911597059970714854}
+  isPicked: 0
 --- !u!136 &4294925396761212954
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -619,7 +620,7 @@ GameObject:
   - component: {fileID: 2911597060950134376}
   m_Layer: 10
   m_Name: Ghost_Top
-  m_TagString: Untagged
+  m_TagString: BrokenBalloon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -784,7 +785,7 @@ GameObject:
   - component: {fileID: 2911597060950134294}
   m_Layer: 10
   m_Name: Ghost_Middle
-  m_TagString: Untagged
+  m_TagString: BrokenBalloon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

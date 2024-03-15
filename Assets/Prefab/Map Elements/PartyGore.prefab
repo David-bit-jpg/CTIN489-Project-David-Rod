@@ -661,6 +661,7 @@ MonoBehaviour:
   pauseTimeMin: 4
   pauseTimeMax: 8
   rayLength: 5
+  chaseEndDistance: 8
 --- !u!195 &3059425294186570319
 NavMeshAgent:
   m_ObjectHideFlags: 0
