@@ -21,10 +21,11 @@ public class GoerMovement : MonoBehaviour
     bool isDoor = false;
     bool isChasing = false;
     private GameObject currentTargetBalloon = null;
+    private GameObject pickedUpBalloon = null;
 
     private bool hasPickedUpBalloon = false;
 
-
+    public float chaseEndDistance = 6.0f;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -41,39 +42,91 @@ public class GoerMovement : MonoBehaviour
 
     void Update()
     {
-        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+        if(hasPickedUpBalloon && pickedUpBalloon)
         {
-            if (Time.time >= nextMoveTime)
+            StartChase();
+        }
+        if (isChasing)
+        {
+            if (Vector3.Distance(transform.position, playerTransform.position) > chaseEndDistance)
             {
-                MoveToNewRandomPosition();
-                animator.SetBool("IsWalking", true);
+                StopChase();
             }
             else
             {
-                if (playerTransform != null)
-                {
-                    TurnTowards(playerTransform.position); 
-                }
-                animator.SetBool("IsWalking", false);
+                ChasePlayer();
             }
         }
+        else
+        {
+            if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            {
+                if (Time.time >= nextMoveTime)
+                {
+                    MoveToNewRandomPosition();
+                    animator.SetBool("IsWalking", true);
+                }
+                else
+                {
+                    if (playerTransform != null)
+                    {
+                        TurnTowards(playerTransform.position); 
+                    }
+                    animator.SetBool("IsWalking", false);
+                }
 
-        if (Time.time >= currentBalloonSearchTime)
-        {
-            FindNearestBalloon();
-            currentBalloonSearchTime = Time.time + balloonSearchTimer; // 重置计时器
-        }
-        if (currentTargetBalloon != null && !agent.pathPending && agent.remainingDistance < 0.5f)
-        {
-            StartCoroutine(PickupBalloon(currentTargetBalloon));
-            currentTargetBalloon = null; // 重置当前目标气球，避免重复执行
+                if (Time.time >= currentBalloonSearchTime)
+                {
+                    FindNearestBalloon();
+                    currentBalloonSearchTime = Time.time + balloonSearchTimer;
+                }
+                if (currentTargetBalloon != null && !agent.pathPending && agent.remainingDistance < 0.5f)
+                {
+                    StartCoroutine(PickupBalloon(currentTargetBalloon));
+                    currentTargetBalloon = null; 
+                }
+            }
         }
         CheckForDoor();
     }
+    void ChasePlayer()
+    {
+        if (playerTransform != null)
+        {
+            agent.SetDestination(playerTransform.position);
+            animator.SetBool("IsChasing", true);
+        }
+    }
+    void StartChase()
+    {
+        isChasing = true;
+        agent.speed += 1.5f; // 增加速度
+        animator.SetBool("IsChasing", true);
+        currentBalloonSearchTime = float.MaxValue; // 停止寻找气球和丢气球的计时
+    }
+
+    void StopChase()
+    {
+        isChasing = false;
+        animator.SetBool("IsChasing", false);
+        agent.speed -= 1.5f; // 恢复速度
+        nextMoveTime = Time.time + Random.Range(pauseTimeMin, pauseTimeMax); // 重置走路计时
+        currentBalloonSearchTime = Time.time + balloonSearchTimer; // 重置寻找和丢气球计时
+        if (pickedUpBalloon != null)
+        {
+            // 随机确定丢气球等待时间
+            float waitTime = Random.Range(20f, 30f);
+            StartCoroutine(DropBalloon(pickedUpBalloon, waitTime));
+        }
+    }
+
     IEnumerator PickupBalloon(GameObject balloonChild)
     {
+        animator.SetBool("IsWalking", false);
         yield return new WaitForSeconds(2f);
+        animator.SetBool("IsWalking", true);
         Transform balloonParent = balloonChild.transform;
+        pickedUpBalloon = balloonParent.gameObject;
         while (balloonParent.parent != null)
         {
             balloonParent = balloonParent.parent;
@@ -83,25 +136,30 @@ public class GoerMovement : MonoBehaviour
         bg.isPicked = true;
         balloonParent.localPosition = new Vector3(-1f, 1.75f, 0.1f);
         balloonParent.localRotation = Quaternion.Euler(0, 0, 0);
-        Debug.Log("PICKUP COMPLETE");
-        GameObject balloon_Parts = bg.balloon_Parts;
         hasPickedUpBalloon = true;
         nextMoveTime = Time.time + pauseTimeMin;
         float waitTime = Random.Range(20f, 30f);
+        animator.SetBool("IsWalking", true);
         StartCoroutine(DropBalloon(balloonParent.gameObject, waitTime));
     }
     IEnumerator DropBalloon(GameObject balloonParent, float waitTime)
     {
+        animator.SetBool("IsWalking", false);
         yield return new WaitForSeconds(waitTime);
-        balloonParent.transform.SetParent(null);
-        Break_Ghost bg = balloonParent.GetComponent<Break_Ghost>();
-        if (bg != null)
+        animator.SetBool("IsWalking", true);
+        if(balloonParent!=null)
         {
-            bg.isPicked = false;
+            balloonParent.transform.SetParent(null);
+            Break_Ghost bg = balloonParent.GetComponent<Break_Ghost>();
+            if (bg != null)
+            {
+                bg.isPicked = false;
+            }
         }
         hasPickedUpBalloon = false;
         currentBalloonSearchTime = Time.time + balloonSearchTimer;
-        Debug.Log("DROPPED BALLOON");
+        pickedUpBalloon = null; 
+        animator.SetBool("IsWalking", true);
     }
 
     void FindNearestBalloon()
@@ -110,24 +168,28 @@ public class GoerMovement : MonoBehaviour
         {
             return;
         }
-
+        animator.SetBool("IsWalking", true);
         float nearestDistance = Mathf.Infinity;
         GameObject nearestBalloon = null;
 
         foreach (GameObject balloon in GameObject.FindGameObjectsWithTag("Balloon"))
         {
             Break_Ghost bg = balloon.GetComponent<Break_Ghost>();
-            float distance = Vector3.Distance(transform.position, balloon.transform.position);
-            if (distance < nearestDistance && !bg.isPicked)
+            if(bg!=null)
             {
-                nearestDistance = distance;
-                nearestBalloon = balloon;
+                float distance = Vector3.Distance(transform.position, balloon.transform.position);
+                if (distance < nearestDistance && !bg.isPicked)
+                {
+                    nearestDistance = distance;
+                    nearestBalloon = balloon;
+                }
             }
         }
 
         if (nearestBalloon != null)
         {
             agent.SetDestination(nearestBalloon.transform.position);
+            animator.SetBool("IsWalking", true);
             currentTargetBalloon = nearestBalloon;
             nextMoveTime = float.MaxValue;
         }
@@ -179,6 +241,7 @@ public class GoerMovement : MonoBehaviour
 
     void MoveToNewRandomPosition()
     {
+        animator.SetBool("IsWalking", true);
         Vector3 randomDirection = Random.insideUnitSphere * wanderRadius;
         randomDirection += transform.position;
         NavMeshHit hit;

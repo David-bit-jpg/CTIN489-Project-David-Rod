@@ -369,6 +369,7 @@ MonoBehaviour:
   ghost_normal: {fileID: 2911597060888555931}
   ghost_Parts: {fileID: 2911597060234219985}
   ghost: {fileID: 2911597059970714854}
+  isPicked: 0
 --- !u!136 &4294925396761212954
 CapsuleCollider:
   m_ObjectHideFlags: 0

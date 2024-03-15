@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2552658914136310925
 RectTransform:
   m_ObjectHideFlags: 0
@@ -75,6 +75,7 @@ MonoBehaviour:
   ghostPlatform: {fileID: 0}
   chaseDistance: 8
   cageTransform: {fileID: 0}
+  isStop: 0
   rendererData: {fileID: 11400000, guid: 3b12d022ce37c094abaefbcd68d8c571, type: 2}
   stopChaseDistance: 10
   vhsMaterial: {fileID: 2100000, guid: d2358786ae41c4bef826a9f213ee27b2, type: 2}
@@ -84,6 +85,7 @@ MonoBehaviour:
   WaitingTime: 5
   volume: 0.6
   isDead: 0
+  isChasing: 0
   rayLength: 5
 --- !u!1001 &31476868170454909
 PrefabInstance:

@@ -93,11 +93,14 @@ public class BalloonSpawnerGood : MonoBehaviour
     {
         foreach (GameObject b in new List<GameObject>(spawnedBalloons))
         {
-            Break_Ghost balloonScript = b.GetComponent<Break_Ghost>();
-            if (balloonScript != null && balloonScript.Is_Breaked)
+            if(b!=null)
             {
-                spawnedBalloons.Remove(b);
-                return true;
+                Break_Ghost balloonScript = b.GetComponent<Break_Ghost>();
+                if (balloonScript != null && balloonScript.Is_Breaked)
+                {
+                    spawnedBalloons.Remove(b);
+                    return true;
+                }
             }
         }
         return false;
