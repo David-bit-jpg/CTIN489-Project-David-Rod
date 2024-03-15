@@ -36,5 +36,16 @@ public class LevelManager : MonoBehaviour
         restartText.gameObject.SetActive(true);
     }
 
+    public void NextLevel()
+    {
+        int index = SceneManager.GetActiveScene().buildIndex + 1;
+        if(index >= SceneManager.sceneCount)
+        {
+            Debug.LogWarning("Loading beyond the last scene");
+            return;
+        }
+        SceneManager.LoadScene(index);
+    }
+
     
 }

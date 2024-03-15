@@ -81,11 +81,19 @@ public class TaskManager : MonoBehaviour
         foreach (var task in tasks)
         {
             string taskString = task.TaskDescription;
-
-            if(task.Type == TaskType.BalloonTask)
+            switch (task.Type)
             {
-                taskString = taskString + ": " + balloonSpawnerGood.balloonCount;
+                case TaskType.BalloonTask:
+                    taskString = taskString + ": " + balloonSpawnerGood.balloonCount;
+                    break;
+                case TaskType.CaptuerTask:
+                    break;
+                case TaskType.PhotagraphyTask:
+                    break;
+                case TaskType.Exit:
+                    break;
             }
+            
 
             taskString += "\n";
             taskTexts.text += taskString;
