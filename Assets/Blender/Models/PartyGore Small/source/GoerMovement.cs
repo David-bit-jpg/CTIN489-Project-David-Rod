@@ -44,6 +44,7 @@ public class GoerMovement : MonoBehaviour
 
     void Update()
     {
+        if (animator.GetBool("IsEating")) return;
         if(animator.GetBool("IsWalking") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
         {
             animator.Play("Walk");
@@ -52,9 +53,7 @@ public class GoerMovement : MonoBehaviour
         {
             animator.Play("Run");
         }
-        if (animator.GetBool("IsEating")) return;
         DetectObjectsOnGround();
-        DetectBreakBalloon();
         if (isMovingToObject && !agent.pathPending && agent.remainingDistance < 0.5f)
         {
             if (targetObject != null)
@@ -150,12 +149,12 @@ public class GoerMovement : MonoBehaviour
     }
     void DetectObjectsOnGround()
     {
-        float detectionRadius = 5.0f; 
+        float detectionRadius = 6.0f; 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius);
-
+        Vector3 playerPos = playerTransform.position;
+        float distance = Vector3.Distance(playerPos, transform.position);
         foreach (var hitCollider in hitColliders)
         {
-            // if (hitCollider.CompareTag("BrokenBalloon") || hitCollider.CompareTag("GlowStick"))
             if (hitCollider.CompareTag("GlowStick"))
             {
                 GlowStickManager gsm = hitCollider.GetComponent<GlowStickManager>();
@@ -170,6 +169,12 @@ public class GoerMovement : MonoBehaviour
                     break;
                 }
             }
+            else if(hitCollider.CompareTag("BrokenBalloon") && !isChasing && distance <= detectionRadius)
+            {
+                Debug.Log("Broken balloon detected. Starting chase.");
+                StartChase();
+                break; 
+            }
             else if (hitCollider.CompareTag("BrokenBalloon") && !isChasing)
             {
                 Debug.Log("Detected " + hitCollider.tag + " within range");
@@ -180,25 +185,6 @@ public class GoerMovement : MonoBehaviour
                     targetObject = hitCollider.gameObject;
                     agent.isStopped = false;
                     break;
-                }
-            }
-        }
-    }
-    void DetectBreakBalloon()
-    {
-        float detectionRadius = 10.0f;
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius);
-
-        foreach (var hitCollider in hitColliders)
-        {
-            if (hitCollider.CompareTag("Balloon"))
-            {
-                Break_Ghost balloon = hitCollider.GetComponent<Break_Ghost>();
-                if (balloon != null && balloon.Is_Breaked)
-                {
-                    Debug.Log("Broken balloon detected. Starting chase.");
-                    StartChase();
-                    break; 
                 }
             }
         }
@@ -306,7 +292,6 @@ public class GoerMovement : MonoBehaviour
             nextMoveTime = float.MaxValue;
         }
     }
-
 
     void CheckForDoor()
     {
