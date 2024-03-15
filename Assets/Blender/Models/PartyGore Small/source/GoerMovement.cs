@@ -186,7 +186,7 @@ public class GoerMovement : MonoBehaviour
     }
     void DetectBreakBalloon()
     {
-        float detectionRadius = 10.0f; // 你希望的检测范围
+        float detectionRadius = 10.0f;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius);
 
         foreach (var hitCollider in hitColliders)
