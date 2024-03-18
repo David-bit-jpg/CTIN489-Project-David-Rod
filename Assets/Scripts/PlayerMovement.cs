@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Config")]
     private float countdownTime = 300f;
 
-    [SerializeField] public Transform CameraIntractPointer;
+    //[SerializeField] public Transform Camera.main.transform;
     private ScriptableRendererFeature vhsFeature;
     public bool featureAble = false;
     [SerializeField] public UniversalRendererData rendererData;
@@ -86,6 +86,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] Transform CharacterBodyTransform;
     [SerializeField] CinemachineVirtualCamera VirtualCam;
+
+    private static PlayerMovement playerInstance;
     private void Awake()
     {
         currentStamina = maxStamina;
@@ -109,6 +111,16 @@ public class PlayerMovement : MonoBehaviour
             vhsEffectStatusText.gameObject.SetActive(false);
         }
         UpdateGlowStickNumberUI();
+        DontDestroyOnLoad(gameObject);
+
+        if (playerInstance == null)
+        {
+            playerInstance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Update()
@@ -202,7 +214,7 @@ public class PlayerMovement : MonoBehaviour
 
             glowStickTimer -= Time.deltaTime;
             RaycastHit hit;
-            Ray ray = new Ray(CameraIntractPointer.position, CameraIntractPointer.forward);
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
             if (Physics.SphereCast(ray, sphereRadius, out hit, 2.5f))
             {
                 UpdateInteractionUI(hit);
@@ -210,7 +222,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
 
-            bool hitChargingStation = Physics.SphereCast(CameraIntractPointer.position, sphereRadius, CameraIntractPointer.forward, out hit, 2.5f) && hit.collider.CompareTag("ChargingStation");
+            bool hitChargingStation = Physics.SphereCast(Camera.main.transform.position, sphereRadius, Camera.main.transform.forward, out hit, 2.5f) && hit.collider.CompareTag("ChargingStation");
 
             if (hitChargingStation)
             {
@@ -246,9 +258,9 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            Vector3 rayStart = CameraIntractPointer.position;
-            Vector3 rayDirection = CameraIntractPointer.forward;
-            Debug.DrawRay(CameraIntractPointer.position, CameraIntractPointer.forward * 2.5f, Color.red);
+            Vector3 rayStart = Camera.main.transform.position;
+            Vector3 rayDirection = Camera.main.transform.forward;
+            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 2.5f, Color.red);
             float sphereCastDistance = 2.5f;
             Color debugColor = Color.red;
 
@@ -400,8 +412,8 @@ public class PlayerMovement : MonoBehaviour
         {
             glowStickNumber--;
             glowStickTimer = glowStickCoolDown;
-            Vector3 rayStart = CameraIntractPointer.position;
-            Vector3 rayDirection = CameraIntractPointer.forward;
+            Vector3 rayStart = Camera.main.transform.position;
+            Vector3 rayDirection = Camera.main.transform.forward;
             float maxDistance = 2.0f;
             RaycastHit hit;
             Vector3 dropPosition;
@@ -414,7 +426,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 dropPosition = rayStart + rayDirection * maxDistance;
             }
-            Quaternion dropRotation = Quaternion.Euler(CameraIntractPointer.eulerAngles);
+            Quaternion dropRotation = Quaternion.Euler(Camera.main.transform.eulerAngles);
             Instantiate(glowStick, dropPosition, dropRotation);
         }
     }

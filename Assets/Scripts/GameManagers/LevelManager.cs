@@ -10,6 +10,8 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
     [SerializeField] Text restartText, endText;
     public bool levelEnded = false;
+    PlayerMovement player;
+    BalloonSpawnerGood balloonSpawnerGood;
 
     private void Awake()
     {
@@ -26,6 +28,7 @@ public class LevelManager : MonoBehaviour
     {
         restartText.gameObject.SetActive(false);
         endText.gameObject.SetActive(false);
+        player = FindObjectOfType<PlayerMovement>();
     }
 
     private void Update()
@@ -55,6 +58,9 @@ public class LevelManager : MonoBehaviour
         endText.gameObject.SetActive(false);
         TaskManager.Instance.InstantiateTasks();
         TaskManager.Instance.InitTaskText();
+        player.gameObject.transform.position = new Vector3(3.70000005f, 0.200000003f, -33.5999985f);
+        balloonSpawnerGood = FindAnyObjectByType<BalloonSpawnerGood>();
+        balloonSpawnerGood.setMimicMovement();
     }
 
     public void ShowRestartText()
