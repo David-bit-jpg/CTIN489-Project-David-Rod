@@ -14,10 +14,12 @@ public class BalloonSpawnerGood : MonoBehaviour
     [SerializeField] public float zMin = -27.0f, zMax = 27.0f;
     [SerializeField] public int spawnNum = 7;
     [SerializeField] string TaskDescription;
+    [SerializeField] int levelIndex = 0;
     public int balloonCount;
     public float safeDistance = 0.4f;
     PlayerMovement mPlayer;
     Task balloonTask;
+    
 
     private List<GameObject> spawnedBalloons = new List<GameObject>();
     void Start()
@@ -52,6 +54,15 @@ public class BalloonSpawnerGood : MonoBehaviour
         {
             //remove this task
             TaskManager.Instance.RemoveTask(balloonTask);
+            
+            switch (levelIndex)
+            {
+                case 0:
+                    Task captureTask = new Task("Capture The mimic", TaskType.CaptuerTask);
+                    TaskManager.Instance.AddTask(captureTask);
+                    break;
+            }
+                
         }
     }
 
