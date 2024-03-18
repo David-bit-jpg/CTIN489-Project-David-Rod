@@ -526,6 +526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 15
+  Camera: {fileID: 0}
 --- !u!1 &6950679225330896761
 GameObject:
   m_ObjectHideFlags: 0
