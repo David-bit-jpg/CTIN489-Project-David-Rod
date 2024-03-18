@@ -163,7 +163,7 @@ public class GoerMovement : MonoBehaviour
     void DetectObjectsOnGround()
     {
         float detectionRadius = 10.0f;
-        float seeRadius = 5.0f;
+        float seeRadius = 4.0f;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius);
         Vector3 playerPos = playerTransform.position;
         float distance = Vector3.Distance(playerPos, transform.position);
@@ -215,7 +215,7 @@ public class GoerMovement : MonoBehaviour
     }
     IEnumerator KillPlayer()
     {
-        yield return new WaitForSeconds(15.0f);
+        yield return new WaitForSeconds(10.0f);
         float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
         if (distanceToPlayer <= 2.0f)
         {
@@ -343,13 +343,17 @@ public class GoerMovement : MonoBehaviour
                 }
             }
         }
-
-        if (nearestBalloon != null)
+        Break_Ghost nbg = nearestBalloon.GetComponent<Break_Ghost>();
+        if (nearestBalloon != null && !nbg.isPicked)
         {
             agent.SetDestination(nearestBalloon.transform.position);
             animator.SetBool("IsWalking", true);
             currentTargetBalloon = nearestBalloon;
             nextMoveTime = float.MaxValue;
+        }
+        else
+        {
+            FindNearestBalloon();
         }
     }
 
