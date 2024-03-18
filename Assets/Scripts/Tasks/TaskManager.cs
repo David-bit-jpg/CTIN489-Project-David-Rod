@@ -26,7 +26,18 @@ public class TaskManager : MonoBehaviour
     void Start()
     {
         balloonSpawnerGood = FindObjectOfType<BalloonSpawnerGood>();
-        UpdateTaskText();
+        InstantiateTasks();
+        InitTaskText();
+    }
+
+    public void InstantiateTasks()
+    {
+        if (balloonSpawnerGood)
+        {
+            Task balloonTask = new Task(balloonSpawnerGood.TaskDescription, TaskType.BalloonTask);
+            TaskManager.Instance.AddTask(balloonTask);
+        }
+        
     }
 
     // Update is called once per frame
@@ -78,6 +89,37 @@ public class TaskManager : MonoBehaviour
         }
             
         UpdateTaskText();
+    }
+
+    public void InitTaskText()
+    {
+        //first clear the task text 
+        taskTexts.text = "";
+
+        foreach (var task in tasks)
+        {
+            string taskString = task.TaskDescription;
+            switch (task.Type)
+            {
+                case TaskType.BalloonTask:
+                    taskString = taskString + ": " + balloonSpawnerGood.spawnNum;
+                    break;
+                case TaskType.CaptuerTask:
+                    if (SceneManager.GetActiveScene().buildIndex == 0)
+                    {
+                        taskString = "Capture the mimic";
+                    }
+                    break;
+                case TaskType.PhotagraphyTask:
+                    break;
+                case TaskType.Exit:
+                    break;
+            }
+
+
+            taskString += "\n";
+            taskTexts.text += taskString;
+        }
     }
 
     public void UpdateTaskText()

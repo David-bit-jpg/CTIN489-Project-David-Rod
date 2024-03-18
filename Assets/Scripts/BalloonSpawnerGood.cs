@@ -13,7 +13,7 @@ public class BalloonSpawnerGood : MonoBehaviour
     [SerializeField] public float xMin = -27.0f, xMax = 27.0f;
     [SerializeField] public float zMin = -27.0f, zMax = 27.0f;
     [SerializeField] public int spawnNum = 7;
-    [SerializeField] string TaskDescription;
+    [SerializeField] public string TaskDescription;
     [SerializeField] int levelIndex = 0;
     public int balloonCount;
     public float safeDistance = 0.4f;
@@ -34,9 +34,6 @@ public class BalloonSpawnerGood : MonoBehaviour
                 i++;
             }
         }
-
-        balloonTask = new Task(TaskDescription, TaskType.BalloonTask);
-        TaskManager.Instance.AddTask(balloonTask);
     }
     void Update()
     {
