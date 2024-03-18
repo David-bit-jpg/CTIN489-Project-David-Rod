@@ -5,13 +5,17 @@ using System.Collections.Generic;
 public class HorrorFace : MonoBehaviour
 {
     public float lifetime;
+    public LayerMask visibilityLayerMask;
     private bool shouldRotate = true;
     private PlayerMovement playerMovement;
-    private float lookTime = 0;
+    private bool isVisibleToPlayer = false;
+    private float visibleTimer = 0f;
+    private Camera playerCamera;
 
     void Start()
     {
         playerMovement = FindObjectOfType<PlayerMovement>();
+        playerCamera = Camera.main;
         StartCoroutine(DestroyAfterTime(lifetime));
     }
 
@@ -29,44 +33,38 @@ public class HorrorFace : MonoBehaviour
             direction.y = 0;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             transform.rotation = lookRotation;
+        }
 
-            if (IsPlayerLookingAtPrefab() && IsFacingEachOther())
+        CheckVisibility();
+        if (isVisibleToPlayer)
+        {
+            visibleTimer += Time.deltaTime;
+            if (visibleTimer >= 6f)
             {
-                lookTime += Time.deltaTime;
-                if (lookTime > 6.0f)
-                {
-                    playerMovement.killed = true;
-                    playerMovement.SetCanMove(false);
-                }
+                playerMovement.killed = true;
             }
-            else
-            {
-                lookTime = 0;
-            }
+        }
+        else
+        {
+            visibleTimer = 0f;
         }
     }
 
-    bool IsPlayerLookingAtPrefab()
+    void CheckVisibility()
     {
-        Vector3 playerPositionFlat = new Vector3(playerMovement.transform.position.x, 0, playerMovement.transform.position.z);
-        Vector3 prefabPositionFlat = new Vector3(transform.position.x, 0, transform.position.z);
-        Vector3 playerDirection = playerMovement.transform.forward;
-        Vector3 toPrefabFlat = (prefabPositionFlat - playerPositionFlat).normalized;
+        Vector3 directionToPlayer = playerCamera.transform.position - transform.position;
+        RaycastHit hit;
 
-        float angle = Vector3.Angle(playerDirection, toPrefabFlat);
-        Debug.Log($"Player to HorrorFace Angle: {angle}");
-        return angle < 30;
-    }
-
-    bool IsFacingEachOther()
-    {
-        Vector3 playerPositionFlat = new Vector3(playerMovement.transform.position.x, 0, playerMovement.transform.position.z);
-        Vector3 prefabPositionFlat = new Vector3(transform.position.x, 0, transform.position.z);
-        Vector3 toPlayerFlat = (playerPositionFlat - prefabPositionFlat).normalized;
-        Vector3 prefabDirectionFlat = new Vector3(transform.forward.x, 0, transform.forward.z);
-
-        float angle = Vector3.Angle(prefabDirectionFlat, toPlayerFlat);
-        Debug.Log($"HorrorFace to Player Angle: {angle}");
-        return angle < 30;
+        if (Physics.Raycast(transform.position, directionToPlayer, out hit, Mathf.Infinity, visibilityLayerMask))
+        {
+            if (hit.collider.gameObject.GetComponent<PlayerMovement>() != null)
+            {
+                isVisibleToPlayer = true;
+            }
+            else
+            {
+                isVisibleToPlayer = false;
+            }
+        }
     }
 }

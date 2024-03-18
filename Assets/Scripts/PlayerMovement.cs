@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
 using Cinemachine;
-
+using MimicSpace;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Texts")]
@@ -20,6 +20,10 @@ public class PlayerMovement : MonoBehaviour
     private bool isCharging = false;
     public Text timerText;
 
+    [SerializeField] public float startVHSdistance = 10f;
+    [SerializeField] public float stopVHSdistance = 15f;
+
+
     bool startedRed = false;
 
     private float startTime = 0.0f;
@@ -34,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
     private float countdownTime = 300f;
 
     [SerializeField] public Transform CameraIntractPointer;
-    private ScriptableRendererFeature vhsFeature;
     public bool featureAble = false;
     [SerializeField] public UniversalRendererData rendererData;
     [SerializeField] private float normalSpeed = 2.0f;
@@ -51,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     public CameraControl cameraControl;
     private float lastStepTime = 0f;
     private float stepInterval = 0f;
-
+    Movement MimicMovement;
     [SerializeField] private int glowStickNumber = 3;
     [SerializeField] private float walkStepInterval = 0.5f;
     [SerializeField] private float runStepInterval = 0.3f;
@@ -86,6 +89,10 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] Transform CharacterBodyTransform;
     [SerializeField] CinemachineVirtualCamera VirtualCam;
+
+    private ScriptableRendererFeature vhsFeature;
+
+    [SerializeField] public Material vhsMaterial;
     private void Awake()
     {
         currentStamina = maxStamina;
@@ -110,9 +117,17 @@ public class PlayerMovement : MonoBehaviour
         }
         UpdateGlowStickNumberUI();
     }
+    void Start()
+    {
+        MimicMovement = FindObjectOfType<Movement>();
+    }
 
     void Update()
     {
+        float distanceToMimic = Vector3.Distance(MimicMovement.transform.position, transform.position);
+        float lerpFactor = Mathf.InverseLerp(startVHSdistance, stopVHSdistance, distanceToMimic);
+
+        UpdateVHSParameters(lerpFactor);
         if (canMove)
         {
             float moveX = Input.GetAxis("Horizontal");
@@ -266,7 +281,7 @@ public class PlayerMovement : MonoBehaviour
             //Update Virual Cam
             UpdateVirtualCamera();
         }
-        if(killed)
+        if (killed)
         {
             transform.position = fixPos;
 
@@ -277,6 +292,24 @@ public class PlayerMovement : MonoBehaviour
             {
                 LevelManager.Instance.RestartLevel();
             }
+        }
+    }
+
+    private void UpdateVHSParameters(float lerpFactor)
+    {
+        if (vhsMaterial != null)
+        {
+            AudioSource.volume = Mathf.Lerp(0.0f, 0.4f, lerpFactor);
+            float strength = Mathf.Lerp(0.0f, 1.0f, lerpFactor);
+            float strip = Mathf.Lerp(0.3f, 0.2f, lerpFactor);
+            float pixelOffset = Mathf.Lerp(0.0f, 40.0f, lerpFactor);
+            float shake = Mathf.Lerp(0.003f, 0.01f, lerpFactor);
+            float speed = Mathf.Lerp(0.5f, 1.2f, lerpFactor);
+            vhsMaterial.SetFloat("_Strength", strength);
+            vhsMaterial.SetFloat("_StripSize", strip);
+            vhsMaterial.SetFloat("_PixelOffset", pixelOffset);
+            vhsMaterial.SetFloat("_Shake", shake);
+            vhsMaterial.SetFloat("_Speed", speed);
         }
     }
     IEnumerator ToggleStateCoroutine()
@@ -318,7 +351,7 @@ public class PlayerMovement : MonoBehaviour
         {
             case "GlowStick":
                 GlowStickManager gsm = hit.collider.GetComponent<GlowStickManager>();
-                if(!gsm.isTaken)
+                if (!gsm.isTaken)
                 {
                     glowStickNumber++;
                     Destroy(hit.collider.gameObject);
@@ -333,7 +366,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "Balloon":
-                if(!chased)
+                if (!chased)
                 {
                     Break_Ghost break_Ghost = hit.collider.GetComponent<Break_Ghost>();
                     if (break_Ghost != null && !break_Ghost.Is_Breaked)
@@ -350,7 +383,7 @@ public class PlayerMovement : MonoBehaviour
         glowStickPickupText.gameObject.SetActive(hit.collider.gameObject.CompareTag("GlowStick"));
         doorMoveUpText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Door"));
         chargingText.gameObject.SetActive(hit.collider.gameObject.CompareTag("ChargingStation"));
-        balloonText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Balloon")&&!chased);
+        balloonText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Balloon") && !chased);
     }
     private void UpdateGlowStickNumberUI()
     {
