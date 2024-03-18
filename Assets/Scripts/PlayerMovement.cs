@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Config")]
     private float countdownTime = 300f;
 
-    //[SerializeField] public Transform Camera.main.transform;
+    [SerializeField] public Transform CameraIntractPointer;
     private ScriptableRendererFeature vhsFeature;
     public bool featureAble = false;
     [SerializeField] public UniversalRendererData rendererData;
@@ -109,8 +109,6 @@ public class PlayerMovement : MonoBehaviour
             vhsEffectStatusText.gameObject.SetActive(false);
         }
         UpdateGlowStickNumberUI();
-        
-        
     }
 
     void Update()
@@ -204,7 +202,7 @@ public class PlayerMovement : MonoBehaviour
 
             glowStickTimer -= Time.deltaTime;
             RaycastHit hit;
-            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            Ray ray = new Ray(CameraIntractPointer.position, CameraIntractPointer.forward);
             if (Physics.SphereCast(ray, sphereRadius, out hit, 2.5f))
             {
                 UpdateInteractionUI(hit);
@@ -212,7 +210,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
 
-            bool hitChargingStation = Physics.SphereCast(Camera.main.transform.position, sphereRadius, Camera.main.transform.forward, out hit, 2.5f) && hit.collider.CompareTag("ChargingStation");
+            bool hitChargingStation = Physics.SphereCast(CameraIntractPointer.position, sphereRadius, CameraIntractPointer.forward, out hit, 2.5f) && hit.collider.CompareTag("ChargingStation");
 
             if (hitChargingStation)
             {
@@ -248,9 +246,9 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            Vector3 rayStart = Camera.main.transform.position;
-            Vector3 rayDirection = Camera.main.transform.forward;
-            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 2.5f, Color.red);
+            Vector3 rayStart = CameraIntractPointer.position;
+            Vector3 rayDirection = CameraIntractPointer.forward;
+            Debug.DrawRay(CameraIntractPointer.position, CameraIntractPointer.forward * 2.5f, Color.red);
             float sphereCastDistance = 2.5f;
             Color debugColor = Color.red;
 
@@ -268,7 +266,7 @@ public class PlayerMovement : MonoBehaviour
             //Update Virual Cam
             UpdateVirtualCamera();
         }
-        if(killed)
+        if (killed)
         {
             transform.position = fixPos;
 
@@ -320,7 +318,7 @@ public class PlayerMovement : MonoBehaviour
         {
             case "GlowStick":
                 GlowStickManager gsm = hit.collider.GetComponent<GlowStickManager>();
-                if(!gsm.isTaken)
+                if (!gsm.isTaken)
                 {
                     glowStickNumber++;
                     Destroy(hit.collider.gameObject);
@@ -335,7 +333,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "Balloon":
-                if(!chased)
+                if (!chased)
                 {
                     Break_Ghost break_Ghost = hit.collider.GetComponent<Break_Ghost>();
                     if (break_Ghost != null && !break_Ghost.Is_Breaked)
@@ -352,7 +350,7 @@ public class PlayerMovement : MonoBehaviour
         glowStickPickupText.gameObject.SetActive(hit.collider.gameObject.CompareTag("GlowStick"));
         doorMoveUpText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Door"));
         chargingText.gameObject.SetActive(hit.collider.gameObject.CompareTag("ChargingStation"));
-        balloonText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Balloon")&&!chased);
+        balloonText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Balloon") && !chased);
     }
     private void UpdateGlowStickNumberUI()
     {
@@ -402,8 +400,8 @@ public class PlayerMovement : MonoBehaviour
         {
             glowStickNumber--;
             glowStickTimer = glowStickCoolDown;
-            Vector3 rayStart = Camera.main.transform.position;
-            Vector3 rayDirection = Camera.main.transform.forward;
+            Vector3 rayStart = CameraIntractPointer.position;
+            Vector3 rayDirection = CameraIntractPointer.forward;
             float maxDistance = 2.0f;
             RaycastHit hit;
             Vector3 dropPosition;
@@ -416,7 +414,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 dropPosition = rayStart + rayDirection * maxDistance;
             }
-            Quaternion dropRotation = Quaternion.Euler(Camera.main.transform.eulerAngles);
+            Quaternion dropRotation = Quaternion.Euler(CameraIntractPointer.eulerAngles);
             Instantiate(glowStick, dropPosition, dropRotation);
         }
     }

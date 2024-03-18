@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] public Material vhsMaterial;
     public static LevelManager Instance;
     [SerializeField] Text restartText, endText;
     public bool levelEnded = false;
@@ -41,18 +42,19 @@ public class LevelManager : MonoBehaviour
                 RestartLevel();
             }
         }
-        
+
     }
 
     public void RestartLevel()
     {
-        
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        UpdateVHSParameters();
         TaskManager.Instance.ClearTasks();
         /*restartText.gameObject.SetActive(false);
         endText.gameObject.SetActive(false);*/
@@ -61,6 +63,22 @@ public class LevelManager : MonoBehaviour
         //player.gameObject.transform.position = new Vector3(3.70000005f, 0.200000003f, -33.5999985f);
         balloonSpawnerGood = FindAnyObjectByType<BalloonSpawnerGood>();
         balloonSpawnerGood.setMimicMovement();
+    }
+    private void UpdateVHSParameters()
+    {
+        if (vhsMaterial != null)
+        {
+            float strength = 0.0f;
+            float strip = 0.0f;
+            float pixelOffset = 0.0f;
+            float shake = 0.0f;
+            float speed = 0.0f;
+            vhsMaterial.SetFloat("_Strength", strength);
+            vhsMaterial.SetFloat("_StripSize", strip);
+            vhsMaterial.SetFloat("_PixelOffset", pixelOffset);
+            vhsMaterial.SetFloat("_Shake", shake);
+            vhsMaterial.SetFloat("_Speed", speed);
+        }
     }
 
     public void ShowRestartText()
@@ -79,7 +97,7 @@ public class LevelManager : MonoBehaviour
     public void NextLevel()
     {
         int index = SceneManager.GetActiveScene().buildIndex + 1;
-        if(index >= SceneManager.sceneCount)
+        if (index >= SceneManager.sceneCount)
         {
             Debug.LogWarning("Loading beyond the last scene");
             return;
@@ -87,5 +105,5 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(index);
     }
 
-    
+
 }
