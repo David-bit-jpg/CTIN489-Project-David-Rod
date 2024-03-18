@@ -15,10 +15,8 @@ namespace MimicSpace
         public Transform cageTransform;
         public bool isStop = false;
         [SerializeField] public UniversalRendererData rendererData;
-        private ScriptableRendererFeature vhsFeature;
         private float nextPlayTime = 0f;
         [SerializeField] public float stopChaseDistance = 15f;
-        [SerializeField] public Material vhsMaterial;
         [SerializeField] public float roamDistance = 40f;
         public AudioSource AudioSource;
         [SerializeField] private AudioClip Audio;
@@ -51,7 +49,6 @@ namespace MimicSpace
 
         private void Start()
         {
-            vhsFeature = rendererData.rendererFeatures.Find(feature => feature.name == "FullScreenPassRendererFeature");
             myMimic = GetComponentInChildren<Mimic>();
             mPlayer = FindObjectOfType<PlayerMovement>();
             navMeshAgent = GetComponent<NavMeshAgent>();
@@ -73,10 +70,6 @@ namespace MimicSpace
                 return;
             }
             float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
-            float lerpFactor = Mathf.InverseLerp(stopChaseDistance, chaseDistance, distanceToPlayer);
-
-            UpdateVHSParameters(lerpFactor);
-
             if (distanceToPlayer <= 0.5f)
             {
                 if (GameObject.FindGameObjectWithTag("Player") && !isAttacking)
@@ -114,7 +107,7 @@ namespace MimicSpace
         void CheckForDoor()
         {
             RaycastHit hit;
-            Vector3 rayStart = transform.position + new Vector3(0f,1.0f,0);
+            Vector3 rayStart = transform.position + new Vector3(0f, 1.0f, 0);
             Vector3 rayDirection = transform.forward;
             Debug.DrawRay(rayStart, rayDirection * rayLength, Color.red);
             float sphereCastDistance = rayLength;
@@ -130,32 +123,32 @@ namespace MimicSpace
             }
         }
 
-    IEnumerator InteractWithDoor(RaycastHit hit)
-    {
-        isDoor = true;
-        if(isChasing)
-            yield return new WaitForSeconds(1.0f);
-        else
-            yield return new WaitForSeconds(0.1f);
-        DoorController doorController = hit.collider.GetComponent<DoorController>();
-        if (doorController != null)
+        IEnumerator InteractWithDoor(RaycastHit hit)
         {
+            isDoor = true;
+            if (isChasing)
+                yield return new WaitForSeconds(1.0f);
+            else
+                yield return new WaitForSeconds(0.1f);
+            DoorController doorController = hit.collider.GetComponent<DoorController>();
+            if (doorController != null)
+            {
 
-            Debug.Log("Want Door");
-            doorController.ToggleDoor();//open
-            StartCoroutine(CloseDoor(doorController));
+                Debug.Log("Want Door");
+                doorController.ToggleDoor();//open
+                StartCoroutine(CloseDoor(doorController));
+            }
+            yield return new WaitForSeconds(4.0f);
+            isDoor = false;
         }
-        yield return new WaitForSeconds(4.0f);
-        isDoor = false;
-    }
-    IEnumerator CloseDoor(DoorController doorController)
-    {
-        yield return new WaitForSeconds(3.0f);
-        if(doorController.isOpened)
+        IEnumerator CloseDoor(DoorController doorController)
         {
-            doorController.ToggleDoor();
+            yield return new WaitForSeconds(3.0f);
+            if (doorController.isOpened)
+            {
+                doorController.ToggleDoor();
+            }
         }
-    }
         private void StartChasing()
         {
             // EnableVHSFeature();
@@ -239,40 +232,6 @@ namespace MimicSpace
             }
         }
 
-
-
-        private void UpdateVHSParameters(float lerpFactor)
-        {
-            if (vhsMaterial != null)
-            {
-                AudioSource.volume = Mathf.Lerp(0.0f, 0.4f, lerpFactor);
-                float strength = Mathf.Lerp(0.0f, 1.0f, lerpFactor);
-                float strip = Mathf.Lerp(0.3f, 0.2f, lerpFactor);
-                float pixelOffset = Mathf.Lerp(0.0f, 40.0f, lerpFactor);
-                float shake = Mathf.Lerp(0.003f, 0.01f, lerpFactor);
-                float speed = Mathf.Lerp(0.5f, 1.2f, lerpFactor);
-                vhsMaterial.SetFloat("_Strength", strength);
-                vhsMaterial.SetFloat("_StripSize", strip);
-                vhsMaterial.SetFloat("_PixelOffset", pixelOffset);
-                vhsMaterial.SetFloat("_Shake", shake);
-                vhsMaterial.SetFloat("_Speed", speed);
-            }
-        }
-        public void EnableVHSFeature()
-        {
-            if (vhsFeature != null)
-            {
-                vhsFeature.SetActive(true);
-            }
-        }
-
-        public void DisableVHSFeature()
-        {
-            if (vhsFeature != null)
-            {
-                vhsFeature.SetActive(false);
-            }
-        }
         private IEnumerator StopChasingWithDelay()
         {
             isChasing = false;
