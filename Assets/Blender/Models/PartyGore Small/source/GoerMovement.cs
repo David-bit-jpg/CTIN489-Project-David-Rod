@@ -15,7 +15,7 @@ public class GoerMovement : MonoBehaviour
     private float nextMoveTime;
     private float balloonSearchTimer = 20.0f;
     private float currentBalloonSearchTime;
-    private Transform playerTransform; 
+    private Transform playerTransform;
     public float rayLength = 10.0f;
     float sphereRadius = 1f;
     bool isDoor = false;
@@ -26,9 +26,13 @@ public class GoerMovement : MonoBehaviour
     public float chaseEndDistance = 6.0f;
     private bool isMovingToObject = false;
     private GameObject targetObject = null;
+    PlayerMovement mPlayer;
+
+    private bool isCaught = false;
 
     void Start()
     {
+        mPlayer = FindObjectOfType<PlayerMovement>();
         agent = GetComponent<NavMeshAgent>();
         animator.SetBool("IsWalking", false);
         animator.SetBool("IsChasing", false);
@@ -45,11 +49,11 @@ public class GoerMovement : MonoBehaviour
     void Update()
     {
         if (animator.GetBool("IsEating")) return;
-        if(animator.GetBool("IsWalking") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
+        if (animator.GetBool("IsWalking") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
         {
             animator.Play("Walk");
         }
-        if(animator.GetBool("IsChasing") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
+        if (animator.GetBool("IsChasing") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
         {
             animator.Play("Run");
         }
@@ -73,9 +77,18 @@ public class GoerMovement : MonoBehaviour
             {
                 StopChase();
             }
-            else if(isChasing)
+            else if (isChasing)
             {
                 ChasePlayer();
+            }
+            else if (Vector3.Distance(transform.position, playerTransform.position) <= 3.5f)
+            {
+                if (GameObject.FindGameObjectWithTag("Player") && !isCaught)
+                {
+                    isChasing = false;
+                    StartCoroutine(KillPlayer());
+                    isCaught = true;
+                }
             }
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
             {
@@ -90,7 +103,7 @@ public class GoerMovement : MonoBehaviour
                     if (playerTransform != null)
                     {
                         Debug.Log("Stop and look");
-                        TurnTowards(playerTransform.position); 
+                        TurnTowards(playerTransform.position);
                     }
                     animator.SetBool("IsWalking", false);
                 }
@@ -105,7 +118,7 @@ public class GoerMovement : MonoBehaviour
                 {
                     Debug.Log("Picking up");
                     StartCoroutine(PickupBalloon(currentTargetBalloon));
-                    currentTargetBalloon = null; 
+                    currentTargetBalloon = null;
                 }
             }
         }
@@ -149,7 +162,7 @@ public class GoerMovement : MonoBehaviour
     }
     void DetectObjectsOnGround()
     {
-        float detectionRadius = 6.0f; 
+        float detectionRadius = 6.0f;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius);
         Vector3 playerPos = playerTransform.position;
         float distance = Vector3.Distance(playerPos, transform.position);
@@ -169,11 +182,11 @@ public class GoerMovement : MonoBehaviour
                     break;
                 }
             }
-            else if(hitCollider.CompareTag("BrokenBalloon") && !isChasing && distance <= detectionRadius)
+            else if (hitCollider.CompareTag("BrokenBalloon") && !isChasing && distance <= detectionRadius)
             {
                 Debug.Log("Broken balloon detected. Starting chase.");
                 StartChase();
-                break; 
+                break;
             }
             else if (hitCollider.CompareTag("BrokenBalloon") && !isChasing)
             {
@@ -189,10 +202,44 @@ public class GoerMovement : MonoBehaviour
             }
         }
     }
+    IEnumerator KillPlayer()
+    {
+        yield return new WaitForSeconds(15.0f);
+        float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
+        if (distanceToPlayer <= 3.5f)
+        {
+            float initialDistanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
+            if (initialDistanceToPlayer < 3.5f)
+            {
+                mPlayer.SetCanMove(false);
+                Vector3 directionToPlayer = (mPlayer.transform.position - transform.position).normalized;
+                mPlayer.transform.position = transform.position + directionToPlayer * 3.5f;
+                mPlayer.fixPos = mPlayer.transform.position = transform.position + directionToPlayer * 3.5f;
+                mPlayer.killed = true;
+            }
+            mPlayer.cameraControl.canMove = false;
+            StartCoroutine(TurnCameraTowards(transform, 2.0f));
+        }
+    }
+    IEnumerator TurnCameraTowards(Transform target, float duration)
+    {
+        Transform cameraTransform = mPlayer.cameraControl.transform;
+        Quaternion startRotation = cameraTransform.rotation;
+        Quaternion endRotation = Quaternion.LookRotation(target.position - cameraTransform.position);
+
+        float time = 0.0f;
+        while (time < duration)
+        {
+            cameraTransform.rotation = Quaternion.Slerp(startRotation, endRotation, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        cameraTransform.rotation = endRotation;
+    }
 
     IEnumerator ConsumeObject(GameObject obj)
     {
-        if(!isChasing)
+        if (!isChasing)
         {
             agent.isStopped = true;
             ResetAnimationStates();
@@ -240,7 +287,7 @@ public class GoerMovement : MonoBehaviour
         animator.SetBool("IsWalking", false);
         yield return new WaitForSeconds(waitTime);
         animator.SetBool("IsWalking", true);
-        if(balloonParent!=null)
+        if (balloonParent != null)
         {
             balloonParent.transform.SetParent(null);
             Break_Ghost bg = balloonParent.GetComponent<Break_Ghost>();
@@ -253,7 +300,7 @@ public class GoerMovement : MonoBehaviour
         }
         hasPickedUpBalloon = false;
         currentBalloonSearchTime = Time.time + balloonSearchTimer;
-        pickedUpBalloon = null; 
+        pickedUpBalloon = null;
         nextMoveTime = Time.time + Random.Range(pauseTimeMin, pauseTimeMax);
         currentBalloonSearchTime = Time.time + balloonSearchTimer;
         Debug.Log("Dropping");
@@ -273,7 +320,7 @@ public class GoerMovement : MonoBehaviour
         foreach (GameObject balloon in GameObject.FindGameObjectsWithTag("Balloon"))
         {
             Break_Ghost bg = balloon.GetComponent<Break_Ghost>();
-            if(bg!=null)
+            if (bg != null)
             {
                 float distance = Vector3.Distance(transform.position, balloon.transform.position);
                 if (distance < nearestDistance && !bg.isPicked)
@@ -296,7 +343,7 @@ public class GoerMovement : MonoBehaviour
     void CheckForDoor()
     {
         RaycastHit hit;
-        Vector3 rayStart = transform.position + new Vector3(0f,1.0f,0);
+        Vector3 rayStart = transform.position + new Vector3(0f, 1.0f, 0);
         Vector3 rayDirection = transform.forward;
         Debug.DrawRay(rayStart, rayDirection * rayLength, Color.red);
         float sphereCastDistance = rayLength;
@@ -314,7 +361,7 @@ public class GoerMovement : MonoBehaviour
     IEnumerator InteractWithDoor(RaycastHit hit)
     {
         isDoor = true;
-        if(isChasing)
+        if (isChasing)
             yield return new WaitForSeconds(1.0f);
         else
             yield return new WaitForSeconds(0.1f);
@@ -330,7 +377,7 @@ public class GoerMovement : MonoBehaviour
     IEnumerator CloseDoor(DoorController doorController)
     {
         yield return new WaitForSeconds(3.0f);
-        if(doorController.isOpened)
+        if (doorController.isOpened)
         {
             doorController.ToggleDoor();
         }
