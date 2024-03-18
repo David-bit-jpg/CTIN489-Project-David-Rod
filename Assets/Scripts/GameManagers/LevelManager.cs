@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -54,11 +54,11 @@ public class LevelManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         TaskManager.Instance.ClearTasks();
-        restartText.gameObject.SetActive(false);
-        endText.gameObject.SetActive(false);
+        /*restartText.gameObject.SetActive(false);
+        endText.gameObject.SetActive(false);*/
         TaskManager.Instance.InstantiateTasks();
         TaskManager.Instance.InitTaskText();
-        player.gameObject.transform.position = new Vector3(3.70000005f, 0.200000003f, -33.5999985f);
+        //player.gameObject.transform.position = new Vector3(3.70000005f, 0.200000003f, -33.5999985f);
         balloonSpawnerGood = FindAnyObjectByType<BalloonSpawnerGood>();
         balloonSpawnerGood.setMimicMovement();
     }

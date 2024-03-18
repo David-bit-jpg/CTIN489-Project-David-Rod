@@ -86,8 +86,6 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] Transform CharacterBodyTransform;
     [SerializeField] CinemachineVirtualCamera VirtualCam;
-
-    private static PlayerMovement playerInstance;
     private void Awake()
     {
         currentStamina = maxStamina;
@@ -111,16 +109,8 @@ public class PlayerMovement : MonoBehaviour
             vhsEffectStatusText.gameObject.SetActive(false);
         }
         UpdateGlowStickNumberUI();
-        DontDestroyOnLoad(gameObject);
-
-        if (playerInstance == null)
-        {
-            playerInstance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        
+        
     }
 
     void Update()

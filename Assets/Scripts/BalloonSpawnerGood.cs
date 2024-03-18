@@ -57,7 +57,7 @@ public class BalloonSpawnerGood : MonoBehaviour
             //yet to be done
         }
 
-        if (balloonCount == 0 && !mimicMovement.gameObject.activeInHierarchy)
+        if (balloonCount == 0 && !mimicMovement.gameObject.activeInHierarchy) 
         {
             //remove this task
             TaskManager.Instance.RemoveTaskByType(TaskType.BalloonTask);

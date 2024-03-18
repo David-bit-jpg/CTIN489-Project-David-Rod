@@ -32,6 +32,7 @@ public class TaskManager : MonoBehaviour
 
     public void InstantiateTasks()
     {
+        balloonSpawnerGood = FindObjectOfType<BalloonSpawnerGood>();
         if (balloonSpawnerGood)
         {
             Task balloonTask = new Task(balloonSpawnerGood.TaskDescription, TaskType.BalloonTask);
