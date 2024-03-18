@@ -38,14 +38,23 @@ public class LevelManager : MonoBehaviour
                 RestartLevel();
             }
         }
+        
     }
 
     public void RestartLevel()
     {
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         TaskManager.Instance.ClearTasks();
         restartText.gameObject.SetActive(false);
         endText.gameObject.SetActive(false);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        TaskManager.Instance.InstantiateTasks();
+        TaskManager.Instance.InitTaskText();
     }
 
     public void ShowRestartText()
