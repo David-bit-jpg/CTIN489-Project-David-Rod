@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
 using UnityEngine.Rendering.Universal;
+using MimicSpace;
+
 public class BalloonSpawnerGood : MonoBehaviour
 {
     [Header("Balloons")]
@@ -19,8 +21,8 @@ public class BalloonSpawnerGood : MonoBehaviour
     public float safeDistance = 0.4f;
     PlayerMovement mPlayer;
     Task balloonTask;
-    [SerializeField] GameObject Mimic;
-    
+    Movement mimicMovement;
+
 
     private List<GameObject> spawnedBalloons = new List<GameObject>();
     void Start()
@@ -35,6 +37,13 @@ public class BalloonSpawnerGood : MonoBehaviour
                 i++;
             }
         }
+        setMimicMovement();
+
+    }
+
+    public void setMimicMovement()
+    {
+        mimicMovement = FindObjectOfType<Movement>(true);
     }
     void Update()
     {
@@ -48,7 +57,7 @@ public class BalloonSpawnerGood : MonoBehaviour
             //yet to be done
         }
 
-        if (balloonCount == 0 && !Mimic.activeInHierarchy)
+        if (balloonCount == 0 && !mimicMovement.gameObject.activeInHierarchy) 
         {
             //remove this task
             TaskManager.Instance.RemoveTaskByType(TaskType.BalloonTask);
@@ -58,7 +67,7 @@ public class BalloonSpawnerGood : MonoBehaviour
                 case 0:
                     Task captureTask = new Task("", TaskType.CaptuerTask);
                     TaskManager.Instance.AddTask(captureTask);
-                    Mimic.SetActive(true);
+                    mimicMovement.gameObject.SetActive(true);
                     break;
             }
                 

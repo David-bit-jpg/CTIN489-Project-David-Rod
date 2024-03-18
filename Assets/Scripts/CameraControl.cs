@@ -14,6 +14,7 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private float bobbingSpeed = 12f;
     private float timer = 0f;
     public bool canMove = true;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;

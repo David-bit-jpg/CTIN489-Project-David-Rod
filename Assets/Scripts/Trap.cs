@@ -12,7 +12,7 @@ public class Trap : MonoBehaviour
     {
         particleSystem = GetComponentInChildren<ParticleSystem>();
         particleSystem.Stop();
-        mimicMovement = FindObjectOfType<Movement>();
+        mimicMovement = FindObjectOfType<Movement>(true);
     }
 
     // Update is called once per frame
