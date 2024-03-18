@@ -38,13 +38,13 @@ public class TaskManager : MonoBehaviour
             Task balloonTask = new Task(balloonSpawnerGood.TaskDescription, TaskType.BalloonTask);
             TaskManager.Instance.AddTask(balloonTask);
         }
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void AddTask(Task task)
@@ -71,13 +71,13 @@ public class TaskManager : MonoBehaviour
 
         foreach (var task in tasks)
         {
-            if(task.Type == taskType)
+            if (task.Type == taskType)
             {
                 toRemove.Add(task);
             }
         }
 
-        if(toRemove.Count <= 0)
+        if (toRemove.Count <= 0)
         {
             Debug.LogWarning("No tasks of type: " + taskType + " Found");
             return;
@@ -88,7 +88,7 @@ public class TaskManager : MonoBehaviour
             item.taskFinish();
             tasks.Remove(item);
         }
-            
+
         UpdateTaskText();
     }
 
@@ -137,7 +137,7 @@ public class TaskManager : MonoBehaviour
                     taskString = taskString + ": " + balloonSpawnerGood.balloonCount;
                     break;
                 case TaskType.CaptuerTask:
-                    if(SceneManager.GetActiveScene().buildIndex == 0)
+                    if (SceneManager.GetActiveScene().buildIndex == 0)
                     {
                         taskString = "Capture the mimic";
                     }
@@ -147,7 +147,7 @@ public class TaskManager : MonoBehaviour
                 case TaskType.Exit:
                     break;
             }
-            
+
 
             taskString += "\n";
             taskTexts.text += taskString;
