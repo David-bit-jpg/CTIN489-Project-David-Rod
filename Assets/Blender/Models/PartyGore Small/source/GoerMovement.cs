@@ -172,6 +172,10 @@ public class GoerMovement : MonoBehaviour
             if (hitCollider.CompareTag("GlowStick"))
             {
                 GlowStickManager gsm = hitCollider.GetComponent<GlowStickManager>();
+                if (!gsm || gsm.isTaken)
+                {
+                    return;
+                }
                 gsm.isTaken = true;
                 // Debug.Log("Detected " + hitCollider.tag + " within range");
                 if (!isMovingToObject)
@@ -191,6 +195,12 @@ public class GoerMovement : MonoBehaviour
             }
             else if (hitCollider.CompareTag("BrokenBalloon") && !isChasing)
             {
+                BrokenBalloon bb = hitCollider.GetComponent<BrokenBalloon>();
+                if (!bb || bb.isTaken)
+                {
+                    return;
+                }
+                bb.isTaken = true;
                 // Debug.Log("Detected " + hitCollider.tag + " within range");
                 if (!isMovingToObject)
                 {

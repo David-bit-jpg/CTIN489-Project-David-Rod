@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6822722447606047401}
   - component: {fileID: 2911597060950134293}
   - component: {fileID: 2911597060950134292}
+  - component: {fileID: 1790085341596812854}
   m_Layer: 10
   m_Name: Ghost_Bottom
   m_TagString: BrokenBalloon
@@ -134,6 +135,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7702539040986418841, guid: a96548ad9fb093c459438774036ec1e3, type: 3}
+--- !u!114 &1790085341596812854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959777299164230946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 643ba095d1c0846fd8bb8ae29b3fe3ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTaken: 0
 --- !u!1 &1118642171268670367
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,6 +632,7 @@ GameObject:
   - component: {fileID: 6679919593253887647}
   - component: {fileID: 2911597060950134377}
   - component: {fileID: 2911597060950134376}
+  - component: {fileID: 9134401536471786133}
   m_Layer: 10
   m_Name: Ghost_Top
   m_TagString: BrokenBalloon
@@ -739,6 +754,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 3600631745116088082, guid: a96548ad9fb093c459438774036ec1e3, type: 3}
+--- !u!114 &9134401536471786133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4754134737649743062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 643ba095d1c0846fd8bb8ae29b3fe3ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTaken: 0
 --- !u!1 &4999172240128646277
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,6 +811,7 @@ GameObject:
   - component: {fileID: 4991001083921097500}
   - component: {fileID: 2911597060950134295}
   - component: {fileID: 2911597060950134294}
+  - component: {fileID: 8695567398624347449}
   m_Layer: 10
   m_Name: Ghost_Middle
   m_TagString: BrokenBalloon
@@ -904,6 +933,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1789783771342846497, guid: a96548ad9fb093c459438774036ec1e3, type: 3}
+--- !u!114 &8695567398624347449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6112334004091791446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 643ba095d1c0846fd8bb8ae29b3fe3ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTaken: 0
 --- !u!1 &8260252658385766653
 GameObject:
   m_ObjectHideFlags: 0
