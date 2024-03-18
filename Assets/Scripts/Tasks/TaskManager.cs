@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TaskManager : MonoBehaviour
 {
@@ -44,6 +45,12 @@ public class TaskManager : MonoBehaviour
     {
         task.taskFinish();
         tasks.Remove(task);
+        UpdateTaskText();
+    }
+
+    public void ClearTasks()
+    {
+        tasks.Clear();
         UpdateTaskText();
     }
     public void RemoveTaskByType(TaskType taskType)
@@ -87,6 +94,10 @@ public class TaskManager : MonoBehaviour
                     taskString = taskString + ": " + balloonSpawnerGood.balloonCount;
                     break;
                 case TaskType.CaptuerTask:
+                    if(SceneManager.GetActiveScene().buildIndex == 0)
+                    {
+                        taskString = "Capture the mimic";
+                    }
                     break;
                 case TaskType.PhotagraphyTask:
                     break;

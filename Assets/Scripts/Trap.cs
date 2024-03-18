@@ -30,6 +30,7 @@ public class Trap : MonoBehaviour
                 particleSystem.Play();
             }
             TaskManager.Instance.RemoveTaskByType(TaskType.CaptuerTask);
+            LevelManager.Instance.ShowLevelEnd();
         }
         else
         {

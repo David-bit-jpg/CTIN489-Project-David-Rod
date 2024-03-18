@@ -58,7 +58,7 @@ public class BalloonSpawnerGood : MonoBehaviour
             switch (levelIndex)
             {
                 case 0:
-                    Task captureTask = new Task("Capture The mimic", TaskType.CaptuerTask);
+                    Task captureTask = new Task("", TaskType.CaptuerTask);
                     TaskManager.Instance.AddTask(captureTask);
                     break;
             }
