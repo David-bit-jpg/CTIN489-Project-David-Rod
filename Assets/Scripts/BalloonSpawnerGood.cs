@@ -19,6 +19,7 @@ public class BalloonSpawnerGood : MonoBehaviour
     public float safeDistance = 0.4f;
     PlayerMovement mPlayer;
     Task balloonTask;
+    [SerializeField] GameObject Mimic;
     
 
     private List<GameObject> spawnedBalloons = new List<GameObject>();
@@ -47,16 +48,17 @@ public class BalloonSpawnerGood : MonoBehaviour
             //yet to be done
         }
 
-        if (balloonCount == 0)
+        if (balloonCount == 0 && !Mimic.activeInHierarchy)
         {
             //remove this task
-            TaskManager.Instance.RemoveTask(balloonTask);
+            TaskManager.Instance.RemoveTaskByType(TaskType.BalloonTask);
             
             switch (levelIndex)
             {
                 case 0:
                     Task captureTask = new Task("", TaskType.CaptuerTask);
                     TaskManager.Instance.AddTask(captureTask);
+                    Mimic.SetActive(true);
                     break;
             }
                 
