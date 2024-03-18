@@ -33,7 +33,7 @@ public class HorrorFace : MonoBehaviour
             if (IsPlayerLookingAtPrefab() && IsFacingEachOther())
             {
                 lookTime += Time.deltaTime;
-                if (lookTime > 6)
+                if (lookTime > 6.0f)
                 {
                     playerMovement.killed = true;
                     playerMovement.SetCanMove(false);
@@ -54,6 +54,7 @@ public class HorrorFace : MonoBehaviour
         Vector3 toPrefabFlat = (prefabPositionFlat - playerPositionFlat).normalized;
 
         float angle = Vector3.Angle(playerDirection, toPrefabFlat);
+        Debug.Log($"Player to HorrorFace Angle: {angle}");
         return angle < 30;
     }
 
@@ -65,6 +66,7 @@ public class HorrorFace : MonoBehaviour
         Vector3 prefabDirectionFlat = new Vector3(transform.forward.x, 0, transform.forward.z);
 
         float angle = Vector3.Angle(prefabDirectionFlat, toPlayerFlat);
+        Debug.Log($"HorrorFace to Player Angle: {angle}");
         return angle < 30;
     }
 }
