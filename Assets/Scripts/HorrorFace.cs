@@ -31,7 +31,7 @@ public class HorrorFace : MonoBehaviour
 
             if (IsPlayerLookingAtPrefab())
             {
-                Debug.Log("LOOK");
+                Debug.Log("LOOK AT ");
                 lookTime += Time.deltaTime;
                 if (lookTime > 10)
                 {
