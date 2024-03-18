@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
 public class HorrorFace : MonoBehaviour
 {
     public float lifetime;
@@ -29,13 +30,13 @@ public class HorrorFace : MonoBehaviour
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             transform.rotation = lookRotation;
 
-            if (IsPlayerLookingAtPrefab())
+            if (IsPlayerLookingAtPrefab() && IsFacingEachOther())
             {
-                Debug.Log("LOOK AT ");
                 lookTime += Time.deltaTime;
-                if (lookTime > 10)
+                if (lookTime > 6)
                 {
                     playerMovement.killed = true;
+                    playerMovement.SetCanMove(false);
                 }
             }
             else
@@ -47,9 +48,23 @@ public class HorrorFace : MonoBehaviour
 
     bool IsPlayerLookingAtPrefab()
     {
+        Vector3 playerPositionFlat = new Vector3(playerMovement.transform.position.x, 0, playerMovement.transform.position.z);
+        Vector3 prefabPositionFlat = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 playerDirection = playerMovement.transform.forward;
-        Vector3 toPrefab = (transform.position - playerMovement.transform.position).normalized;
-        float angle = Vector3.Angle(playerDirection, toPrefab);
-        return angle < 30.0f;
+        Vector3 toPrefabFlat = (prefabPositionFlat - playerPositionFlat).normalized;
+
+        float angle = Vector3.Angle(playerDirection, toPrefabFlat);
+        return angle < 30;
+    }
+
+    bool IsFacingEachOther()
+    {
+        Vector3 playerPositionFlat = new Vector3(playerMovement.transform.position.x, 0, playerMovement.transform.position.z);
+        Vector3 prefabPositionFlat = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 toPlayerFlat = (playerPositionFlat - prefabPositionFlat).normalized;
+        Vector3 prefabDirectionFlat = new Vector3(transform.forward.x, 0, transform.forward.z);
+
+        float angle = Vector3.Angle(prefabDirectionFlat, toPlayerFlat);
+        return angle < 30;
     }
 }

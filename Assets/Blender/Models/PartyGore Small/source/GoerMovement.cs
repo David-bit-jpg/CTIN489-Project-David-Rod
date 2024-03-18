@@ -217,6 +217,7 @@ public class GoerMovement : MonoBehaviour
                 mPlayer.transform.position = transform.position + directionToPlayer * 3.5f;
                 mPlayer.fixPos = mPlayer.transform.position = transform.position + directionToPlayer * 3.5f;
                 mPlayer.killed = true;
+                mPlayer.SetCanMove(false);
             }
             mPlayer.cameraControl.canMove = false;
             StartCoroutine(TurnCameraTowards(transform, 2.0f));
