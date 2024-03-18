@@ -73,22 +73,22 @@ public class GoerMovement : MonoBehaviour
             {
                 StartChase();
             }
-            if (isChasing && Vector3.Distance(transform.position, playerTransform.position) > chaseEndDistance)
+            else if (isChasing && Vector3.Distance(transform.position, playerTransform.position) > chaseEndDistance)
             {
                 StopChase();
+            }
+            else if (Vector3.Distance(transform.position, playerTransform.position) <= 2.0f)
+            {
+                if (GameObject.FindGameObjectWithTag("Player") && !isCaught)
+                {
+                    // isChasing = false;
+                    StartCoroutine(KillPlayer());
+                    isCaught = true;
+                }
             }
             else if (isChasing)
             {
                 ChasePlayer();
-            }
-            else if (Vector3.Distance(transform.position, playerTransform.position) <= 3.5f)
-            {
-                if (GameObject.FindGameObjectWithTag("Player") && !isCaught)
-                {
-                    isChasing = false;
-                    StartCoroutine(KillPlayer());
-                    isCaught = true;
-                }
             }
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
             {
@@ -162,7 +162,8 @@ public class GoerMovement : MonoBehaviour
     }
     void DetectObjectsOnGround()
     {
-        float detectionRadius = 6.0f;
+        float detectionRadius = 10.0f;
+        float seeRadius = 5.0f;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius);
         Vector3 playerPos = playerTransform.position;
         float distance = Vector3.Distance(playerPos, transform.position);
@@ -182,7 +183,7 @@ public class GoerMovement : MonoBehaviour
                     break;
                 }
             }
-            else if (hitCollider.CompareTag("BrokenBalloon") && !isChasing && distance <= detectionRadius)
+            else if (hitCollider.CompareTag("BrokenBalloon") && !isChasing && distance <= seeRadius)
             {
                 Debug.Log("Broken balloon detected. Starting chase.");
                 StartChase();
@@ -206,10 +207,10 @@ public class GoerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(15.0f);
         float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
-        if (distanceToPlayer <= 3.5f)
+        if (distanceToPlayer <= 2.0f)
         {
             float initialDistanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
-            if (initialDistanceToPlayer < 3.5f)
+            if (initialDistanceToPlayer < 2.0f)
             {
                 mPlayer.SetCanMove(false);
                 Vector3 directionToPlayer = (mPlayer.transform.position - transform.position).normalized;
@@ -235,6 +236,7 @@ public class GoerMovement : MonoBehaviour
             yield return null;
         }
         cameraTransform.rotation = endRotation;
+        cameraTransform.position = playerTransform.position;
     }
 
     IEnumerator ConsumeObject(GameObject obj)
