@@ -38,10 +38,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _PixelOffset: 0
-    - _Shake: 0
-    - _Speed: 0
+    - _Shake: 0.003
+    - _Speed: 0.5
     - _Strength: 0
-    - _StripSize: 0
+    - _StripSize: 0.3
     m_Colors:
     - _YIQMul: {r: 1, g: 1, b: 1.4, a: 0}
     - _YQIAdd: {r: 0, g: 0, b: 0, a: 0}
