@@ -3,9 +3,9 @@ using UnityEngine;
 using System.Collections.Generic;
 public class FaceSpawner : MonoBehaviour
 {
-    public GameObject horrorFacePrefab; 
-    public float minDistance; 
-    public float maxDistance; 
+    public GameObject horrorFacePrefab;
+    public float minDistance;
+    public float maxDistance;
     public float spawnInterval;
     public int spawnNum;
 
@@ -60,7 +60,7 @@ public class FaceSpawner : MonoBehaviour
                 }
             }
 
-            if (tooClose) continue; 
+            if (tooClose) continue;
 
             Bounds spawnBounds = new Bounds(potentialSpawnPosition, Vector3.one * 0.5f);
             positionInCameraView = GeometryUtility.TestPlanesAABB(cameraPlanes, spawnBounds);
@@ -87,14 +87,14 @@ public class FaceSpawner : MonoBehaviour
                 if (hit.collider.CompareTag("Wall"))
                 {
                     Vector3 hitPosition = hit.point;
-                    hitPosition.y = 0; 
-                    float distanceFromPlayer = Vector3.Distance(hitPosition,playerPosition);
+                    hitPosition.y = 0;
+                    float distanceFromPlayer = Vector3.Distance(hitPosition, playerPosition);
 
                     if (distanceFromPlayer >= minDistanceFromPlayer)
                     {
-                        horrorFace.transform.position = hit.point + hit.normal * 0.1f; 
-                        horrorFace.transform.rotation = Quaternion.LookRotation(hit.normal); 
-                        return; 
+                        horrorFace.transform.position = hit.point + hit.normal * 0.1f;
+                        horrorFace.transform.rotation = Quaternion.LookRotation(hit.normal);
+                        return;
                     }
                 }
             }

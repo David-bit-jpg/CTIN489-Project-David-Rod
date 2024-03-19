@@ -76,11 +76,11 @@ public class HorrorFace : MonoBehaviour
         {
             if (hit.collider.CompareTag("Wall") || hit.collider.CompareTag("Door"))
             {
-                Debug.Log("Wall detected between player and HorrorFace.");
+                // Debug.Log("Wall detected between player and HorrorFace.");
                 return true;
             }
         }
-        Debug.Log("No wall detected between player and HorrorFace.");
+        // Debug.Log("No wall detected between player and HorrorFace.");
         return false;
     }
 

@@ -94,7 +94,7 @@ public class GoerMovement : MonoBehaviour
             {
                 if (Time.time >= nextMoveTime)
                 {
-                    // Debug.Log("Random Roam");
+                    Debug.Log("Random Roam");
                     MoveToNewRandomPosition();
                     animator.SetBool("IsWalking", true);
                 }
@@ -102,7 +102,7 @@ public class GoerMovement : MonoBehaviour
                 {
                     if (playerTransform != null)
                     {
-                        // Debug.Log("Stop and look");
+                        Debug.Log("Stop and look");
                         TurnTowards(playerTransform.position);
                     }
                     animator.SetBool("IsWalking", false);
@@ -110,13 +110,13 @@ public class GoerMovement : MonoBehaviour
 
                 if (Time.time >= currentBalloonSearchTime)
                 {
-                    // Debug.Log("Time to find balloon");
+                    Debug.Log("Time to find balloon");
                     FindNearestBalloon();
                     currentBalloonSearchTime = Time.time + balloonSearchTimer;
                 }
                 if (currentTargetBalloon != null && !agent.pathPending && agent.remainingDistance < 0.5f)
                 {
-                    // Debug.Log("Picking up"); 
+                    Debug.Log("Picking up");
                     StartCoroutine(PickupBalloon(currentTargetBalloon));
                     currentTargetBalloon = null;
                 }
@@ -137,7 +137,7 @@ public class GoerMovement : MonoBehaviour
     {
         if (!isChasing)
         {
-            // Debug.Log("Chase started because balloon broke");
+            Debug.Log("Chase started because balloon broke");
             isChasing = true;
             agent.speed += 0.5f;
             ResetAnimationStates();
@@ -150,7 +150,7 @@ public class GoerMovement : MonoBehaviour
     {
         if (isChasing)
         {
-            // Debug.Log("Chase stopped because player is far away");
+            Debug.Log("Chase stopped because player is far away");
             isChasing = false;
             agent.speed -= 0.5f;
             ResetAnimationStates();
@@ -163,7 +163,7 @@ public class GoerMovement : MonoBehaviour
     void DetectObjectsOnGround()
     {
         float detectionRadius = 10.0f;
-        float seeRadius = 5.0f;
+        float seeRadius = 4.0f;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius);
         Vector3 playerPos = playerTransform.position;
         float distance = Vector3.Distance(playerPos, transform.position);
@@ -172,12 +172,8 @@ public class GoerMovement : MonoBehaviour
             if (hitCollider.CompareTag("GlowStick"))
             {
                 GlowStickManager gsm = hitCollider.GetComponent<GlowStickManager>();
-                if (!gsm || gsm.isTaken)
-                {
-                    return;
-                }
                 gsm.isTaken = true;
-                // Debug.Log("Detected " + hitCollider.tag + " within range");
+                Debug.Log("Detected " + hitCollider.tag + " within range");
                 if (!isMovingToObject)
                 {
                     agent.SetDestination(hitCollider.transform.position);
@@ -189,19 +185,13 @@ public class GoerMovement : MonoBehaviour
             }
             else if (hitCollider.CompareTag("BrokenBalloon") && !isChasing && distance <= seeRadius)
             {
-                // Debug.Log("Broken balloon detected. Starting chase.");
+                Debug.Log("Broken balloon detected. Starting chase.");
                 StartChase();
                 break;
             }
             else if (hitCollider.CompareTag("BrokenBalloon") && !isChasing)
             {
-                BrokenBalloon bb = hitCollider.GetComponent<BrokenBalloon>();
-                if (!bb || bb.isTaken)
-                {
-                    return;
-                }
-                bb.isTaken = true;
-                // Debug.Log("Detected " + hitCollider.tag + " within range");
+                Debug.Log("Detected " + hitCollider.tag + " within range");
                 if (!isMovingToObject)
                 {
                     agent.SetDestination(hitCollider.transform.position);
@@ -227,7 +217,6 @@ public class GoerMovement : MonoBehaviour
                 mPlayer.transform.position = transform.position + directionToPlayer * 3.5f;
                 mPlayer.fixPos = mPlayer.transform.position = transform.position + directionToPlayer * 3.5f;
                 mPlayer.killed = true;
-                mPlayer.SetCanMove(false);
             }
             mPlayer.cameraControl.canMove = false;
             StartCoroutine(TurnCameraTowards(transform, 2.0f));
@@ -276,7 +265,7 @@ public class GoerMovement : MonoBehaviour
     {
         animator.SetBool("IsWalking", false);
         yield return new WaitForSeconds(2f);
-        // Debug.Log("Picking up");
+        Debug.Log("Picking up");
         animator.SetBool("IsWalking", true);
         Transform balloonParent = balloonChild.transform;
         pickedUpBalloon = balloonParent.gameObject;
@@ -316,7 +305,7 @@ public class GoerMovement : MonoBehaviour
         pickedUpBalloon = null;
         nextMoveTime = Time.time + Random.Range(pauseTimeMin, pauseTimeMax);
         currentBalloonSearchTime = Time.time + balloonSearchTimer;
-        // Debug.Log("Dropping");
+        Debug.Log("Dropping");
         animator.SetBool("IsWalking", true);
     }
 
