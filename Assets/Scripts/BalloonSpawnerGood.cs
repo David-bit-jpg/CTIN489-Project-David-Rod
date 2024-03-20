@@ -68,6 +68,7 @@ public class BalloonSpawnerGood : MonoBehaviour
                     Task captureTask = new Task("", TaskType.CaptuerTask);
                     TaskManager.Instance.AddTask(captureTask);
                     mimicMovement.gameObject.SetActive(true);
+                    LightmapSwitcher.Instance.SwitchToNight();
                     break;
             }
                 

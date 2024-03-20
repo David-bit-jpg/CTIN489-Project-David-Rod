@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class HorrorFace : MonoBehaviour
 {
@@ -10,12 +12,15 @@ public class HorrorFace : MonoBehaviour
     private Transform cameraTransform;
     private float lookTime = 0;
     public float sphereRadius = 1.0f;
+    private Volume volume;
+    private Vignette thisVignette;
 
     void Start()
     {
         playerMovement = FindObjectOfType<PlayerMovement>();
         StartCoroutine(DestroyAfterTime(lifetime));
         cameraTransform = Camera.main.transform;
+        volume = FindObjectOfType<Volume>();
     }
 
     IEnumerator DestroyAfterTime(float time)
@@ -32,11 +37,16 @@ public class HorrorFace : MonoBehaviour
             direction.y = 0;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             transform.rotation = lookRotation;
+            VolumeProfile proflile = volume.sharedProfile;
 
+            volume.profile.TryGet(out thisVignette);
+            
             if (IsPlayerLookingAtPrefab() && !CheckForWall())
             {
                 lookTime += Time.deltaTime;
-                if (lookTime > 6.0f)
+                
+
+                if (lookTime > 4.0f)
                 {
                     playerMovement.killed = true;
                     playerMovement.SetCanMove(false);
@@ -46,6 +56,7 @@ public class HorrorFace : MonoBehaviour
             {
                 lookTime = 0;
             }
+            thisVignette.intensity.value = lookTime / 4;
         }
     }
 

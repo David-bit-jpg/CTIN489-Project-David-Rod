@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour
                 RestartLevel();
             }
         }
-
+        
     }
 
     public void RestartLevel()
@@ -63,6 +63,7 @@ public class LevelManager : MonoBehaviour
         //player.gameObject.transform.position = new Vector3(3.70000005f, 0.200000003f, -33.5999985f);
         balloonSpawnerGood = FindAnyObjectByType<BalloonSpawnerGood>();
         balloonSpawnerGood.setMimicMovement();
+        LightmapSwitcher.Instance.SwitchToDay();
     }
     private void UpdateVHSParameters()
     {

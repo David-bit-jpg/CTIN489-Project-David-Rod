@@ -58,6 +58,7 @@ using UnityEditor;
 
         //Flash Status.
         bool LightOn;
+        public bool GetIsLightOn() { return LightOn; } 
         private bool isCharging = false;
         //One Method Call.
         bool OneCall;
