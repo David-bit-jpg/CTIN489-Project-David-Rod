@@ -93,9 +93,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float darkKillTime = 10.0f;
     float darkTimer;
 
-    public Volume postVolume;
-    private Vignette thisVignette;
-
     private void Awake()
     {
         currentStamina = maxStamina;
@@ -121,7 +118,12 @@ public class PlayerMovement : MonoBehaviour
         }
         UpdateGlowStickNumberUI();
 
-        postVolume = FindObjectOfType<Volume>();
+        
+    }
+
+    private void Start()
+    {
+        LevelManager.Instance.postVolume = FindObjectOfType<Volume>();
     }
 
     void Update()
@@ -141,9 +143,10 @@ public class PlayerMovement : MonoBehaviour
                 darkTimer = 0.0f;
             }
 
-            VolumeProfile proflile = postVolume.sharedProfile;
-            postVolume.profile.TryGet(out thisVignette);
-            thisVignette.intensity.value = darkTimer / darkKillTime;
+            if (LevelManager.Instance.thisVignette)
+            {
+                LevelManager.Instance.thisVignette.intensity.value = darkTimer / darkKillTime;
+            }
 
             float moveX = Input.GetAxis("Horizontal");
             float moveZ = Input.GetAxis("Vertical");
