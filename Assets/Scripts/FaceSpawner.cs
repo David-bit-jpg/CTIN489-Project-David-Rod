@@ -92,24 +92,12 @@ public class FaceSpawner : MonoBehaviour
 
                     if (distanceFromPlayer >= minDistanceFromPlayer)
                     {
-                        horrorFace.transform.position = hit.point + hit.normal * 0.1f;
+                        Vector3 newPosition = hit.point + hit.normal * 0.1f;
+
+                        newPosition.x = Mathf.Clamp(newPosition.x, -27.0f, 27.0f);
+                        newPosition.z = Mathf.Clamp(newPosition.z, -27.0f, 27.0f);
+                        horrorFace.transform.position = newPosition;
                         horrorFace.transform.rotation = Quaternion.LookRotation(hit.normal);
-                        if (horrorFace.transform.position.x >= 27.0f)
-                        {
-                            horrorFace.transform.position.x = 27.0f;
-                        }
-                        if (horrorFace.transform.position.x <= -27.0f)
-                        {
-                            horrorFace.transform.position.x = -27.0f;
-                        }
-                        if (horrorFace.transform.position.z >= 27.0f)
-                        {
-                            horrorFace.transform.position.z = 27.0f;
-                        }
-                        if (horrorFace.transform.position.z <= -27.0f)
-                        {
-                            horrorFace.transform.position.z = -27.0f;
-                        }
                         return;
                     }
                 }
