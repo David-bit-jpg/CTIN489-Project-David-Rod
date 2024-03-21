@@ -37,9 +37,8 @@ public class HorrorFace : MonoBehaviour
             direction.y = 0;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             transform.rotation = lookRotation;
-            VolumeProfile proflile = volume.sharedProfile;
 
-            volume.profile.TryGet(out thisVignette);
+            LevelManager.Instance.postVolume.profile.TryGet(out thisVignette);
             
             if (IsPlayerLookingAtPrefab() && !CheckForWall())
             {
@@ -56,7 +55,12 @@ public class HorrorFace : MonoBehaviour
             {
                 lookTime = 0;
             }
-            thisVignette.intensity.value = lookTime / 4;
+
+            if (thisVignette)
+            {
+                thisVignette.intensity.value = lookTime / 4;
+            }
+            
         }
     }
 

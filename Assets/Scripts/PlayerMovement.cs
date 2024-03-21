@@ -93,6 +93,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float darkKillTime = 10.0f;
     float darkTimer;
 
+    private Vignette thisVignette;
+
     private void Awake()
     {
         currentStamina = maxStamina;
@@ -142,11 +144,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 darkTimer = 0.0f;
             }
-
-            if (LevelManager.Instance.thisVignette)
-            {
-                LevelManager.Instance.thisVignette.intensity.value = darkTimer / darkKillTime;
-            }
+            /*LevelManager.Instance.postVolume.profile.TryGet(out thisVignette);
+            thisVignette.intensity.value = darkTimer / darkKillTime;*/
 
             float moveX = Input.GetAxis("Horizontal");
             float moveZ = Input.GetAxis("Vertical");
