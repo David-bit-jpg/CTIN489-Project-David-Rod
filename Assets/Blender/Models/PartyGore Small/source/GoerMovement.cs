@@ -55,11 +55,11 @@ public class GoerMovement : MonoBehaviour
     void Update()
     {
         if (animator.GetBool("IsEating")) return;
-        if (animator.GetBool("IsWalking") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
+        if (animator.GetBool("IsWalking") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Walk") && !isChasing)
         {
             animator.Play("Walk");
         }
-        if (animator.GetBool("IsChasing") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
+        if (animator.GetBool("IsChasing") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Run") && isChasing)
         {
             animator.Play("Run");
         }
@@ -96,7 +96,7 @@ public class GoerMovement : MonoBehaviour
             {
                 ChasePlayer();
             }
-            if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            else if (!agent.pathPending && agent.remainingDistance < 0.5f)
             {
                 if (Time.time >= nextMoveTime)
                 {
@@ -147,7 +147,7 @@ public class GoerMovement : MonoBehaviour
         {
             Debug.Log("Chase started because balloon broke");
             isChasing = true;
-            agent.speed += 0.5f;
+            agent.speed += 1.0f;
             ResetAnimationStates();
             animator.SetBool("IsChasing", true);
             currentBalloonSearchTime = float.MaxValue;
@@ -160,7 +160,7 @@ public class GoerMovement : MonoBehaviour
         {
             Debug.Log("Chase stopped because player is far away");
             isChasing = false;
-            agent.speed -= 0.5f;
+            agent.speed -= 1.0f;
             ResetAnimationStates();
             animator.SetBool("IsWalking", true);
             nextMoveTime = Time.time + Random.Range(pauseTimeMin, pauseTimeMax);
