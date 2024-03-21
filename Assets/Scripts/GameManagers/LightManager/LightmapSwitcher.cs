@@ -14,24 +14,23 @@ public class LightmapSwitcher : MonoBehaviour
 {
     public LightmapSet dayLightmaps;
     public LightmapSet nightLightmaps;
+    public bool isDay = true;
+    public static LightmapSwitcher Instance;
     [SerializeField] GameObject RedArrows, GreenArrows;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Start()
     {
         SwitchToDay();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            SwitchToDay();
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            SwitchToNight();
-        }
     }
 
     private void ApplyLightmapSet(LightmapSet set)
@@ -60,6 +59,7 @@ public class LightmapSwitcher : MonoBehaviour
         ApplyLightmapSet(dayLightmaps);
         RedArrows.SetActive(true);
         GreenArrows.SetActive(false);
+        isDay = true;
     }
 
     public void SwitchToNight()
@@ -67,5 +67,6 @@ public class LightmapSwitcher : MonoBehaviour
         ApplyLightmapSet(nightLightmaps);
         RedArrows.SetActive(false);
         GreenArrows.SetActive(true);
+        isDay = false;
     }
 }

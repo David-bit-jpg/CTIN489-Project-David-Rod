@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
 using Cinemachine;
+using UnityEngine.Rendering;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -86,6 +87,15 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] Transform CharacterBodyTransform;
     [SerializeField] CinemachineVirtualCamera VirtualCam;
+
+    Hashtable glowSticks = new Hashtable();
+
+    [SerializeField] float darkKillTime = 10.0f;
+    float darkTimer;
+
+    public Volume postVolume;
+    private Vignette thisVignette;
+
     private void Awake()
     {
         currentStamina = maxStamina;
@@ -101,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
         AudioSource.volume = volume;
         animator = GetComponent<Animator>();
         glowStickTimer = 0.0f;
+        darkTimer = 0.0f;
         DrainTime = BatteryLife;
         DisableVHSFeature();
         flashManager = flashTransform.GetComponent<FlashManager>();
@@ -109,12 +120,31 @@ public class PlayerMovement : MonoBehaviour
             vhsEffectStatusText.gameObject.SetActive(false);
         }
         UpdateGlowStickNumberUI();
+
+        postVolume = FindObjectOfType<Volume>();
     }
 
     void Update()
     {
         if (canMove)
         {
+            if (isDark())
+            {
+                if(darkTimer >= darkKillTime)
+                {
+                    killed = true;
+                }
+                darkTimer += Time.deltaTime;
+            }
+            else
+            {
+                darkTimer = 0.0f;
+            }
+
+            VolumeProfile proflile = postVolume.sharedProfile;
+            postVolume.profile.TryGet(out thisVignette);
+            thisVignette.intensity.value = darkTimer / darkKillTime;
+
             float moveX = Input.GetAxis("Horizontal");
             float moveZ = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
@@ -321,6 +351,7 @@ public class PlayerMovement : MonoBehaviour
                 if (!gsm.isTaken)
                 {
                     glowStickNumber++;
+                    glowSticks.Remove(hit.collider.gameObject.name);
                     Destroy(hit.collider.gameObject);
                     UpdateGlowStickNumberUI();
                 }
@@ -415,7 +446,8 @@ public class PlayerMovement : MonoBehaviour
                 dropPosition = rayStart + rayDirection * maxDistance;
             }
             Quaternion dropRotation = Quaternion.Euler(CameraIntractPointer.eulerAngles);
-            Instantiate(glowStick, dropPosition, dropRotation);
+            GameObject thisGlowStick = Instantiate(glowStick, dropPosition, dropRotation);
+            glowSticks.Add(thisGlowStick.name, thisGlowStick);
         }
     }
 
@@ -469,6 +501,36 @@ public class PlayerMovement : MonoBehaviour
         {
             VirtualCamNoise.m_FrequencyGain = 2;
         }
+    }
+
+    private float FindNearestGlowStickDist()
+    {
+        float minDist = float.MaxValue;
+        foreach(GameObject glowStick in glowSticks)
+        {
+            float curDist = Vector3.Distance(glowStick.transform.position, gameObject.transform.position);
+            if (curDist < minDist)
+            {
+                minDist = curDist;
+            }
+        }
+
+        return minDist;
+    }
+
+    private bool isDark()
+    {
+        if (LightmapSwitcher.Instance.isDay)
+        {
+            return false;
+        }
+
+        if(FindNearestGlowStickDist() < 5.0f || flashManager.GetIsLightOn())
+        {
+            return false;
+        }
+
+        return true;
     }
 
     //Debug
