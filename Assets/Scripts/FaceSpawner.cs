@@ -10,12 +10,34 @@ public class FaceSpawner : MonoBehaviour
     public int spawnNum;
 
     PlayerMovement mPlayer;
+    bool isAtSpawn = true;
     private List<Vector3> spawnedPositions = new List<Vector3>();
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlayerMovement>())
+        {
+            isAtSpawn = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<PlayerMovement>())
+        {
+            isAtSpawn = false;
+        }
+    }
 
     void Start()
     {
         mPlayer = FindObjectOfType<PlayerMovement>();
-        StartCoroutine(SpawnHorrorFaceRoutine());
+
+        if (!isAtSpawn)
+        {
+            StartCoroutine(SpawnHorrorFaceRoutine());
+        }
+        
     }
 
     IEnumerator SpawnHorrorFaceRoutine()

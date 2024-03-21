@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -13,6 +15,8 @@ public class LevelManager : MonoBehaviour
     public bool levelEnded = false;
     PlayerMovement player;
     BalloonSpawnerGood balloonSpawnerGood;
+    public Volume postVolume;
+    public Vignette thisVignette;
 
     private void Awake()
     {
@@ -30,6 +34,7 @@ public class LevelManager : MonoBehaviour
         restartText.gameObject.SetActive(false);
         endText.gameObject.SetActive(false);
         player = FindObjectOfType<PlayerMovement>();
+        postVolume.profile.TryGet(out thisVignette);
     }
 
     private void Update()
@@ -64,6 +69,8 @@ public class LevelManager : MonoBehaviour
         balloonSpawnerGood = FindAnyObjectByType<BalloonSpawnerGood>();
         balloonSpawnerGood.setMimicMovement();
         LightmapSwitcher.Instance.SwitchToDay();
+        postVolume = FindObjectOfType<Volume>();
+        postVolume.sharedProfile.TryGet(out thisVignette);
     }
     private void UpdateVHSParameters()
     {
