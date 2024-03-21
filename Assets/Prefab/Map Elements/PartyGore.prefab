@@ -661,7 +661,10 @@ MonoBehaviour:
   pauseTimeMin: 4
   pauseTimeMax: 8
   rayLength: 5
-  chaseEndDistance: 8
+  chaseEndDistance: 6
+  Audio: {fileID: 8300000, guid: ab49a476dca087d4bb35752ecacaff3e, type: 3}
+  volume: 0.2
+  AudioSource: {fileID: 0}
 --- !u!195 &3059425294186570319
 NavMeshAgent:
   m_ObjectHideFlags: 0

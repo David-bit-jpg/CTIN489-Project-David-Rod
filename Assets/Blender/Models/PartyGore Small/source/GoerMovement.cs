@@ -7,11 +7,6 @@ using System.Collections.Generic;
 
 public class GoerMovement : MonoBehaviour
 {
-    public enum GoerState
-    {
-        Moving,
-        KillingPlayer
-    }
     public NavMeshAgent agent;
     public Animator animator;
     public float wanderRadius = 10f;
@@ -33,8 +28,19 @@ public class GoerMovement : MonoBehaviour
     private GameObject targetObject = null;
     PlayerMovement mPlayer;
 
+    [SerializeField] private AudioClip Audio;
+
+    [SerializeField] public float volume = 0.5f;
+
+    public AudioSource AudioSource;
+
     private bool isCaught = false;
-    public GoerState currentState;
+    private void Awake()
+    {
+        AudioSource = gameObject.AddComponent<AudioSource>();
+        AudioSource.clip = Audio;
+        AudioSource.volume = volume;
+    }
 
     void Start()
     {
@@ -55,11 +61,11 @@ public class GoerMovement : MonoBehaviour
     void Update()
     {
         if (animator.GetBool("IsEating")) return;
-        if (animator.GetBool("IsWalking") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Walk") && !isChasing)
+        if (animator.GetBool("IsWalking") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
         {
             animator.Play("Walk");
         }
-        if (animator.GetBool("IsChasing") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Run") && isChasing)
+        if (animator.GetBool("IsChasing") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
         {
             animator.Play("Run");
         }
@@ -100,15 +106,15 @@ public class GoerMovement : MonoBehaviour
             {
                 if (Time.time >= nextMoveTime)
                 {
-                    // Debug.Log("Random Roam");
+                    Debug.Log("Random Roam");
+                                        animator.SetBool("IsWalking", true);
                     MoveToNewRandomPosition();
-                    animator.SetBool("IsWalking", true);
                 }
                 else
                 {
                     if (playerTransform != null)
                     {
-                        // Debug.Log("Stop and look");
+                        Debug.Log("Stop and look");
                         TurnTowards(playerTransform.position);
                     }
                     animator.SetBool("IsWalking", false);
@@ -116,13 +122,13 @@ public class GoerMovement : MonoBehaviour
 
                 if (Time.time >= currentBalloonSearchTime)
                 {
-                    // Debug.Log("Time to find balloon");
+                    Debug.Log("Time to find balloon");
                     FindNearestBalloon();
                     currentBalloonSearchTime = Time.time + balloonSearchTimer;
                 }
                 if (currentTargetBalloon != null && !agent.pathPending && agent.remainingDistance < 0.5f)
                 {
-                    // Debug.Log("Picking up");
+                    Debug.Log("Picking up");
                     StartCoroutine(PickupBalloon(currentTargetBalloon));
                     currentTargetBalloon = null;
                 }
@@ -213,6 +219,7 @@ public class GoerMovement : MonoBehaviour
     }
     IEnumerator KillPlayer()
     {
+        AudioSource.Play();
         Debug.Log("Start Counting");
         yield return new WaitForSeconds(15.0f);
         float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
