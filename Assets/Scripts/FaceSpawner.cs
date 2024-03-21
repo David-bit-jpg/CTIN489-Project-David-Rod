@@ -94,6 +94,22 @@ public class FaceSpawner : MonoBehaviour
                     {
                         horrorFace.transform.position = hit.point + hit.normal * 0.1f;
                         horrorFace.transform.rotation = Quaternion.LookRotation(hit.normal);
+                        if (horrorFace.transform.position.x >= 27.0f)
+                        {
+                            horrorFace.transform.position.x = 27.0f;
+                        }
+                        if (horrorFace.transform.position.x <= -27.0f)
+                        {
+                            horrorFace.transform.position.x = -27.0f;
+                        }
+                        if (horrorFace.transform.position.z >= 27.0f)
+                        {
+                            horrorFace.transform.position.z = 27.0f;
+                        }
+                        if (horrorFace.transform.position.z <= -27.0f)
+                        {
+                            horrorFace.transform.position.z = -27.0f;
+                        }
                         return;
                     }
                 }
