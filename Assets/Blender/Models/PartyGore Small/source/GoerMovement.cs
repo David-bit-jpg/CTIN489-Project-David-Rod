@@ -7,6 +7,11 @@ using System.Collections.Generic;
 
 public class GoerMovement : MonoBehaviour
 {
+    public enum GoerState
+    {
+        Moving,
+        KillingPlayer
+    }
     public NavMeshAgent agent;
     public Animator animator;
     public float wanderRadius = 10f;
@@ -29,6 +34,7 @@ public class GoerMovement : MonoBehaviour
     PlayerMovement mPlayer;
 
     private bool isCaught = false;
+    public GoerState currentState;
 
     void Start()
     {
@@ -58,7 +64,7 @@ public class GoerMovement : MonoBehaviour
             animator.Play("Run");
         }
         DetectObjectsOnGround();
-        if (isMovingToObject && !agent.pathPending && agent.remainingDistance < 0.5f)
+        if (isMovingToObject && !agent.pathPending && agent.remainingDistance < 0.5f && !isChasing)
         {
             if (targetObject != null)
             {
@@ -69,7 +75,7 @@ public class GoerMovement : MonoBehaviour
         }
         else
         {
-            if (hasPickedUpBalloon && pickedUpBalloon == null)
+            if (hasPickedUpBalloon && pickedUpBalloon == null && !isChasing)
             {
                 StartChase();
             }
@@ -77,7 +83,7 @@ public class GoerMovement : MonoBehaviour
             {
                 StopChase();
             }
-            else if (Vector3.Distance(transform.position, playerTransform.position) <= 2.0f)
+            else if (Vector3.Distance(transform.position, playerTransform.position) <= 2.0f && isChasing)
             {
                 if (GameObject.FindGameObjectWithTag("Player") && !isCaught)
                 {
@@ -94,7 +100,7 @@ public class GoerMovement : MonoBehaviour
             {
                 if (Time.time >= nextMoveTime)
                 {
-                    Debug.Log("Random Roam");
+                    // Debug.Log("Random Roam");
                     MoveToNewRandomPosition();
                     animator.SetBool("IsWalking", true);
                 }
@@ -102,7 +108,7 @@ public class GoerMovement : MonoBehaviour
                 {
                     if (playerTransform != null)
                     {
-                        Debug.Log("Stop and look");
+                        // Debug.Log("Stop and look");
                         TurnTowards(playerTransform.position);
                     }
                     animator.SetBool("IsWalking", false);
@@ -110,13 +116,13 @@ public class GoerMovement : MonoBehaviour
 
                 if (Time.time >= currentBalloonSearchTime)
                 {
-                    Debug.Log("Time to find balloon");
+                    // Debug.Log("Time to find balloon");
                     FindNearestBalloon();
                     currentBalloonSearchTime = Time.time + balloonSearchTimer;
                 }
                 if (currentTargetBalloon != null && !agent.pathPending && agent.remainingDistance < 0.5f)
                 {
-                    Debug.Log("Picking up");
+                    // Debug.Log("Picking up");
                     StartCoroutine(PickupBalloon(currentTargetBalloon));
                     currentTargetBalloon = null;
                 }
@@ -124,6 +130,8 @@ public class GoerMovement : MonoBehaviour
         }
         CheckForDoor();
     }
+
+
     void ChasePlayer()
     {
         if (playerTransform != null)
@@ -173,7 +181,7 @@ public class GoerMovement : MonoBehaviour
             {
                 GlowStickManager gsm = hitCollider.GetComponent<GlowStickManager>();
                 gsm.isTaken = true;
-                Debug.Log("Detected " + hitCollider.tag + " within range");
+                // Debug.Log("Detected " + hitCollider.tag + " within range");
                 if (!isMovingToObject)
                 {
                     agent.SetDestination(hitCollider.transform.position);
@@ -191,7 +199,7 @@ public class GoerMovement : MonoBehaviour
             }
             else if (hitCollider.CompareTag("BrokenBalloon") && !isChasing)
             {
-                Debug.Log("Detected " + hitCollider.tag + " within range");
+                // Debug.Log("Detected " + hitCollider.tag + " within range");
                 if (!isMovingToObject)
                 {
                     agent.SetDestination(hitCollider.transform.position);
@@ -205,6 +213,7 @@ public class GoerMovement : MonoBehaviour
     }
     IEnumerator KillPlayer()
     {
+        Debug.Log("Start Counting");
         yield return new WaitForSeconds(15.0f);
         float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
         if (distanceToPlayer <= 2.0f)
