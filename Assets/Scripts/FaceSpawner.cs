@@ -33,11 +33,8 @@ public class FaceSpawner : MonoBehaviour
     {
         mPlayer = FindObjectOfType<PlayerMovement>();
 
-        if (!isAtSpawn)
-        {
-            StartCoroutine(SpawnHorrorFaceRoutine());
-        }
-        
+        StartCoroutine(SpawnHorrorFaceRoutine());
+
     }
 
     IEnumerator SpawnHorrorFaceRoutine()
@@ -63,7 +60,7 @@ public class FaceSpawner : MonoBehaviour
         Plane[] cameraPlanes = GeometryUtility.CalculateFrustumPlanes(mainCamera);
 
         int attempts = 0;
-        while (positionInCameraView && attempts < 100)
+        while (positionInCameraView && attempts < 100 && !isAtSpawn)
         {
             attempts++;
             Vector3 randomDirection = Random.insideUnitSphere.normalized;
