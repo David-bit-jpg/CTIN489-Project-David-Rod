@@ -10,12 +10,31 @@ public class FaceSpawner : MonoBehaviour
     public int spawnNum;
 
     PlayerMovement mPlayer;
+    bool isAtSpawn = true;
     private List<Vector3> spawnedPositions = new List<Vector3>();
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlayerMovement>())
+        {
+            isAtSpawn = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<PlayerMovement>())
+        {
+            isAtSpawn = false;
+        }
+    }
 
     void Start()
     {
         mPlayer = FindObjectOfType<PlayerMovement>();
+
         StartCoroutine(SpawnHorrorFaceRoutine());
+
     }
 
     IEnumerator SpawnHorrorFaceRoutine()
@@ -41,7 +60,7 @@ public class FaceSpawner : MonoBehaviour
         Plane[] cameraPlanes = GeometryUtility.CalculateFrustumPlanes(mainCamera);
 
         int attempts = 0;
-        while (positionInCameraView && attempts < 100)
+        while (positionInCameraView && attempts < 100 && !isAtSpawn)
         {
             attempts++;
             Vector3 randomDirection = Random.insideUnitSphere.normalized;
@@ -92,7 +111,11 @@ public class FaceSpawner : MonoBehaviour
 
                     if (distanceFromPlayer >= minDistanceFromPlayer)
                     {
-                        horrorFace.transform.position = hit.point + hit.normal * 0.1f;
+                        Vector3 newPosition = hit.point + hit.normal * 0.1f;
+
+                        newPosition.x = Mathf.Clamp(newPosition.x, -27.0f, 27.0f);
+                        newPosition.z = Mathf.Clamp(newPosition.z, -27.0f, 27.0f);
+                        horrorFace.transform.position = newPosition;
                         horrorFace.transform.rotation = Quaternion.LookRotation(hit.normal);
                         return;
                     }
