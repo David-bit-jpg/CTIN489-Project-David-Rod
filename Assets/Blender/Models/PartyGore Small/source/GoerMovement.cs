@@ -81,7 +81,7 @@ public class GoerMovement : MonoBehaviour
         }
         else
         {
-            if (hasPickedUpBalloon && pickedUpBalloon == null && !isChasing)
+            if (hasPickedUpBalloon && pickedUpBalloon == null && !isChasing )
             {
                 StartChase();
             }
@@ -106,15 +106,15 @@ public class GoerMovement : MonoBehaviour
             {
                 if (Time.time >= nextMoveTime)
                 {
-                    Debug.Log("Random Roam");
-                                        animator.SetBool("IsWalking", true);
+                    // Debug.Log("Random Roam");
+                    animator.SetBool("IsWalking", true);
                     MoveToNewRandomPosition();
                 }
                 else
                 {
                     if (playerTransform != null)
                     {
-                        Debug.Log("Stop and look");
+                        // Debug.Log("Stop and look");
                         TurnTowards(playerTransform.position);
                     }
                     animator.SetBool("IsWalking", false);
@@ -122,13 +122,13 @@ public class GoerMovement : MonoBehaviour
 
                 if (Time.time >= currentBalloonSearchTime)
                 {
-                    Debug.Log("Time to find balloon");
+                    // Debug.Log("Time to find balloon");
                     FindNearestBalloon();
                     currentBalloonSearchTime = Time.time + balloonSearchTimer;
                 }
                 if (currentTargetBalloon != null && !agent.pathPending && agent.remainingDistance < 0.5f)
                 {
-                    Debug.Log("Picking up");
+                    // Debug.Log("Picking up");
                     StartCoroutine(PickupBalloon(currentTargetBalloon));
                     currentTargetBalloon = null;
                 }
@@ -151,7 +151,7 @@ public class GoerMovement : MonoBehaviour
     {
         if (!isChasing)
         {
-            Debug.Log("Chase started because balloon broke");
+            // Debug.Log("Chase started because balloon broke");
             isChasing = true;
             agent.speed += 1.0f;
             ResetAnimationStates();
@@ -164,7 +164,7 @@ public class GoerMovement : MonoBehaviour
     {
         if (isChasing)
         {
-            Debug.Log("Chase stopped because player is far away");
+            // Debug.Log("Chase stopped because player is far away");
             isChasing = false;
             agent.speed -= 1.0f;
             ResetAnimationStates();
@@ -187,7 +187,7 @@ public class GoerMovement : MonoBehaviour
             {
                 GlowStickManager gsm = hitCollider.GetComponent<GlowStickManager>();
                 gsm.isTaken = true;
-                // Debug.Log("Detected " + hitCollider.tag + " within range");
+                Debug.Log("Detected " + hitCollider.tag + " within range");
                 if (!isMovingToObject)
                 {
                     agent.SetDestination(hitCollider.transform.position);
@@ -205,7 +205,7 @@ public class GoerMovement : MonoBehaviour
             }
             else if (hitCollider.CompareTag("BrokenBalloon") && !isChasing)
             {
-                // Debug.Log("Detected " + hitCollider.tag + " within range");
+                Debug.Log("Detected " + hitCollider.tag + " within range");
                 if (!isMovingToObject)
                 {
                     agent.SetDestination(hitCollider.transform.position);
@@ -220,7 +220,7 @@ public class GoerMovement : MonoBehaviour
     IEnumerator KillPlayer()
     {
         AudioSource.Play();
-        Debug.Log("Start Counting");
+        Debug.Log("Start Kill loop");
         yield return new WaitForSeconds(15.0f);
         float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
         if (distanceToPlayer <= 2.0f)
@@ -273,6 +273,10 @@ public class GoerMovement : MonoBehaviour
 
             nextMoveTime = Time.time + Random.Range(pauseTimeMin, pauseTimeMax);
             isMovingToObject = false;
+        }
+        else
+        {
+            StopChase();
         }
     }
 
