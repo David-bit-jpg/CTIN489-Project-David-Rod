@@ -28,6 +28,8 @@ public class GoerMovement : MonoBehaviour
     private GameObject targetObject = null;
     PlayerMovement mPlayer;
 
+    private bool isStick = false;
+
     [SerializeField] private AudioClip Audio;
 
     [SerializeField] public float volume = 0.5f;
@@ -149,7 +151,7 @@ public class GoerMovement : MonoBehaviour
     }
     void StartChase()
     {
-        if (!isChasing)
+        if (!isChasing && !isStick)
         {
             // Debug.Log("Chase started because balloon broke");
             isChasing = true;
@@ -185,9 +187,14 @@ public class GoerMovement : MonoBehaviour
         {
             if (hitCollider.CompareTag("GlowStick"))
             {
+                isStick = true;
                 GlowStickManager gsm = hitCollider.GetComponent<GlowStickManager>();
                 gsm.isTaken = true;
-                Debug.Log("Detected " + hitCollider.tag + " within range");
+                if (isChasing)
+                {
+                    StopChase();
+                }
+                // Debug.Log("Detected " + hitCollider.tag + " within range");
                 if (!isMovingToObject)
                 {
                     agent.SetDestination(hitCollider.transform.position);
@@ -199,13 +206,13 @@ public class GoerMovement : MonoBehaviour
             }
             else if (hitCollider.CompareTag("BrokenBalloon") && !isChasing && distance <= seeRadius)
             {
-                Debug.Log("Broken balloon detected. Starting chase.");
+                // Debug.Log("Broken balloon detected. Starting chase.");
                 StartChase();
                 break;
             }
             else if (hitCollider.CompareTag("BrokenBalloon") && !isChasing)
             {
-                Debug.Log("Detected " + hitCollider.tag + " within range");
+                // Debug.Log("Detected " + hitCollider.tag + " within range");
                 if (!isMovingToObject)
                 {
                     agent.SetDestination(hitCollider.transform.position);
@@ -223,7 +230,7 @@ public class GoerMovement : MonoBehaviour
         Debug.Log("Start Kill loop");
         yield return new WaitForSeconds(15.0f);
         float distanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
-        if (distanceToPlayer <= 2.0f)
+        if (distanceToPlayer <= 2.0f && !isStick)
         {
             float initialDistanceToPlayer = Vector3.Distance(mPlayer.transform.position, transform.position);
             if (initialDistanceToPlayer < 2.0f)
@@ -273,10 +280,10 @@ public class GoerMovement : MonoBehaviour
 
             nextMoveTime = Time.time + Random.Range(pauseTimeMin, pauseTimeMax);
             isMovingToObject = false;
-        }
-        else
-        {
-            StopChase();
+            if(isStick)
+            {
+                isStick = false;
+            }
         }
     }
 
