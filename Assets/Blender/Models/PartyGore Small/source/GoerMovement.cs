@@ -189,7 +189,8 @@ public class GoerMovement : MonoBehaviour
             {
                 isStick = true;
                 GlowStickManager gsm = hitCollider.GetComponent<GlowStickManager>();
-                gsm.isTaken = true;
+                if(gsm && !gsm.isTaken)
+                    gsm.isTaken = true;
                 if (isChasing)
                 {
                     StopChase();
