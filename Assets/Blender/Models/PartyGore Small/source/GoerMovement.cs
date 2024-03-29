@@ -104,7 +104,7 @@ public class GoerMovement : MonoBehaviour
             {
                 ChasePlayer();
             }
-            else if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            else if (!agent.pathPending && agent.remainingDistance < 0.5f && !isStick)
             {
                 if (Time.time >= nextMoveTime)
                 {
@@ -302,7 +302,10 @@ public class GoerMovement : MonoBehaviour
         }
         balloonParent.SetParent(transform);
         Break_Ghost bg = balloonParent.GetComponent<Break_Ghost>();
-        bg.isPicked = true;
+        if(bg)
+        {
+            bg.isPicked = true;
+        }
         balloonParent.localPosition = new Vector3(-1f, 1.75f, 0.1f);
         balloonParent.localRotation = Quaternion.Euler(0, 0, 0);
         hasPickedUpBalloon = true;
