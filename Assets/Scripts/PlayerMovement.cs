@@ -13,7 +13,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Text glowStickPickupText;
     [SerializeField] private Text doorMoveUpText;
     [SerializeField] private Text chargingText;
-
+    [SerializeField] private Text pickUpText;
+    [SerializeField] private Text dropText;
     [SerializeField] private Text balloonText;
     [SerializeField] private Image redDot;
     [SerializeField] private GameObject vhsEffectStatusText;
@@ -95,11 +96,18 @@ public class PlayerMovement : MonoBehaviour
 
     private Vignette thisVignette;
 
+    int glowStickID = 0;
+
+    public bool isHoldingVase = false;
+    public Vase heldVase = null;
+
+    public int keyCount = 0;
     private void Awake()
     {
         currentStamina = maxStamina;
         glowStickPickupText.gameObject.SetActive(false);
         doorMoveUpText.gameObject.SetActive(false);
+        pickUpText.gameObject.SetActive(false);
         chargingText.gameObject.SetActive(false);
         balloonText.gameObject.SetActive(false);
         vhsFeature = rendererData.rendererFeatures.Find(feature => feature.name == "FullScreenPassRendererFeature");
@@ -270,6 +278,15 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
+            if (isHoldingVase)
+            {
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    heldVase.Drop();
+                    isHoldingVase = false;
+                }
+            }
+
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (Physics.SphereCast(ray, sphereRadius, out hit, 2.5f))
@@ -373,6 +390,29 @@ public class PlayerMovement : MonoBehaviour
                         break_Ghost.Is_Breaked = true;
                 }
                 break;
+            case "Lever":
+                Lever lever = hit.collider.GetComponent<Lever>();
+                if (lever != null)
+                {
+                    lever.Interact();
+                }
+                break;
+            case "Vase":
+                Vase vase = hit.collider.GetComponent<Vase>();
+                if (vase)
+                {
+                    vase.PickUp(this.gameObject, CharacterBodyTransform);
+                    isHoldingVase = true;
+                }
+                break;
+            case "Key":
+                Key key = hit.collider.GetComponent<Key>();
+                if (key)
+                {
+                    key.PickUp();
+                    keyCount++;
+                }
+                break;
             default:
                 break;
         }
@@ -382,6 +422,8 @@ public class PlayerMovement : MonoBehaviour
     {
         glowStickPickupText.gameObject.SetActive(hit.collider.gameObject.CompareTag("GlowStick"));
         doorMoveUpText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Door"));
+        pickUpText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Key") || hit.collider.gameObject.CompareTag("Vase") && !isHoldingVase);
+        dropText.gameObject.SetActive(isHoldingVase);
         chargingText.gameObject.SetActive(hit.collider.gameObject.CompareTag("ChargingStation"));
         balloonText.gameObject.SetActive(hit.collider.gameObject.CompareTag("Balloon") && !chased);
     }
@@ -449,7 +491,8 @@ public class PlayerMovement : MonoBehaviour
             }
             Quaternion dropRotation = Quaternion.Euler(CameraIntractPointer.eulerAngles);
             GameObject thisGlowStick = Instantiate(glowStick, dropPosition, dropRotation);
-            glowSticks.Add(thisGlowStick.name, thisGlowStick);
+
+            glowSticks.Add(thisGlowStick.name + glowStickID, thisGlowStick);
         }
     }
 

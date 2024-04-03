@@ -15,6 +15,9 @@ TagManager:
   - FlashLight
   - Balloon
   - BrokenBalloon
+  - Lever
+  - Vase
+  - Key
   layers:
   - Default
   - TransparentFX
@@ -29,7 +32,7 @@ TagManager:
   - ReflectionProbe
   - Face
   - Portal
-  - 
+  - Key
   - 
   - 
   - 
