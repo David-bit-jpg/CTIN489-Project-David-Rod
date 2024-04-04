@@ -27,9 +27,9 @@ public class Room1Manager : MonoBehaviour
         {
             isMatch = true;
         }
-        if (isMatch)
+        if (isMatch && lever.GetIsOn())
         {
-            if(Key.gameObject.transform.parent != null)
+            if(Key != null && Key.gameObject.transform.parent != null)
             {
                 Key.GetComponent<Rigidbody>().isKinematic = false;
                 Key.gameObject.transform.parent = null;

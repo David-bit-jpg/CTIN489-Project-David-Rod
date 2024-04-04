@@ -85318,6 +85318,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 624129301640569489, guid: 9c765ab43b6563c4f961eb4755d2212f, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: a6b4e6909564a8945921f079c75d73d4, type: 3}
+    - target: {fileID: 624129301640569489, guid: 9c765ab43b6563c4f961eb4755d2212f, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: f1d20974d7282244d9ceb27b90db2e28, type: 2}
     - target: {fileID: 2602029003054688636, guid: 9c765ab43b6563c4f961eb4755d2212f, type: 3}
       propertyPath: redDot
       value: 
@@ -85430,8 +85438,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedComponents:
+    - {fileID: 624129301640569489, guid: 9c765ab43b6563c4f961eb4755d2212f, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 4109573668310931623, guid: 9c765ab43b6563c4f961eb4755d2212f, type: 3}
+    - {fileID: 8625064356916188548, guid: 9c765ab43b6563c4f961eb4755d2212f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c765ab43b6563c4f961eb4755d2212f, type: 3}
