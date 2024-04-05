@@ -52,11 +52,13 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     public CameraControl cameraControl;
     private float lastStepTime = 0f;
-    private float stepInterval = 0f;
+    public float stepInterval = 0f;
 
     [SerializeField] private int glowStickNumber = 3;
-    [SerializeField] private float walkStepInterval = 0.5f;
-    [SerializeField] private float runStepInterval = 0.3f;
+    [SerializeField] public float walkStepInterval = 0.5f;
+    [SerializeField] public float runStepInterval = 0.3f;
+    [SerializeField] private float rayCastDist = 10.0f;
+    [SerializeField] private LayerMask IgnoreLayer;
     public bool isRunning { get; private set; }
     public bool isMoving { get; private set; }
     private Rigidbody rb;
@@ -65,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     public float horizontal;
     public float vertical;
     [SerializeField] public int maxStamina = 100;
-    private int currentStamina;
+    public int currentStamina;
     public Image staminaBar;
     private float lastRunTime = 0f;
     [SerializeField] private float staminaRecoveryDelay = 3.0f;
@@ -155,46 +157,23 @@ public class PlayerMovement : MonoBehaviour
             /*LevelManager.Instance.postVolume.profile.TryGet(out thisVignette);
             thisVignette.intensity.value = darkTimer / darkKillTime;*/
 
-            float moveX = Input.GetAxis("Horizontal");
+            /*float moveX = Input.GetAxis("Horizontal");
             float moveZ = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");
             Vector3 forward = CharacterBodyTransform.forward * moveZ;
             Vector3 right = CharacterBodyTransform.right * moveX;
 
-            moveDirection = (forward + right).normalized;
+            moveDirection = (forward + right).normalized;*/
 
             if (Input.GetButtonDown("Jump") && isGrounded)
             {
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             }
-            if (currentStamina >= 0 && Input.GetKey(KeyCode.LeftShift))
-            {
-                isRunning = true;
-                speed = runningSpeed;
-                stepInterval = runStepInterval;
-            }
-            else
-            {
-                isRunning = false;
-                speed = normalSpeed;
-                stepInterval = walkStepInterval;
-            }
-            isMoving = moveDirection != Vector3.zero;
-            if (isRunning && isMoving)
-            {
-                currentStamina--;
-                lastRunTime = Time.time;
-                speed = runningSpeed;
-                UpdateStaminaBar();
-            }
-            else if (Time.time - lastRunTime > staminaRecoveryDelay && currentStamina < maxStamina)
-            {
-                currentStamina += (int)(staminaRecoveryRate * Time.deltaTime);
-                currentStamina = Mathf.Min(currentStamina, maxStamina);
-                speed = normalSpeed;
-                UpdateStaminaBar();
-            }
+
+            
+            /*isMoving = moveDirection != Vector3.zero;*/
+            
 
             if (Input.GetKey(KeyCode.Q) && glowStickNumber > 0)
             {
@@ -243,14 +222,14 @@ public class PlayerMovement : MonoBehaviour
             glowStickTimer -= Time.deltaTime;
             RaycastHit hit;
             Ray ray = new Ray(CameraIntractPointer.position, CameraIntractPointer.forward);
-            if (Physics.SphereCast(ray, sphereRadius, out hit, 2.5f))
+            if (Physics.SphereCast(ray, sphereRadius, out hit, rayCastDist, ~IgnoreLayer))
             {
                 UpdateInteractionUI(hit);
                 UpdateGlowStickNumberUI();
             }
 
 
-            bool hitChargingStation = Physics.SphereCast(CameraIntractPointer.position, sphereRadius, CameraIntractPointer.forward, out hit, 2.5f) && hit.collider.CompareTag("ChargingStation");
+            bool hitChargingStation = Physics.SphereCast(CameraIntractPointer.position, sphereRadius, CameraIntractPointer.forward, out hit, rayCastDist, ~IgnoreLayer) && hit.collider.CompareTag("ChargingStation");
 
             if (hitChargingStation)
             {
@@ -289,7 +268,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (Physics.SphereCast(ray, sphereRadius, out hit, 2.5f))
+                if (Physics.SphereCast(ray, sphereRadius, out hit, rayCastDist, ~IgnoreLayer))
                 {
                     HandleInteraction(hit);
                 }
@@ -297,8 +276,8 @@ public class PlayerMovement : MonoBehaviour
 
             Vector3 rayStart = CameraIntractPointer.position;
             Vector3 rayDirection = CameraIntractPointer.forward;
-            Debug.DrawRay(CameraIntractPointer.position, CameraIntractPointer.forward * 2.5f, Color.red);
-            float sphereCastDistance = 2.5f;
+            Debug.DrawRay(CameraIntractPointer.position, CameraIntractPointer.forward * rayCastDist, Color.red);
+            float sphereCastDistance = rayCastDist;
             Color debugColor = Color.red;
 
             DrawSphereCast(rayStart, rayDirection, sphereRadius, sphereCastDistance, debugColor);
@@ -326,6 +305,24 @@ public class PlayerMovement : MonoBehaviour
             {
                 LevelManager.Instance.RestartLevel();
             }
+        }
+    }
+
+    public void UpdateStamina(bool isSprinting)
+    {
+        if (isSprinting)
+        {
+            currentStamina--;
+            lastRunTime = Time.time;
+            speed = runningSpeed;
+            UpdateStaminaBar();
+        }
+        else if (Time.time - lastRunTime > staminaRecoveryDelay && currentStamina < maxStamina)
+        {
+            currentStamina += (int)(staminaRecoveryRate * Time.deltaTime);
+            currentStamina = Mathf.Min(currentStamina, maxStamina);
+            speed = normalSpeed;
+            UpdateStaminaBar();
         }
     }
     IEnumerator ToggleStateCoroutine()
@@ -401,8 +398,7 @@ public class PlayerMovement : MonoBehaviour
                 Vase vase = hit.collider.GetComponent<Vase>();
                 if (vase)
                 {
-                    vase.PickUp(this.gameObject, CharacterBodyTransform);
-                    isHoldingVase = true;
+                    vase.PickUp();
                 }
                 break;
             case "Key":
@@ -447,7 +443,7 @@ public class PlayerMovement : MonoBehaviour
                 lastStepTime = Time.time;
             }
         }
-        rb.MovePosition(rb.position + moveDirection * currentSpeed * Time.fixedDeltaTime);
+        //rb.MovePosition(rb.position + moveDirection * currentSpeed * Time.fixedDeltaTime);
 
     }
     private void UpdateStaminaBar()
@@ -481,7 +477,7 @@ public class PlayerMovement : MonoBehaviour
             RaycastHit hit;
             Vector3 dropPosition;
 
-            if (Physics.Raycast(rayStart, rayDirection, out hit, maxDistance))
+            if (Physics.Raycast(rayStart, rayDirection, out hit, maxDistance, ~IgnoreLayer))
             {
                 dropPosition = hit.point - rayDirection * 0.1f;
             }
@@ -492,7 +488,7 @@ public class PlayerMovement : MonoBehaviour
             Quaternion dropRotation = Quaternion.Euler(CameraIntractPointer.eulerAngles);
             GameObject thisGlowStick = Instantiate(glowStick, dropPosition, dropRotation);
 
-            glowSticks.Add(thisGlowStick.name + glowStickID, thisGlowStick);
+            //glowSticks.Add(thisGlowStick.name + glowStickID, thisGlowStick);
         }
     }
 

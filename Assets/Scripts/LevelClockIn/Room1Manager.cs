@@ -34,7 +34,6 @@ public class Room1Manager : MonoBehaviour
                 Key.GetComponent<Rigidbody>().isKinematic = false;
                 Key.gameObject.transform.parent = null;
             }
-            return;
         }
         else if(!isMatch && door.isOpened)
         {

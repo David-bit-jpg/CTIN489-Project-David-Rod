@@ -109,7 +109,7 @@ namespace StarterAssets
 
         private const float _threshold = 0.01f;
 
-        private bool _hasAnimator;
+        private bool _hasAnimator = true;
 
         private bool IsCurrentDeviceMouse
         {
@@ -124,6 +124,7 @@ namespace StarterAssets
         }
 
         public bool isDead = false;
+        private PlayerMovement playerMovement;
 
         private void Awake()
         {
@@ -132,15 +133,18 @@ namespace StarterAssets
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+            
         }
 
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
-            _hasAnimator = TryGetComponent(out _animator);
+            //_hasAnimator = TryGetComponentInChildren(out _animator);
+            _animator = GetComponentInChildren<Animator>();
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
+            playerMovement = GetComponentInChildren<PlayerMovement>();
 #if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();
 #else
@@ -156,14 +160,13 @@ namespace StarterAssets
 
         private void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);
+            //_hasAnimator = TryGetComponent(out _animator);
 
             if (isDead)
             {
                 return;
             }
 
-            JumpAndGravity();
             GroundedCheck();
             Move();
         }
@@ -221,7 +224,18 @@ namespace StarterAssets
         private void Move()
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            float targetSpeed = _input.sprint && playerMovement.currentStamina > 0? SprintSpeed : MoveSpeed;
+
+            if (playerMovement.currentStamina >= 0 && _input.sprint)
+            {
+                playerMovement.stepInterval = playerMovement.runStepInterval;
+            }
+            else
+            {
+                playerMovement.stepInterval = playerMovement.walkStepInterval;
+            }
+
+            playerMovement.UpdateStamina(_input.sprint);
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 

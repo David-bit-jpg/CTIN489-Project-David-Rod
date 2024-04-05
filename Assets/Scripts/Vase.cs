@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,16 +13,17 @@ public class Vase : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        player = FindAnyObjectByType<ThirdPersonController>().gameObject;
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (isPickedUp)
         {
             rb.isKinematic = true;
             gameObject.transform.parent = player.transform;
-            gameObject.transform.position = player.transform.position + characterModel.forward * 1.5f + new Vector3(0, 1, 0);
+            gameObject.transform.position = player.transform.position + player.transform.forward * 1.5f + new Vector3(0, 1, 0);
         }
         else
         {
@@ -30,11 +32,11 @@ public class Vase : MonoBehaviour
         }
     }
 
-    public void PickUp(GameObject player, Transform characterModel)
+    public void PickUp()
     {
         isPickedUp = true;
-        player.GetComponent<PlayerMovement>().heldVase = this;
-        this.player = player;
+        player.GetComponentInChildren<PlayerMovement>().heldVase = this;
+        player.GetComponentInChildren<PlayerMovement>().isHoldingVase = true;
         this.characterModel = characterModel;
     }
 

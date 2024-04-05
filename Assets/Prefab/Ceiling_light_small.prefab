@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3044385525848750196}
   - component: {fileID: 2241761111138603876}
   - component: {fileID: 3252704332097283233}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Area Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 4757758860118842843}
   - component: {fileID: 7341433847970081041}
   - component: {fileID: 6338332497920519240}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ceiling_light_small
   m_TagString: Untagged
   m_Icon: {fileID: 0}
