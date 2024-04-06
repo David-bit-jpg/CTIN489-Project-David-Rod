@@ -104,6 +104,8 @@ public class PlayerMovement : MonoBehaviour
     public Vase heldVase = null;
 
     public int keyCount = 0;
+
+    [SerializeField] public Material vhsMaterial;
     private void Awake()
     {
         currentStamina = maxStamina;
@@ -136,6 +138,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         LevelManager.Instance.postVolume = FindObjectOfType<Volume>();
+        UpdateVHSParameters(0.0f);
     }
 
     void Update()
@@ -166,10 +169,10 @@ public class PlayerMovement : MonoBehaviour
 
             moveDirection = (forward + right).normalized;*/
 
-            if (Input.GetButtonDown("Jump") && isGrounded)
+            /*if (Input.GetButtonDown("Jump") && isGrounded)
             {
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            }
+            }*/
 
             
             /*isMoving = moveDirection != Vector3.zero;*/
@@ -609,6 +612,24 @@ public class PlayerMovement : MonoBehaviour
             Vector3 point = center + Quaternion.Euler(0, 0, angle) * Vector3.right * radius;
             Debug.DrawLine(prevPoint, point, color);
             prevPoint = point;
+        }
+    }
+
+    private void UpdateVHSParameters(float lerpFactor)
+    {
+        if (vhsMaterial != null)
+        {
+            AudioSource.volume = Mathf.Lerp(0.0f, 0.4f, lerpFactor);
+            float strength = Mathf.Lerp(0.0f, 1.0f, lerpFactor);
+            float strip = Mathf.Lerp(0.3f, 0.2f, lerpFactor);
+            float pixelOffset = Mathf.Lerp(0.0f, 40.0f, lerpFactor);
+            float shake = Mathf.Lerp(0.003f, 0.01f, lerpFactor);
+            float speed = Mathf.Lerp(0.5f, 1.2f, lerpFactor);
+            vhsMaterial.SetFloat("_Strength", strength);
+            vhsMaterial.SetFloat("_StripSize", strip);
+            vhsMaterial.SetFloat("_PixelOffset", pixelOffset);
+            vhsMaterial.SetFloat("_Shake", shake);
+            vhsMaterial.SetFloat("_Speed", speed);
         }
     }
 }

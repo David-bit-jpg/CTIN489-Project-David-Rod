@@ -67,4 +67,5 @@ public class Room1Manager : MonoBehaviour
             vase3.GetComponent<ConstantForce>().force = new Vector3(0, -10, 0);
         }
     }
+
 }

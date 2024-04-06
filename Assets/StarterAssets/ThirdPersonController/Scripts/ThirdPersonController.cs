@@ -111,6 +111,8 @@ namespace StarterAssets
 
         private bool _hasAnimator = true;
 
+        Rigidbody rb;
+
         private bool IsCurrentDeviceMouse
         {
             get
@@ -133,7 +135,7 @@ namespace StarterAssets
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
-            
+            rb = GetComponent<Rigidbody>();
         }
 
         private void Start()
@@ -166,13 +168,15 @@ namespace StarterAssets
             {
                 return;
             }
-
-            GroundedCheck();
+            //JumpAndGravity();
+            
             Move();
+            JumpAndGravity();
         }
 
         private void LateUpdate()
         {
+            GroundedCheck();
             CameraRotation();
         }
 
@@ -191,12 +195,12 @@ namespace StarterAssets
             Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
                 transform.position.z);
             Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
-                QueryTriggerInteraction.Ignore);
+                QueryTriggerInteraction.Collide);
 
             // update animator if using character
             if (_hasAnimator)
             {
-                _animator.SetBool(_animIDGrounded, Grounded);
+                //_animator.SetBool(_animIDGrounded, Grounded);
             }
         }
 
@@ -311,7 +315,7 @@ namespace StarterAssets
                 if (_hasAnimator)
                 {
                     _animator.SetBool(_animIDJump, false);
-                    _animator.SetBool(_animIDFreeFall, false);
+                    //_animator.SetBool(_animIDFreeFall, false);
                 }
 
                 // stop our velocity dropping infinitely when grounded
@@ -354,7 +358,7 @@ namespace StarterAssets
                     // update animator if using character
                     if (_hasAnimator)
                     {
-                        _animator.SetBool(_animIDFreeFall, true);
+                        //_animator.SetBool(_animIDFreeFall, true);
                     }
                 }
 
@@ -409,5 +413,7 @@ namespace StarterAssets
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
             }
         }
+
+
     }
 }
