@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] public Transform CameraIntractPointer;
     private ScriptableRendererFeature vhsFeature;
-    public bool featureAble = false;
+    private bool featureAble = false;
     [SerializeField] public UniversalRendererData rendererData;
     [SerializeField] private float normalSpeed = 2.0f;
     [SerializeField] private float runningSpeed = 5.0f;
