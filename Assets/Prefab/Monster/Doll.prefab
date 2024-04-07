@@ -375,6 +375,7 @@ GameObject:
   - component: {fileID: 1987312412499490748}
   - component: {fileID: 4829154153970039873}
   - component: {fileID: 5419266074761962860}
+  - component: {fileID: 6765204696652008809}
   m_Layer: 0
   m_Name: Doll
   m_TagString: Untagged
@@ -434,6 +435,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 4829154153970039873}
+--- !u!95 &6765204696652008809
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831061398520307252}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 839539dc76ef14a92b1161860d540cea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &911054827249876896
 GameObject:
   m_ObjectHideFlags: 0

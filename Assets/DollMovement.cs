@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public class AIBehaviour : MonoBehaviour
 {
     public NavMeshAgent agent;
@@ -16,6 +17,12 @@ public class AIBehaviour : MonoBehaviour
     private Transform playerTransform;
     private float chaseTimer;
     private bool isInteractingWithDoor = false;
+
+    public float moveSpeed = 1.5f;
+    public float pauseSpeed = 0f;
+    public float moveTime = 0.5f;
+    public float pauseTime = 0.2f;
+    private float movePauseTimer;
 
     void Start()
     {
@@ -42,6 +49,31 @@ public class AIBehaviour : MonoBehaviour
         if (!isInteractingWithDoor)
         {
             CheckForDoor();
+        }
+
+        UpdateMovePauseCycle();
+    }
+
+    private void UpdateMovePauseCycle()
+    {
+        if (currentState == State.Roam || currentState == State.Chase)
+        {
+            movePauseTimer -= Time.deltaTime;
+            if (movePauseTimer <= 0)
+            {
+                if (agent.speed == pauseSpeed)
+                {
+                    // 从停顿切换到移动
+                    agent.speed = moveSpeed;
+                    movePauseTimer = moveTime;
+                }
+                else
+                {
+                    // 从移动切换到停顿
+                    agent.speed = pauseSpeed;
+                    movePauseTimer = pauseTime;
+                }
+            }
         }
     }
 
