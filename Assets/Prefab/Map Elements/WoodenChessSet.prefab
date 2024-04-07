@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4507814542825267948}
   - component: {fileID: 5235418052069836186}
   - component: {fileID: 1533029354796146069}
+  - component: {fileID: 879909396356321035}
   m_Layer: 0
   m_Name: ChessBoard
   m_TagString: Untagged
@@ -83,6 +84,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &879909396356321035
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262959615733423393}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1284130878809804175, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &1037068346618922752
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +117,7 @@ GameObject:
   - component: {fileID: 3461120391452138293}
   - component: {fileID: 3194624489693280577}
   - component: {fileID: 6368546901469963168}
+  - component: {fileID: 5177114402486328880}
   m_Layer: 0
   m_Name: BlackKnight.001
   m_TagString: Untagged
@@ -166,6 +190,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5177114402486328880
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037068346618922752}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5945560972012361058, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &1443146123178941502
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,6 +223,7 @@ GameObject:
   - component: {fileID: 6103550917522415394}
   - component: {fileID: 2300061341674994613}
   - component: {fileID: 6178210133734009656}
+  - component: {fileID: 8775803231576923051}
   m_Layer: 0
   m_Name: WhitePawn.001
   m_TagString: Untagged
@@ -249,6 +296,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8775803231576923051
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443146123178941502}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -745878891002619431, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &1635416863176381267
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,6 +329,7 @@ GameObject:
   - component: {fileID: 1539816982632847637}
   - component: {fileID: 3104057225230764259}
   - component: {fileID: 5861896797747869275}
+  - component: {fileID: 1275388686006344932}
   m_Layer: 0
   m_Name: WhiteKnight.001
   m_TagString: Untagged
@@ -332,6 +402,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1275388686006344932
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635416863176381267}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 68001343053921071, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &2092432286541754554
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,6 +435,7 @@ GameObject:
   - component: {fileID: 3842087420820424557}
   - component: {fileID: 8837605319415423032}
   - component: {fileID: 6557508144523756040}
+  - component: {fileID: 5091786995016917523}
   m_Layer: 0
   m_Name: WhiteBishop
   m_TagString: Untagged
@@ -415,6 +508,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5091786995016917523
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092432286541754554}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4406593513325915853, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &2099915310838527572
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,6 +541,7 @@ GameObject:
   - component: {fileID: 91569022804731283}
   - component: {fileID: 4215389530776456931}
   - component: {fileID: 1780628373124396714}
+  - component: {fileID: 404169503422840491}
   m_Layer: 0
   m_Name: BlackRook.001
   m_TagString: Untagged
@@ -498,6 +614,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &404169503422840491
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099915310838527572}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5844669121169525625, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &2162738639671727482
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,6 +647,7 @@ GameObject:
   - component: {fileID: 1118376969183079101}
   - component: {fileID: 1664430204031399727}
   - component: {fileID: 2105265666167685537}
+  - component: {fileID: 8194125619683128257}
   m_Layer: 0
   m_Name: BlackPawn.006
   m_TagString: Untagged
@@ -581,6 +720,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8194125619683128257
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2162738639671727482}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3304121342174898441, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &2833811831770156782
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,6 +753,7 @@ GameObject:
   - component: {fileID: 517634623295940121}
   - component: {fileID: 4526288214531956972}
   - component: {fileID: 2695785672817065939}
+  - component: {fileID: 1213249158221365238}
   m_Layer: 0
   m_Name: WhitePawn.006
   m_TagString: Untagged
@@ -664,6 +826,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1213249158221365238
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2833811831770156782}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3437350765695861976, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &3076049752402596759
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +859,7 @@ GameObject:
   - component: {fileID: 6025018003666706124}
   - component: {fileID: 8785654023375364936}
   - component: {fileID: 1453895026679557349}
+  - component: {fileID: 7207540013913608330}
   m_Layer: 0
   m_Name: BlackBishop.001
   m_TagString: Untagged
@@ -747,6 +932,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7207540013913608330
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3076049752402596759}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 816764608011304035, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &3725132286920710680
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,6 +965,7 @@ GameObject:
   - component: {fileID: 7353988326639298165}
   - component: {fileID: 2452087830367559969}
   - component: {fileID: 5038080393917336170}
+  - component: {fileID: 1819334950262944214}
   m_Layer: 0
   m_Name: WhiteRook.001
   m_TagString: Untagged
@@ -830,6 +1038,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1819334950262944214
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3725132286920710680}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8051127256441175963, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &3849793641229870454
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,6 +1071,7 @@ GameObject:
   - component: {fileID: 4096089356328602121}
   - component: {fileID: 1206743749828008895}
   - component: {fileID: 474693737864222825}
+  - component: {fileID: 5357791132398006547}
   m_Layer: 0
   m_Name: BlackPawn.001
   m_TagString: Untagged
@@ -913,6 +1144,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5357791132398006547
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3849793641229870454}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -829155713187609996, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &3969451771108662173
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,6 +1177,7 @@ GameObject:
   - component: {fileID: 7072688682838694956}
   - component: {fileID: 7390300911004309050}
   - component: {fileID: 4337993393255950935}
+  - component: {fileID: 608136928844651831}
   m_Layer: 0
   m_Name: WhiteKing
   m_TagString: Untagged
@@ -996,6 +1250,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &608136928844651831
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3969451771108662173}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8162846442160341690, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &4858943473552120891
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,6 +1283,7 @@ GameObject:
   - component: {fileID: 8156598113709442921}
   - component: {fileID: 7449347918812436901}
   - component: {fileID: 6681412120984084125}
+  - component: {fileID: 2077704265959878263}
   m_Layer: 0
   m_Name: WhitePawn.003
   m_TagString: Untagged
@@ -1079,6 +1356,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2077704265959878263
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858943473552120891}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1950227181268904953, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &4885618565557092449
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,6 +1389,7 @@ GameObject:
   - component: {fileID: 4208718186979969864}
   - component: {fileID: 4966351097629413494}
   - component: {fileID: 6121909696052659507}
+  - component: {fileID: 449183000781770570}
   m_Layer: 0
   m_Name: BlackKing
   m_TagString: Untagged
@@ -1162,6 +1462,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &449183000781770570
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4885618565557092449}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -381131165291095193, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &4896554967357888530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1173,6 +1495,7 @@ GameObject:
   - component: {fileID: 1919695472670717792}
   - component: {fileID: 7392460240818869668}
   - component: {fileID: 3831567668768479756}
+  - component: {fileID: 6786828191786320376}
   m_Layer: 0
   m_Name: BlackPawn.007
   m_TagString: Untagged
@@ -1245,6 +1568,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6786828191786320376
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4896554967357888530}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 235425274718468733, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &5113956818254053069
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,6 +1601,7 @@ GameObject:
   - component: {fileID: 62294252449242660}
   - component: {fileID: 7012662590765727689}
   - component: {fileID: 6230649869424634847}
+  - component: {fileID: 4919520252855446212}
   m_Layer: 0
   m_Name: WhitePawn
   m_TagString: Untagged
@@ -1328,6 +1674,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4919520252855446212
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5113956818254053069}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -9094767045754720311, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &5243828929813052142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,6 +1707,7 @@ GameObject:
   - component: {fileID: 1136497659387133647}
   - component: {fileID: 7882334847304929679}
   - component: {fileID: 6636214242441297851}
+  - component: {fileID: 7383273194388968414}
   m_Layer: 0
   m_Name: BlackKnight
   m_TagString: Untagged
@@ -1411,6 +1780,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7383273194388968414
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5243828929813052142}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4386861480433733541, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &5296319585489708926
 GameObject:
   m_ObjectHideFlags: 0
@@ -1422,6 +1813,7 @@ GameObject:
   - component: {fileID: 217649528514073564}
   - component: {fileID: 1955586759684756166}
   - component: {fileID: 5773886406452890867}
+  - component: {fileID: 8477960685072601218}
   m_Layer: 0
   m_Name: WhitePawn.004
   m_TagString: Untagged
@@ -1494,6 +1886,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8477960685072601218
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5296319585489708926}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6706116407936895695, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &5865409494284368884
 GameObject:
   m_ObjectHideFlags: 0
@@ -1505,6 +1919,7 @@ GameObject:
   - component: {fileID: 4559796034045050009}
   - component: {fileID: 7533461882823288597}
   - component: {fileID: 2078375607689605421}
+  - component: {fileID: 3256230321538740222}
   m_Layer: 0
   m_Name: BlackPawn.004
   m_TagString: Untagged
@@ -1577,6 +1992,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3256230321538740222
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5865409494284368884}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8810466604304952434, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &6083460510796217073
 GameObject:
   m_ObjectHideFlags: 0
@@ -1588,6 +2025,7 @@ GameObject:
   - component: {fileID: 7050242318926360544}
   - component: {fileID: 4219311962928360498}
   - component: {fileID: 4619495100201172637}
+  - component: {fileID: 1575724266404339562}
   m_Layer: 0
   m_Name: WhitePawn.002
   m_TagString: Untagged
@@ -1660,6 +2098,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1575724266404339562
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6083460510796217073}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7024211985379817851, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &6355784549780427378
 GameObject:
   m_ObjectHideFlags: 0
@@ -1671,6 +2131,7 @@ GameObject:
   - component: {fileID: 1877595259285990813}
   - component: {fileID: 5169636238029726147}
   - component: {fileID: 3398192461294342263}
+  - component: {fileID: 8074975097397129507}
   m_Layer: 0
   m_Name: WhiteRook
   m_TagString: Untagged
@@ -1743,6 +2204,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8074975097397129507
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6355784549780427378}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8580264506055721232, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &6375163496739338334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1754,6 +2237,7 @@ GameObject:
   - component: {fileID: 3672474861858875600}
   - component: {fileID: 8270094947979049991}
   - component: {fileID: 6446896697016056181}
+  - component: {fileID: 6957731554058480727}
   m_Layer: 0
   m_Name: BlackPawn.003
   m_TagString: Untagged
@@ -1826,6 +2310,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6957731554058480727
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6375163496739338334}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4373145528044828315, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &6431683364343733064
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,6 +2343,7 @@ GameObject:
   - component: {fileID: 2969646077469926159}
   - component: {fileID: 8269308329665416215}
   - component: {fileID: 7828728405317279681}
+  - component: {fileID: 717375945473844891}
   m_Layer: 0
   m_Name: BlackPawn.008
   m_TagString: Untagged
@@ -1909,6 +2416,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &717375945473844891
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6431683364343733064}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8760797448207652043, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &6725745501494823549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1935,7 +2464,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 22.908482, y: 0.05000069, z: -18.90091}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2213541604115711510}
@@ -1984,6 +2513,7 @@ GameObject:
   - component: {fileID: 4328729568926185619}
   - component: {fileID: 50382898442357857}
   - component: {fileID: 375710901938175110}
+  - component: {fileID: 6440771068534229913}
   m_Layer: 0
   m_Name: WhiteBishop.001
   m_TagString: Untagged
@@ -2056,6 +2586,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6440771068534229913
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6898516512560747992}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8108807030155568712, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &6947530323621460836
 GameObject:
   m_ObjectHideFlags: 0
@@ -2067,6 +2619,7 @@ GameObject:
   - component: {fileID: 7090520732309003057}
   - component: {fileID: 5024998696965447544}
   - component: {fileID: 3451166355067210973}
+  - component: {fileID: 8419405442762810877}
   m_Layer: 0
   m_Name: WhitePawn.007
   m_TagString: Untagged
@@ -2139,6 +2692,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8419405442762810877
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6947530323621460836}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3570026847100940659, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &6966793752715745648
 GameObject:
   m_ObjectHideFlags: 0
@@ -2150,6 +2725,7 @@ GameObject:
   - component: {fileID: 8198770815713729281}
   - component: {fileID: 2986814679496803239}
   - component: {fileID: 236873841923777594}
+  - component: {fileID: 1905230988483002834}
   m_Layer: 0
   m_Name: WhitePawn.005
   m_TagString: Untagged
@@ -2222,6 +2798,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1905230988483002834
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6966793752715745648}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8190009237110032305, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &7536990983815135721
 GameObject:
   m_ObjectHideFlags: 0
@@ -2233,6 +2831,7 @@ GameObject:
   - component: {fileID: 9147213542756903975}
   - component: {fileID: 7112990044664840116}
   - component: {fileID: 1321206698601731015}
+  - component: {fileID: 5311784704606448132}
   m_Layer: 0
   m_Name: WhiteQueen
   m_TagString: Untagged
@@ -2305,6 +2904,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5311784704606448132
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536990983815135721}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5011492675408876836, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &8039383568382048428
 GameObject:
   m_ObjectHideFlags: 0
@@ -2316,6 +2937,7 @@ GameObject:
   - component: {fileID: 8880781801597631585}
   - component: {fileID: 7030078800758299817}
   - component: {fileID: 1404905068107581005}
+  - component: {fileID: 7672931285863405880}
   m_Layer: 0
   m_Name: BlackPawn.002
   m_TagString: Untagged
@@ -2388,6 +3010,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7672931285863405880
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8039383568382048428}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -322121029175150813, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &8208640477198967428
 GameObject:
   m_ObjectHideFlags: 0
@@ -2399,6 +3043,7 @@ GameObject:
   - component: {fileID: 8463624487333988554}
   - component: {fileID: 2414951869960332568}
   - component: {fileID: 1525780950003376775}
+  - component: {fileID: 6487060551448213417}
   m_Layer: 0
   m_Name: WhiteKnight
   m_TagString: Untagged
@@ -2415,7 +3060,7 @@ Transform:
   m_GameObject: {fileID: 8208640477198967428}
   serializedVersion: 2
   m_LocalRotation: {x: 0.040536597, y: 0.19520332, z: -0.95945525, w: 0.1992438}
-  m_LocalPosition: {x: 0.221, y: 0.148, z: -0.182}
+  m_LocalPosition: {x: 0.253, y: 0.04, z: -0.306}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2471,6 +3116,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6487060551448213417
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8208640477198967428}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7778948383905716101, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &8643758026609083844
 GameObject:
   m_ObjectHideFlags: 0
@@ -2482,6 +3149,7 @@ GameObject:
   - component: {fileID: 5692124277726398900}
   - component: {fileID: 470092555674527425}
   - component: {fileID: 7866856762981632883}
+  - component: {fileID: 3470896477323679666}
   m_Layer: 0
   m_Name: BlackPawn.005
   m_TagString: Untagged
@@ -2554,6 +3222,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3470896477323679666
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8643758026609083844}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3964235974939416256, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &8696998983137106698
 GameObject:
   m_ObjectHideFlags: 0
@@ -2565,6 +3255,7 @@ GameObject:
   - component: {fileID: 6659229569224873497}
   - component: {fileID: 2321645745079022023}
   - component: {fileID: 2877774547116752782}
+  - component: {fileID: 265262918258097851}
   m_Layer: 0
   m_Name: BlackQueen
   m_TagString: Untagged
@@ -2637,6 +3328,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &265262918258097851
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8696998983137106698}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5364701502597569155, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &8786747390455955330
 GameObject:
   m_ObjectHideFlags: 0
@@ -2648,6 +3361,7 @@ GameObject:
   - component: {fileID: 6000285745112397937}
   - component: {fileID: 6570032328747257567}
   - component: {fileID: 1480763924653873185}
+  - component: {fileID: 5949185453956309074}
   m_Layer: 0
   m_Name: BlackRook
   m_TagString: Untagged
@@ -2720,6 +3434,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5949185453956309074
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8786747390455955330}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3041256069305759160, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
 --- !u!1 &8903155252267480489
 GameObject:
   m_ObjectHideFlags: 0
@@ -2731,6 +3467,7 @@ GameObject:
   - component: {fileID: 2213541604115711510}
   - component: {fileID: 8736568685608666973}
   - component: {fileID: 4306959968490535197}
+  - component: {fileID: 4885150471913856572}
   m_Layer: 0
   m_Name: BlackBishop
   m_TagString: Untagged
@@ -2803,3 +3540,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4885150471913856572
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8903155252267480489}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8439324428552875675, guid: 77dbf452124bf45c999edef85f3a1914, type: 3}
