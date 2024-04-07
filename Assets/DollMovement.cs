@@ -17,12 +17,26 @@ public class AIBehaviour : MonoBehaviour
     private Transform playerTransform;
     private float chaseTimer;
     private bool isInteractingWithDoor = false;
-
+    public AudioSource WalkingAudioSource;
+    [SerializeField] private AudioClip WalkAudio;
+    public AudioSource WarningAudioSource;
+    [SerializeField] private AudioClip WarningAudio;
     public float moveSpeed = 1.5f;
     public float pauseSpeed = 0f;
     public float moveTime = 0.5f;
     public float pauseTime = 0.2f;
+    private bool warningPlayed = false;
     private float movePauseTimer;
+    private bool isWarningFading = false;
+    private Coroutine warningFadeCoroutine = null;
+
+    private void Awake()
+    {
+        WalkingAudioSource = gameObject.AddComponent<AudioSource>();
+        WalkingAudioSource.clip = WalkAudio;
+        WarningAudioSource = gameObject.AddComponent<AudioSource>();
+        WarningAudioSource.clip = WarningAudio;
+    }
 
     void Start()
     {
@@ -52,11 +66,12 @@ public class AIBehaviour : MonoBehaviour
         }
 
         UpdateMovePauseCycle();
+        AdjustVolumeBasedOnDistance();
     }
 
     private void UpdateMovePauseCycle()
     {
-        if (currentState == State.Roam || currentState == State.Chase)
+        if (currentState == State.Roam)
         {
             movePauseTimer -= Time.deltaTime;
             if (movePauseTimer <= 0)
@@ -72,6 +87,27 @@ public class AIBehaviour : MonoBehaviour
                     // 从移动切换到停顿
                     agent.speed = pauseSpeed;
                     movePauseTimer = pauseTime;
+                    PlayMoveSound();
+                }
+            }
+        }
+        if (currentState == State.Chase)
+        {
+            movePauseTimer -= Time.deltaTime;
+            if (movePauseTimer <= 0)
+            {
+                if (agent.speed == pauseSpeed)
+                {
+                    // 从停顿切换到移动
+                    agent.speed = moveSpeed + 1.0f;
+                    movePauseTimer = moveTime;
+                }
+                else
+                {
+                    // 从移动切换到停顿
+                    agent.speed = pauseSpeed;
+                    movePauseTimer = pauseTime;
+                    PlayMoveSound();
                 }
             }
         }
@@ -80,6 +116,10 @@ public class AIBehaviour : MonoBehaviour
     private void SwitchState(State newState)
     {
         currentState = newState;
+        if(newState != State.Chase)
+        {
+            warningPlayed = false;
+        }
         switch (newState)
         {
             case State.Roam:
@@ -87,7 +127,7 @@ public class AIBehaviour : MonoBehaviour
                 chaseTimer = Random.Range(10f, 16f);
                 break;
             case State.Chase:
-                chaseTimer = Random.Range(5f, 11f);
+                chaseTimer = 30f;
                 Debug.Log("Starting Chase! Chase duration: " + chaseTimer + " seconds.");
                 break;
             case State.StopChase:
@@ -96,6 +136,64 @@ public class AIBehaviour : MonoBehaviour
         }
     }
 
+    private void PlayMoveSound()
+    {
+        if (WalkingAudioSource != null && WalkAudio != null)
+        {
+            WalkingAudioSource.PlayOneShot(WalkAudio);
+        }
+    }
+    IEnumerator PlayWarningSoundWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (WarningAudioSource != null && WarningAudio != null)
+        {
+            WarningAudioSource.clip = WarningAudio;
+            WarningAudioSource.Play();
+            yield return new WaitForSeconds(20f);
+            if (warningFadeCoroutine != null)
+            {
+                StopCoroutine(warningFadeCoroutine);
+            }
+            warningFadeCoroutine = StartCoroutine(FadeOutWarningAudio(10f));
+        }
+    }
+    IEnumerator FadeOutWarningAudio(float duration)
+    {
+        isWarningFading = true;
+        float startVolume = WarningAudioSource.volume;
+
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            WarningAudioSource.volume = Mathf.Lerp(startVolume, 0, t / duration);
+            yield return null;
+        }
+
+        WarningAudioSource.volume = 0;
+        WarningAudioSource.Stop();
+        isWarningFading = false;
+    }
+
+
+
+    private void AdjustVolumeBasedOnDistance()
+    {
+        float distance = Vector3.Distance(transform.position, playerTransform.position);
+
+        float maxVolumeDistance = 5.0f;
+        float minVolumeDistance = 20.0f; 
+        float volume = Mathf.Clamp((minVolumeDistance - distance) / (minVolumeDistance - maxVolumeDistance), 0, 0.7f);
+        if (!isWarningFading)
+        {
+            WarningAudioSource.volume = volume;
+        }
+        WalkingAudioSource.volume = volume/1.5f;
+    }
+
+
+
+
+    //update state
     private void UpdateRoamState()
     {
         if (!agent.pathPending && agent.remainingDistance < 0.5f)
@@ -106,6 +204,11 @@ public class AIBehaviour : MonoBehaviour
 
     private void UpdateChaseState()
     {
+        if (!warningPlayed)
+        {
+            StartCoroutine(PlayWarningSoundWithDelay(0.0f));
+            warningPlayed = true;
+        }
         chaseTimer -= Time.deltaTime;
         if (chaseTimer > 0)
         {
@@ -116,7 +219,6 @@ public class AIBehaviour : MonoBehaviour
             SwitchState(State.StopChase);
         }
     }
-
     private void UpdateStopChaseState()
     {
         // The logic for StopChase is handled by the coroutine
@@ -124,7 +226,7 @@ public class AIBehaviour : MonoBehaviour
 
     private IEnumerator WaitBeforeRoaming()
     {
-        yield return new WaitForSeconds(10f); 
+        yield return new WaitForSeconds(0.2f);
         SwitchState(State.Roam);
     }
 
