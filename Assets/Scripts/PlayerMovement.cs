@@ -18,6 +18,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Text balloonText;
     [SerializeField] private Image redDot;
     [SerializeField] private GameObject vhsEffectStatusText;
+    [SerializeField] private Camera screenshotCamera;
+    private Texture2D lastScreenshot;
+    [SerializeField] private Image screenshotDisplay;
+
     private bool rKeyPressed = false;
     private bool isCharging = false;
     public Text timerText;
@@ -106,6 +110,10 @@ public class PlayerMovement : MonoBehaviour
     public int keyCount = 0;
 
     [SerializeField] public Material vhsMaterial;
+    private bool screenshotButtonPressed = false;
+
+    private bool tabButtonPressed = false;
+
     private void Awake()
     {
         currentStamina = maxStamina;
@@ -309,7 +317,63 @@ public class PlayerMovement : MonoBehaviour
                 LevelManager.Instance.RestartLevel();
             }
         }
+        TakePicture();
     }
+    private void TakePicture()
+    {
+        if(featureAble)
+        {
+            if (Input.GetMouseButtonDown(0) && screenshotButtonPressed)
+            {
+                StartCoroutine(CaptureScreenshotCoroutine());
+                DrainTime -= DrainTime/10;
+                screenshotButtonPressed = false;
+            }
+        }
+        if(Input.GetMouseButtonUp(0) && !screenshotButtonPressed)
+        {
+            screenshotButtonPressed = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab) && tabButtonPressed)
+        {
+            ShowScreenshot();
+            tabButtonPressed = false;
+        }
+        else if (Input.GetKeyUp(KeyCode.Tab) && !tabButtonPressed)
+        {
+            HideScreenshot();
+            tabButtonPressed = true;
+        }
+    }
+    private IEnumerator CaptureScreenshotCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
+
+        RenderTexture renderTexture = screenshotCamera.targetTexture;
+
+        lastScreenshot = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
+        RenderTexture.active = renderTexture;
+        lastScreenshot.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+        lastScreenshot.Apply();
+        RenderTexture.active = null;
+    }
+
+    private void ShowScreenshot()
+    {
+        if (lastScreenshot != null)
+        {
+            Sprite screenshotSprite = Sprite.Create(lastScreenshot, new Rect(0, 0, lastScreenshot.width, lastScreenshot.height), new Vector2(0.5f, 0.5f));
+            screenshotDisplay.sprite = screenshotSprite;
+            screenshotDisplay.gameObject.SetActive(true);
+        }
+    }
+
+    private void HideScreenshot()
+    {
+        screenshotDisplay.gameObject.SetActive(false);
+    }
+
 
     public void UpdateStamina(bool isSprinting)
     {
