@@ -2,26 +2,30 @@ using UnityEngine;
 
 public class Stand : MonoBehaviour
 {
-    public Vase targetGameObject;
+    public Vase targetVase;
+    public Vector3 positionOffset = new Vector3(0, 1100.0f, 0);
 
-
-    void Start()
+    void Update()
     {
         SetTargetPosition();
     }
-    public void SetGameObject(Vase gameObject)
+
+    public void SetGameObject(Vase vase)
     {
-        targetGameObject = gameObject;
+        targetVase = vase;
     }
+
     public void SetTargetPosition()
     {
-        if (targetGameObject != null)
+        if (targetVase != null)
         {
-            targetGameObject.transform.position = new Vector3(0, 1100, 0);
+            Vector3 targetPosition = transform.position + positionOffset;
+
+            targetVase.transform.position = targetPosition;
         }
         else
         {
-            Debug.LogError("Target GameObject is not set in the inspector!");
+            Debug.Log("Target Vase is not set in the inspector!");
         }
     }
 }
