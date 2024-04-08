@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6031100444798966108}
   - component: {fileID: 7821813220014222857}
   - component: {fileID: 5457966747045792836}
+  - component: {fileID: 3229965309324068015}
   m_Layer: 6
   m_Name: Line038
   m_TagString: Stand
@@ -105,6 +106,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 504.50018, y: 901.8802, z: 504.7954}
   m_Center: {x: 0.090797424, y: 455.684, z: 3.4238968}
+--- !u!114 &3229965309324068015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71449934567720538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d10c8850c6ee1478fa426385a6a96006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetVase: {fileID: 0}
+  positionOffset: {x: 0, y: 1100, z: 0}
 --- !u!1 &4547606530000088860
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,7 +129,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8428127208995557602}
-  - component: {fileID: 2910556832537321605}
   m_Layer: 6
   m_Name: Stand
   m_TagString: Stand
@@ -138,16 +152,3 @@ Transform:
   - {fileID: 26346073448243828}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -180, y: 0, z: 0}
---- !u!114 &2910556832537321605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4547606530000088860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d10c8850c6ee1478fa426385a6a96006, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetGameObject: {fileID: 0}

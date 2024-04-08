@@ -40,8 +40,9 @@ public class Vase : MonoBehaviour
         this.characterModel = characterModel;
     }
 
-    public void Drop()
+    public void Drop(Vector3 pos)
     {
         isPickedUp = false;
+        gameObject.transform.position = pos;
     }
 }

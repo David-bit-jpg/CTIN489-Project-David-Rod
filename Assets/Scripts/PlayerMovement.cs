@@ -281,7 +281,20 @@ public class PlayerMovement : MonoBehaviour
                 }
                 if(heldVase)
                 {
-                    heldVase.Drop();
+                    Vector3 rayStartVase = CameraIntractPointer.position;
+                    Vector3 rayDirectionVase = CameraIntractPointer.forward;
+                    float maxDistance = 2.0f;
+                    Vector3 dropPosition;
+
+                    if (Physics.Raycast(rayStartVase, rayDirectionVase, out hit, maxDistance, ~IgnoreLayer))
+                    {
+                        dropPosition = hit.point - rayDirectionVase * 0.1f;
+                    }
+                    else
+                    {
+                        dropPosition = rayStartVase + rayDirectionVase * maxDistance;
+                    }
+                    heldVase.Drop(dropPosition);
                 }
                 isHoldingVase = false;
             }
@@ -483,6 +496,10 @@ public class PlayerMovement : MonoBehaviour
                     Debug.Log("!!");
                     standScript.SetGameObject(heldVase);
                     standScript.SetTargetPosition();
+                }
+                else
+                {
+                    Debug.Log("Stand script not found on " + hit.collider.gameObject.name);
                 }
                 break;
             default:
