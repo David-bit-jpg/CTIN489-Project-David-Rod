@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7821813220014222857}
   - component: {fileID: 5457966747045792836}
   - component: {fileID: 3229965309324068015}
+  - component: {fileID: 212881754413320141}
   m_Layer: 6
   m_Name: Line038
   m_TagString: Stand
@@ -119,7 +120,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetVase: {fileID: 0}
-  positionOffset: {x: 0, y: 1100, z: 0}
+  targetName: 
+--- !u!65 &212881754413320141
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71449934567720538}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 814.6767, y: 862.44183, z: 1089.4701}
+  m_Center: {x: -15.464723, y: 435.96503, z: -9.5146885}
 --- !u!1 &4547606530000088860
 GameObject:
   m_ObjectHideFlags: 0

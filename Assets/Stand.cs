@@ -13,6 +13,8 @@ public class Stand : MonoBehaviour
     public void SetGameObject(Vase vase)
     {
         targetVase = vase;
+        if(vase)
+            vase.Place(this);
     }
     public bool IsCorrect()
     {

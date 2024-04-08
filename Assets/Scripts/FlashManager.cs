@@ -58,7 +58,6 @@ using UnityEditor;
 
         //Flash Status.
         bool LightOn;
-        public bool GetIsLightOn() { return LightOn; } 
         private bool isCharging = false;
         //One Method Call.
         bool OneCall;
@@ -79,6 +78,7 @@ using UnityEditor;
         //Vector3 Motion Values.
         Vector3 RotateValues = new Vector3(1, 1, 0);
         Vector3 XYvalue;
+        public bool GetIsLightOn() { return LightOn; } 
 
         #endregion
 

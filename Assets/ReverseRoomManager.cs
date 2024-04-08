@@ -10,6 +10,13 @@ public class ReverseRoomManager : MonoBehaviour
     public Vector3 spawnPosition;
 
     private bool hasSpawned = false;
+    public AudioSource AudioSource;
+    [SerializeField] private AudioClip Audio;
+    void Awake()
+    {
+        AudioSource = gameObject.AddComponent<AudioSource>();
+        AudioSource.clip = Audio;
+    }
 
     void Update()
     {
@@ -33,6 +40,7 @@ public class ReverseRoomManager : MonoBehaviour
                 }
             }
         }
+        AudioSource.Play();
         return true;
     }
 }

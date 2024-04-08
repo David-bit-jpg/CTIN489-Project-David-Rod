@@ -24,29 +24,29 @@ public class CameraControl : MonoBehaviour
 
     void Update()
     {
-        if (canMove)
-        {
-            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        // if (canMove)
+        // {
+        //     float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        //     float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-            yRotation += mouseX;
-            xRotation -= mouseY;
-            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        //     yRotation += mouseX;
+        //     xRotation -= mouseY;
+        //     xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-            UpdateCameraRotation();
-            if (playerMovement.isMoving)
-            {
-                timer += Time.deltaTime * bobbingSpeed;
-                float newY = originalYPos + Mathf.Sin(timer) * bobbingAmount;
-                transform.localPosition = new Vector3(transform.localPosition.x, newY, transform.localPosition.z);
-            }
-            else
-            {
-                timer = 0;
-                transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(transform.localPosition.y, originalYPos, Time.deltaTime * bobbingSpeed), transform.localPosition.z);
-            }
-        }
-        // playerBody.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+        //     UpdateCameraRotation();
+        //     if (playerMovement.isMoving)
+        //     {
+        //         timer += Time.deltaTime * bobbingSpeed;
+        //         float newY = originalYPos + Mathf.Sin(timer) * bobbingAmount;
+        //         transform.localPosition = new Vector3(transform.localPosition.x, newY, transform.localPosition.z);
+        //     }
+        //     else
+        //     {
+        //         timer = 0;
+        //         transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(transform.localPosition.y, originalYPos, Time.deltaTime * bobbingSpeed), transform.localPosition.z);
+        //     }
+        // }
+        playerBody.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
     }
 
     private void UpdateCameraRotation()

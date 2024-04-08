@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int glowStickNumber = 3;
     [SerializeField] public float walkStepInterval = 0.5f;
     [SerializeField] public float runStepInterval = 0.3f;
-    [SerializeField] private float rayCastDist = 10.0f;
+    [SerializeField] private float rayCastDist = 5.0f;
     [SerializeField] private LayerMask IgnoreLayer;
     public bool isRunning { get; private set; }
     public bool isMoving { get; private set; }
@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
 
     ChargingStation chargingStation = null;
 
-    [SerializeField] Transform CharacterBodyTransform;
+    [SerializeField] public Transform CharacterBodyTransform;
     [SerializeField] CinemachineVirtualCamera VirtualCam;
 
     Hashtable glowSticks = new Hashtable();
@@ -158,24 +158,23 @@ public class PlayerMovement : MonoBehaviour
     {
         if (canMove)
         {
-            if (isDark())
-            {
-                if(darkTimer >= darkKillTime)
-                {
-                    killed = true;
-                }
-                darkTimer += Time.deltaTime;
-            }
-            else
-            {
-                darkTimer = 0.0f;
-            }
+            // if (isDark())
+            // {
+            //     if(darkTimer >= darkKillTime)
+            //     {
+            //         killed = true;
+            //     }
+            //     darkTimer += Time.deltaTime;
+            // }
+            // else
+            // {
+            //     darkTimer = 0.0f;
+            // }
             LevelManager.Instance.postVolume.profile.TryGet(out thisVignette);
             thisVignette.intensity.value = darkTimer / darkKillTime;
 
             float moveX = Input.GetAxis("Horizontal");
             float moveZ = Input.GetAxis("Vertical");
-            transform.localRotation = cameraControl.transform.rotation;
             Vector3 forward = CharacterBodyTransform.forward * moveZ;
             Vector3 right = CharacterBodyTransform.right * moveX;
 
@@ -256,7 +255,6 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-
             glowStickTimer -= Time.deltaTime;
             RaycastHit hit;
             Ray ray = new Ray(CameraIntractPointer.position, CameraIntractPointer.forward);
@@ -294,31 +292,42 @@ public class PlayerMovement : MonoBehaviour
                     chargingStation.StopCharge();
                 }
             }
-
-            if (Input.GetKeyDown(KeyCode.F) && isHoldingVase)
+            Vector3 dropPosition;
+            if (Physics.SphereCast(ray, 0.75f, out hit, 0.5f, ~IgnoreLayer))
             {
-                if (Physics.SphereCast(ray, sphereRadius, out hit, rayCastDist, ~IgnoreLayer))
+                // HandleInteractionF(hit);
+                if (Input.GetKeyDown(KeyCode.F) && isHoldingVase)
                 {
-                    HandleInteractionF(hit);
-                }
-                if(heldVase)
-                {
-                    Vector3 rayStartVase = CameraIntractPointer.position;
-                    Vector3 rayDirectionVase = CameraIntractPointer.forward;
-                    float maxDistance = 2.0f;
-                    Vector3 dropPosition;
-
-                    if (Physics.Raycast(rayStartVase, rayDirectionVase, out hit, maxDistance, ~IgnoreLayer))
+                    if(hit.collider.gameObject.tag == "Stand")
                     {
-                        dropPosition = hit.point - rayDirectionVase * 0.1f;
+                        Stand standScript = hit.collider.gameObject.GetComponent<Stand>();
+                        if (standScript != null)
+                        {
+                            standScript.SetGameObject(heldVase);
+                            standScript.SetTargetPosition();
+                            heldVase.Drop(standScript.transform.position);
+                            heldVase.Place(standScript);
+                            isHoldingVase = false;
+                        }
+                        else
+                        {
+                            Debug.Log("Stand script not found on " + hit.collider.gameObject.name);
+                        }
                     }
-                    else
+                    if(isHoldingVase)
                     {
-                        dropPosition = rayStartVase + rayDirectionVase * maxDistance;
+                        if (Physics.SphereCast(ray, 1.0f, out hit, 0.5f, ~IgnoreLayer))
+                        {
+                            dropPosition = hit.point - CameraIntractPointer.forward * 0.1f;
+                        }
+                        else
+                        {
+                            dropPosition = CameraIntractPointer.position + CameraIntractPointer.forward;
+                        }
+                        heldVase.Drop(dropPosition);
+                        isHoldingVase = false;
                     }
-                    heldVase.Drop(dropPosition);
                 }
-                isHoldingVase = false;
             }
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -518,6 +527,8 @@ public class PlayerMovement : MonoBehaviour
                     Debug.Log("!!");
                     standScript.SetGameObject(heldVase);
                     standScript.SetTargetPosition();
+                    heldVase = null;
+                    isHoldingVase = false;
                 }
                 else
                 {
@@ -566,9 +577,15 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "Vase":
                 Vase vase = hit.collider.GetComponent<Vase>();
-                if (vase)
+                if (vase && !isHoldingVase)
                 {
                     vase.PickUp();
+                    if(vase.isPlaced)
+                    {
+                        vase.standPlaced.SetGameObject(null);
+                        vase.isPlaced = false;
+                        vase.standPlaced = null;
+                    }
                 }
                 heldVase = vase;
                 break;
@@ -730,20 +747,20 @@ public class PlayerMovement : MonoBehaviour
         return minDist;
     }
 
-    private bool isDark()
-    {
-        if (LightmapSwitcher.Instance.isDay)
-        {
-            return false;
-        }
+    // private bool isDark()
+    // {
+    //     if (LightmapSwitcher.Instance.isDay)
+    //     {
+    //         return false;
+    //     }
 
-        if(FindNearestGlowStickDist() < 5.0f || flashManager.GetIsLightOn())
-        {
-            return false;
-        }
+    //     if(FindNearestGlowStickDist() < 5.0f || flashManager.GetIsLightOn())
+    //     {
+    //         return false;
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
     //Debug
     void DrawSphereCast(Vector3 origin, Vector3 direction, float radius, float distance, Color color)
