@@ -170,25 +170,25 @@ public class PlayerMovement : MonoBehaviour
             {
                 darkTimer = 0.0f;
             }
-            /*LevelManager.Instance.postVolume.profile.TryGet(out thisVignette);
-            thisVignette.intensity.value = darkTimer / darkKillTime;*/
+            LevelManager.Instance.postVolume.profile.TryGet(out thisVignette);
+            thisVignette.intensity.value = darkTimer / darkKillTime;
 
-            /*float moveX = Input.GetAxis("Horizontal");
+            float moveX = Input.GetAxis("Horizontal");
             float moveZ = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");
             Vector3 forward = CharacterBodyTransform.forward * moveZ;
             Vector3 right = CharacterBodyTransform.right * moveX;
 
-            moveDirection = (forward + right).normalized;*/
+            moveDirection = (forward + right).normalized;
 
-            /*if (Input.GetButtonDown("Jump") && isGrounded)
+            if (Input.GetButtonDown("Jump") && isGrounded)
             {
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            }*/
+            }
 
             
-            /*isMoving = moveDirection != Vector3.zero;*/
+            isMoving = moveDirection != Vector3.zero;
             
 
             if (Input.GetKey(KeyCode.Q) && glowStickNumber > 0)

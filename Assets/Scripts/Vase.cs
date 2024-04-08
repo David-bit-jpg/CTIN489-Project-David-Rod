@@ -13,7 +13,7 @@ public class Vase : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        player = FindAnyObjectByType<ThirdPersonController>().gameObject;
+        player = FindAnyObjectByType<PlayerMovement>().gameObject;
     }
 
     // Update is called once per frame
