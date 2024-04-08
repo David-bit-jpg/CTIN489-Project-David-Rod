@@ -4,15 +4,35 @@ using UnityEngine;
 
 public class ReverseRoomManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] public GameObject[] stands;
+    
+    public GameObject objectToSpawn;
+    public Vector3 spawnPosition;
 
-    // Update is called once per frame
+    private bool hasSpawned = false;
+
     void Update()
     {
-        
+        if (!hasSpawned && AllStandsCorrect())
+        {
+            Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
+            hasSpawned = true;
+        }
+    }
+
+    bool AllStandsCorrect()
+    {
+        foreach (var stand in stands)
+        {
+            Stand standScript = hit.collider.gameObject.GetComponent<Stand>();
+            if (standScript != null)
+            {
+                if (!standScript.IsCorrect())
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
