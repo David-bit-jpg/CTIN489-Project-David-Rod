@@ -170,27 +170,49 @@ public class PlayerMovement : MonoBehaviour
             {
                 darkTimer = 0.0f;
             }
-            /*LevelManager.Instance.postVolume.profile.TryGet(out thisVignette);
-            thisVignette.intensity.value = darkTimer / darkKillTime;*/
+            LevelManager.Instance.postVolume.profile.TryGet(out thisVignette);
+            thisVignette.intensity.value = darkTimer / darkKillTime;
 
-            /*float moveX = Input.GetAxis("Horizontal");
+            float moveX = Input.GetAxis("Horizontal");
             float moveZ = Input.GetAxis("Vertical");
-            horizontal = Input.GetAxis("Horizontal");
-            vertical = Input.GetAxis("Vertical");
+            transform.localRotation = cameraControl.transform.rotation;
             Vector3 forward = CharacterBodyTransform.forward * moveZ;
             Vector3 right = CharacterBodyTransform.right * moveX;
 
-            moveDirection = (forward + right).normalized;*/
+            moveDirection = (forward + right).normalized;
 
-            /*if (Input.GetButtonDown("Jump") && isGrounded)
+            if (Input.GetButtonDown("Jump") && isGrounded)
             {
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            }*/
-
+            }
+            if (currentStamina >= 0 && Input.GetKey(KeyCode.LeftShift))
+            {
+                isRunning = true;
+                speed = runningSpeed;
+                stepInterval = runStepInterval;
+            }
+            else
+            {
+                isRunning = false;
+                speed = normalSpeed;
+                stepInterval = walkStepInterval;
+            }
+            isMoving = moveDirection != Vector3.zero;
+            if (isRunning && isMoving)
+            {
+                currentStamina--;
+                lastRunTime = Time.time;
+                speed = runningSpeed;
+                UpdateStaminaBar();
+            }
+            else if (Time.time - lastRunTime > staminaRecoveryDelay && currentStamina < maxStamina)
+            {
+                currentStamina += (int)(staminaRecoveryRate * Time.deltaTime);
+                currentStamina = Mathf.Min(currentStamina, maxStamina);
+                speed = normalSpeed;
+                UpdateStaminaBar();
+            }
             
-            /*isMoving = moveDirection != Vector3.zero;*/
-            
-
             if (Input.GetKey(KeyCode.Q) && glowStickNumber > 0)
             {
                 DropGlowStick();
@@ -592,7 +614,7 @@ public class PlayerMovement : MonoBehaviour
                 lastStepTime = Time.time;
             }
         }
-        //rb.MovePosition(rb.position + moveDirection * currentSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + moveDirection * currentSpeed * Time.fixedDeltaTime);
 
     }
     private void UpdateStaminaBar()
