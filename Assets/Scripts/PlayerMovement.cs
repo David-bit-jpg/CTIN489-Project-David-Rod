@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 7f;
     [SerializeField] private float crouchSpeed = 2.5f;
     public AudioSource AudioSource;
-    [SerializeField] public float volume = 0.2f;
+    [SerializeField] public float volume = 0.8f;
     [SerializeField] private AudioClip Audio;
     public AudioSource screenShotAudioSource;
     [SerializeField] private AudioClip screenShotAudio;
