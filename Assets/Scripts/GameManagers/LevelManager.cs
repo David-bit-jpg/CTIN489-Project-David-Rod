@@ -35,7 +35,7 @@ public class LevelManager : MonoBehaviour
         endText.gameObject.SetActive(false);
         player = FindObjectOfType<PlayerMovement>();
         postVolume = FindObjectOfType<Volume>();
-        postVolume.sharedProfile.TryGet(out thisVignette);
+        // postVolume.sharedProfile.TryGet(out thisVignette);
     }
 
     private void Update()
