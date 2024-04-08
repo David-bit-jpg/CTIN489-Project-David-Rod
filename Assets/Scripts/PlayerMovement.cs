@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Texts")]
     [SerializeField] private GameObject glowStick;
     [SerializeField] private Text glowStickPickupText;
+    // [SerializeField] private Text doorLockText;
     [SerializeField] private Text doorMoveUpText;
     [SerializeField] private Text chargingText;
     [SerializeField] private Text pickUpText;
@@ -139,6 +140,7 @@ public class PlayerMovement : MonoBehaviour
         }
         UpdateGlowStickNumberUI();
         screenshotDisplay.gameObject.SetActive(false);
+        // doorLockText.gameObject.SetActive(false);
 
         
     }
