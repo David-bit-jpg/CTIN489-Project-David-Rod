@@ -16,11 +16,18 @@ public class Stand : MonoBehaviour
     }
     public bool IsCorrect()
     {
-        if(targetName == targetVase.name)
+        if(targetVase != null)
         {
-            isCorrect = true;
+            if(targetName == targetVase.name)
+            {
+                return true;
+            }
+            return false;
         }
-        return isCorrect;
+        else
+        {
+            return false;
+        }
     }
 
     public void SetTargetPosition()

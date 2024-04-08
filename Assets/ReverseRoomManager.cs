@@ -22,7 +22,7 @@ public class ReverseRoomManager : MonoBehaviour
 
     bool AllStandsCorrect()
     {
-        foreach (var stand in stands)
+        foreach (GameObject stand in stands)
         {
             Stand standScript = stand.GetComponent<Stand>();
             if (standScript != null)
