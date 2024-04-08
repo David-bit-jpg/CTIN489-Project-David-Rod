@@ -3,8 +3,8 @@ using UnityEngine;
 public class Stand : MonoBehaviour
 {
     public Vase targetVase;
-    public Vector3 positionOffset = new Vector3(0, 1100.0f, 0);
-
+    private string targetName;
+    bool isCorrect = true;
     void Update()
     {
         SetTargetPosition();
@@ -14,12 +14,20 @@ public class Stand : MonoBehaviour
     {
         targetVase = vase;
     }
+    public bool IsCorrect()
+    {
+        if(true)
+        {
+
+        }
+        return isCorrect;
+    }
 
     public void SetTargetPosition()
     {
         if (targetVase != null)
         {
-            Vector3 targetPosition = transform.position + positionOffset;
+            Vector3 targetPosition = new Vector3(transform.position.x, 1.8f, transform.position.z);
 
             targetVase.transform.position = targetPosition;
         }
