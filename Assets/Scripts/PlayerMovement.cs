@@ -127,11 +127,6 @@ public class PlayerMovement : MonoBehaviour
         vhsFeature = rendererData.rendererFeatures.Find(feature => feature.name == "FullScreenPassRendererFeature");
         rb = GetComponent<Rigidbody>();
         cameraControl = FindObjectOfType<CameraControl>();
-        AudioSource = gameObject.AddComponent<AudioSource>();
-        AudioSource.clip = Audio;
-        AudioSource.volume = volume;
-        screenShotAudioSource = gameObject.AddComponent<AudioSource>();
-        screenShotAudioSource.clip = screenShotAudio;
         animator = GetComponent<Animator>();
         glowStickTimer = 0.0f;
         darkTimer = 0.0f;
@@ -809,7 +804,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (vhsMaterial != null)
         {
-            AudioSource.volume = Mathf.Lerp(0.0f, 0.4f, lerpFactor);
+            //AudioSource.volume = Mathf.Lerp(0.0f, 0.4f, lerpFactor);
             float strength = Mathf.Lerp(0.0f, 1.0f, lerpFactor);
             float strip = Mathf.Lerp(0.3f, 0.2f, lerpFactor);
             float pixelOffset = Mathf.Lerp(0.0f, 40.0f, lerpFactor);
