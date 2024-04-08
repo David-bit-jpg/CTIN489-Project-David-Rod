@@ -94,7 +94,7 @@ public class GoerMovement : MonoBehaviour
             }
             else if (isChasing && Vector3.Distance(transform.position, playerTransform.position) > chaseEndDistance)
             {
-                StopChase();
+                //StopChase();
             }
             else if (Vector3.Distance(transform.position, playerTransform.position) <= 2.0f && isChasing)
             {
@@ -149,7 +149,7 @@ public class GoerMovement : MonoBehaviour
     {
         if (playerTransform != null)
         {
-            if (isInDuplicatedRoom)
+            if (isInDuplicatedRoom && Vector3.Distance(transform.position, playerTransform.position) > 20.0f)
             {
                 switch (room2Manager.NearestMirror)
                 {
@@ -216,7 +216,7 @@ public class GoerMovement : MonoBehaviour
                     gsm.isTaken = true;
                 if (isChasing)
                 {
-                    StopChase();
+                    //StopChase();
                 }
                 // Debug.Log("Detected " + hitCollider.tag + " within range");
                 if (!isMovingToObject)
