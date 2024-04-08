@@ -170,6 +170,11 @@ public class PlayerMovement : MonoBehaviour
             // {
             //     darkTimer = 0.0f;
             // }
+            isGrounded = true;
+            if(CharacterBodyTransform.transform.position.y >= 0.3f)
+            {
+                isGrounded = false;
+            }
             LevelManager.Instance.postVolume.profile.TryGet(out thisVignette);
             thisVignette.intensity.value = darkTimer / darkKillTime;
 
