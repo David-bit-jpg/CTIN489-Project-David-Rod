@@ -11,12 +11,14 @@ public class Break_Ghost : MonoBehaviour
     int counter;
     public bool isPicked = false;
     BalloonSpawnerGood balloonSpawner;
+    Room2Manager room2Manager;
     // Start is called before the first frame update
     void Start()
     {
         ghost_normal.SetActive(true);
         ghost_Parts.SetActive(false);
         balloonSpawner = FindObjectOfType<BalloonSpawnerGood>();
+        room2Manager = FindObjectOfType<Room2Manager>();
     }
 
     // Update is called once per frame
@@ -40,6 +42,7 @@ public class Break_Ghost : MonoBehaviour
     public void break_Ghost()
     {
         Is_Breaked = true;
+        room2Manager.Win();
     }
     public void play_anim()
     {

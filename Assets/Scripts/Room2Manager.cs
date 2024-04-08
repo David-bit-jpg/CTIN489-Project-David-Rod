@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Room2Manager : MonoBehaviour
 {
-    [SerializeField] GameObject blockWall, Portal1;
+    [SerializeField] GameObject blockWall, Portal1, Portal2;
     DoorController dc;
     // Start is called before the first frame update
     void Start()
@@ -17,7 +17,6 @@ public class Room2Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,5 +34,10 @@ public class Room2Manager : MonoBehaviour
         {
             blockWall.SetActive(false);
         }
+    }
+
+    public void Win()
+    {
+        Portal2.SetActive(false);
     }
 }
