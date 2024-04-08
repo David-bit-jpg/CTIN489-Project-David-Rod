@@ -149,8 +149,9 @@ public class GoerMovement : MonoBehaviour
     {
         if (playerTransform != null)
         {
-            if (isInDuplicatedRoom && Vector3.Distance(transform.position, playerTransform.position) > 20.0f)
+            if (isInDuplicatedRoom)
             {
+                Debug.Log(Vector3.Distance(transform.position, playerTransform.position) > 10.0f);
                 switch (room2Manager.NearestMirror)
                 {
                     case Room2Manager.MirrorTag.Mirror1:
