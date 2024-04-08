@@ -3,7 +3,12 @@ using UnityEngine;
 public class Stand : MonoBehaviour
 {
     public Vase targetVase;
-    public Vector3 positionOffset = new Vector3(0, 1100, 0);
+    public Vector3 positionOffset = new Vector3(0, 1100.0f, 0);
+
+    void Update()
+    {
+        SetTargetPosition();
+    }
 
     public void SetGameObject(Vase vase)
     {
@@ -20,7 +25,7 @@ public class Stand : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Target Vase is not set in the inspector!");
+            Debug.Log("Target Vase is not set in the inspector!");
         }
     }
 }

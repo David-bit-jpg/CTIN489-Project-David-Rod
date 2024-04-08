@@ -273,13 +273,17 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            if (isHoldingVase)
+            if (Input.GetKeyDown(KeyCode.F) && isHoldingVase)
             {
-                if (Input.GetKeyDown(KeyCode.F))
+                if (Physics.SphereCast(ray, sphereRadius, out hit, rayCastDist, ~IgnoreLayer))
+                {
+                    HandleInteractionF(hit);
+                }
+                if(heldVase)
                 {
                     heldVase.Drop();
-                    isHoldingVase = false;
                 }
+                isHoldingVase = false;
             }
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -468,6 +472,23 @@ public class PlayerMovement : MonoBehaviour
             UpdateBatteryBar();
         }
     }
+    void HandleInteractionF(RaycastHit hit)
+    {
+        switch (hit.collider.gameObject.tag)
+        {
+            case "Stand":
+                Stand standScript = hit.collider.gameObject.GetComponent<Stand>();
+                if (standScript != null)
+                {
+                    Debug.Log("!!");
+                    standScript.SetGameObject(heldVase);
+                    standScript.SetTargetPosition();
+                }
+                break;
+            default:
+                break;
+        }
+    }
     void HandleInteraction(RaycastHit hit)
     {
         switch (hit.collider.gameObject.tag)
@@ -518,16 +539,6 @@ public class PlayerMovement : MonoBehaviour
                 {
                     key.PickUp();
                     keyCount++;
-                }
-                break;
-            case "Stand":
-                Stand standScript = hit.collider.gameObject.GetComponent<Stand>();
-                if (standScript != null && isHoldingVase)
-                {
-                    standScript.SetGameObject(heldVase);
-                    isHoldingVase = false;
-                    heldVase.Drop();
-                    heldVase = null;
                 }
                 break;
             default:
