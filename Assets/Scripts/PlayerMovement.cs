@@ -175,8 +175,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 isGrounded = false;
             }
-            LevelManager.Instance.postVolume.profile.TryGet(out thisVignette);
-            thisVignette.intensity.value = darkTimer / darkKillTime;
+            // LevelManager.Instance.postVolume.profile.TryGet(out thisVignette);
+            // thisVignette.intensity.value = darkTimer / darkKillTime;
 
             float moveX = Input.GetAxis("Horizontal");
             float moveZ = Input.GetAxis("Vertical");
