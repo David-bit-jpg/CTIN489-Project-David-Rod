@@ -40,9 +40,11 @@ public class GoerMovement : MonoBehaviour
 
     [SerializeField] private bool isInDuplicatedRoom = false;
     [SerializeField] GameObject Mirror1, Mirror2, Mirror3;
+    Room2Manager room2Manager;
     private void Awake()
     {
         AudioSource = gameObject.AddComponent<AudioSource>();
+        room2Manager = FindAnyObjectByType<Room2Manager>();
         AudioSource.clip = Audio;
         AudioSource.volume = volume;
     }
@@ -139,7 +141,7 @@ public class GoerMovement : MonoBehaviour
                 }
             }
         }
-        CheckForDoor();
+        //CheckForDoor();
     }
 
 
@@ -147,7 +149,25 @@ public class GoerMovement : MonoBehaviour
     {
         if (playerTransform != null)
         {
-            agent.SetDestination(playerTransform.position);
+            if (isInDuplicatedRoom)
+            {
+                switch (room2Manager.NearestMirror)
+                {
+                    case Room2Manager.MirrorTag.Mirror1:
+                        agent.SetDestination(Mirror1.transform.position);
+                        break;
+                    case Room2Manager.MirrorTag.Mirror2:
+                        agent.SetDestination(Mirror2.transform.position);
+                        break;
+                    case Room2Manager.MirrorTag.Mirror3:
+                        agent.SetDestination(Mirror3.transform.position);
+                        break;
+                }
+            }
+            else
+            {
+                agent.SetDestination(playerTransform.position);
+            }
             ResetAnimationStates();
             animator.SetBool("IsChasing", true);
         }

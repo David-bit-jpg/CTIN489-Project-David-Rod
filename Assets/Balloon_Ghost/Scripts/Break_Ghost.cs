@@ -10,14 +10,14 @@ public class Break_Ghost : MonoBehaviour
     public Animator ghost;
     int counter;
     public bool isPicked = false;
-    BalloonSpawnerGood balloonSpawner;
+    //BalloonSpawnerGood balloonSpawner;
     Room2Manager room2Manager;
     // Start is called before the first frame update
     void Start()
     {
         ghost_normal.SetActive(true);
         ghost_Parts.SetActive(false);
-        balloonSpawner = FindObjectOfType<BalloonSpawnerGood>();
+        //balloonSpawner = FindObjectOfType<BalloonSpawnerGood>();
         room2Manager = FindObjectOfType<Room2Manager>();
     }
 
@@ -28,8 +28,8 @@ public class Break_Ghost : MonoBehaviour
             transform.position = new Vector3(transform.position.x, transform.position.y + 0.002f, transform.position.z);
         if (Is_Breaked == true)
         {
-            balloonSpawner.balloonCount--;
-            TaskManager.Instance.UpdateTaskText();
+            //balloonSpawner.balloonCount--;
+            //TaskManager.Instance.UpdateTaskText();
 
             ghost_Parts.SetActive(true);
             ghost_Parts.transform.parent = null;
