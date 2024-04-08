@@ -494,7 +494,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Break_Ghost break_Ghost = hit.collider.GetComponent<Break_Ghost>();
                     if (break_Ghost != null && !break_Ghost.Is_Breaked)
-                        break_Ghost.Is_Breaked = true;
+                        break_Ghost.break_Ghost();
                 }
                 break;
             case "Lever":

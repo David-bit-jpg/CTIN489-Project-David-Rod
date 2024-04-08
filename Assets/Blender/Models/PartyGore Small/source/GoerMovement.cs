@@ -37,6 +37,9 @@ public class GoerMovement : MonoBehaviour
     public AudioSource AudioSource;
 
     private bool isCaught = false;
+
+    [SerializeField] private bool isInDuplicatedRoom = false;
+    [SerializeField] GameObject Mirror1, Mirror2, Mirror3;
     private void Awake()
     {
         AudioSource = gameObject.AddComponent<AudioSource>();
@@ -313,7 +316,7 @@ public class GoerMovement : MonoBehaviour
         nextMoveTime = Time.time + pauseTimeMin;
         float waitTime = Random.Range(20f, 30f);
         animator.SetBool("IsWalking", true);
-        StartCoroutine(DropBalloon(balloonParent.gameObject, waitTime));
+        //StartCoroutine(DropBalloon(balloonParent.gameObject, waitTime));
     }
     IEnumerator DropBalloon(GameObject balloonParent, float waitTime)
     {
