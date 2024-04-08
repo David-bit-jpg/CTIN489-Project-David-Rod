@@ -44,10 +44,12 @@ public class MirroCam : MonoBehaviour
     {
         RenderPipeline.beginCameraRendering -= UpdateCamera;
     }
-
     void UpdateCamera(ScriptableRenderContext SRC, Camera camera)
     {
-        if (mirros[0].GetComponent<Renderer>().isVisible)
+        Camera cam = Camera.main;
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(cam);
+
+        if (mirros[0].GetComponent<Renderer>().isVisible && IsTargetInView(mirros[0], planes))
         {
             portalCamera.targetTexture = tempTexture1;
             for (int i = iterations - 1; i >= 0; --i)
@@ -56,7 +58,7 @@ public class MirroCam : MonoBehaviour
             }
         }
 
-        if (mirros[1].GetComponent<Renderer>().isVisible)
+        if (mirros[1].GetComponent<Renderer>().isVisible && IsTargetInView(mirros[1], planes))
         {
             portalCamera.targetTexture = tempTexture2;
             for (int i = iterations - 1; i >= 0; --i)
@@ -65,6 +67,14 @@ public class MirroCam : MonoBehaviour
             }
         }
     }
+
+    bool IsTargetInView(GameObject target, Plane[] planes)
+    {
+        Collider targetCollider = target.GetComponent<Collider>();
+        if (targetCollider == null) return false;
+        return GeometryUtility.TestPlanesAABB(planes, targetCollider.bounds);
+    }
+
 
     private void RenderCamera(GameObject inPortal, GameObject outPortal, int iterationID, ScriptableRenderContext SRC)
     {
