@@ -139,6 +139,7 @@ public class PlayerMovement : MonoBehaviour
             vhsEffectStatusText.gameObject.SetActive(false);
         }
         UpdateGlowStickNumberUI();
+        screenshotDisplay.gameObject.SetActive(false);
 
         
     }
@@ -345,19 +346,55 @@ public class PlayerMovement : MonoBehaviour
             HideScreenshot();
             tabButtonPressed = true;
         }
-    }
-    private IEnumerator CaptureScreenshotCoroutine()
-    {
-        yield return new WaitForEndOfFrame();
+        }
+        private IEnumerator CaptureScreenshotCoroutine()
+        {
+            yield return new WaitForEndOfFrame();
 
-        RenderTexture renderTexture = screenshotCamera.targetTexture;
+            if (screenshotCamera == null)
+            {
+                Debug.LogError("Screenshot Camera is not assigned.");
+                yield break;
+            }
 
-        lastScreenshot = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
-        RenderTexture.active = renderTexture;
-        lastScreenshot.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
-        lastScreenshot.Apply();
-        RenderTexture.active = null;
-    }
+            RenderTexture renderTexture = RenderTexture.GetTemporary(
+                screenshotCamera.pixelWidth,
+                screenshotCamera.pixelHeight,
+                24
+            );
+            RenderTexture currentRT = RenderTexture.active;
+
+            screenshotCamera.targetTexture = renderTexture;
+            screenshotCamera.Render();
+
+            RenderTexture.active = renderTexture;
+
+            lastScreenshot = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
+            lastScreenshot.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+            lastScreenshot.Apply();
+
+            screenshotCamera.targetTexture = null;
+            RenderTexture.active = currentRT;
+
+            RenderTexture.ReleaseTemporary(renderTexture);
+
+            if (screenshotDisplay != null && lastScreenshot != null)
+            {
+                Sprite screenshotSprite = Sprite.Create(
+                    lastScreenshot,
+                    new Rect(0, 0, lastScreenshot.width, lastScreenshot.height),
+                    new Vector2(0.5f, 0.5f)
+                );
+                screenshotDisplay.sprite = screenshotSprite;
+                screenshotDisplay.preserveAspect = true;
+                
+                RectTransform rectTransform = screenshotDisplay.GetComponent<RectTransform>();
+                rectTransform.sizeDelta = new Vector2(lastScreenshot.width, lastScreenshot.height);
+
+            }
+        }
+
+
 
     private void ShowScreenshot()
     {
@@ -365,6 +402,10 @@ public class PlayerMovement : MonoBehaviour
         {
             Sprite screenshotSprite = Sprite.Create(lastScreenshot, new Rect(0, 0, lastScreenshot.width, lastScreenshot.height), new Vector2(0.5f, 0.5f));
             screenshotDisplay.sprite = screenshotSprite;
+            screenshotDisplay.gameObject.SetActive(true);
+        }
+        else
+        {
             screenshotDisplay.gameObject.SetActive(true);
         }
     }
