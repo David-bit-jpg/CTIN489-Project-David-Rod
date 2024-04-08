@@ -5,7 +5,7 @@ using UnityEngine;
 public class ReverseRoomManager : MonoBehaviour
 {
     [SerializeField] public GameObject[] stands;
-    
+
     public GameObject objectToSpawn;
     public Vector3 spawnPosition;
 
@@ -24,7 +24,7 @@ public class ReverseRoomManager : MonoBehaviour
     {
         foreach (var stand in stands)
         {
-            Stand standScript = hit.collider.gameObject.GetComponent<Stand>();
+            Stand standScript = stand.GetComponent<Stand>();
             if (standScript != null)
             {
                 if (!standScript.IsCorrect())
