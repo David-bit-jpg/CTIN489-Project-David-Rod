@@ -116,6 +116,8 @@ public class PlayerMovement : MonoBehaviour
     private bool screenshotButtonPressed = false;
     [SerializeField] private float mExposeMultiplier = 1.0f;
 
+    CinemachineBasicMultiChannelPerlin VirtualCamNoise;
+
 
     private void Awake()
     {
@@ -149,6 +151,7 @@ public class PlayerMovement : MonoBehaviour
     {
         LevelManager.Instance.postVolume = FindObjectOfType<Volume>();
         UpdateVHSParameters(0.0f);
+        VirtualCamNoise = VirtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     void Update()
@@ -294,6 +297,17 @@ public class PlayerMovement : MonoBehaviour
                     chargingStation.StopCharge();
                 }
             }
+
+            if (isCharging)
+            {
+                VirtualCamNoise.m_AmplitudeGain = 0;
+            }
+            else
+            {
+
+                VirtualCamNoise.m_AmplitudeGain = 1;
+            }
+
             Vector3 dropPosition;
             if (Physics.SphereCast(ray, 0.75f, out hit, 0.5f, ~IgnoreLayer))
             {
@@ -331,7 +345,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
             }
-
+            
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (Physics.SphereCast(ray, sphereRadius, out hit, rayCastDist, ~IgnoreLayer))
@@ -339,6 +353,8 @@ public class PlayerMovement : MonoBehaviour
                     HandleInteraction(hit);
                 }
             }
+            
+            
 
             Vector3 rayStart = CameraIntractPointer.position;
             Vector3 rayDirection = CameraIntractPointer.forward;
@@ -723,7 +739,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void UpdateVirtualCamera()
     {
-        CinemachineBasicMultiChannelPerlin VirtualCamNoise = VirtualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         if (isRunning)
         {
             VirtualCamNoise.m_FrequencyGain = 5;
