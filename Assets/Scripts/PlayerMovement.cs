@@ -113,9 +113,6 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] public Material vhsMaterial;
     private bool screenshotButtonPressed = false;
-
-    private bool tabButtonPressed = false;
-
     [SerializeField] private float mExposeMultiplier = 1.0f;
 
 
@@ -331,76 +328,73 @@ public class PlayerMovement : MonoBehaviour
     {
         if(featureAble)
         {
-            if (Input.GetMouseButtonDown(0) && screenshotButtonPressed)
+            bool mScreenShotPressed = Input.GetMouseButtonDown(0);
+            if (Input.GetMouseButtonDown(0) && !screenshotButtonPressed)
             {
                 StartCoroutine(CaptureScreenshotCoroutine());
                 DrainTime -= DrainTime/5;
-                screenshotButtonPressed = false;
                 screenShotAudioSource.Play();
             }
+            screenshotButtonPressed = mScreenShotPressed;
         }
-        if(Input.GetMouseButtonUp(0) && !screenshotButtonPressed)
+        if (Input.GetKey(KeyCode.Tab) && screenshotDisplay!=null)
         {
-            screenshotButtonPressed = true;
+            if(!screenshotDisplay.gameObject.activeSelf)
+                ShowScreenshot();
+        }
+        else
+        {
+            if(screenshotDisplay.gameObject.activeSelf)
+                HideScreenshot();
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab) && tabButtonPressed)
-        {
-            ShowScreenshot();
-            tabButtonPressed = false;
-        }
-        else if (Input.GetKeyUp(KeyCode.Tab) && !tabButtonPressed)
-        {
-            HideScreenshot();
-            tabButtonPressed = true;
-        }
-        }
-        private IEnumerator CaptureScreenshotCoroutine()
-        {
-            yield return new WaitForEndOfFrame();
+    }
+    private IEnumerator CaptureScreenshotCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
 
-            if (screenshotCamera == null)
-            {
-                Debug.LogError("Screenshot Camera is not assigned.");
-                yield break;
-            }
+        if (screenshotCamera == null)
+        {
+            Debug.LogError("Screenshot Camera is not assigned.");
+            yield break;
+        }
 
-            RenderTexture renderTexture = RenderTexture.GetTemporary(
-                screenshotCamera.pixelWidth,
-                screenshotCamera.pixelHeight,
-                24
+        RenderTexture renderTexture = RenderTexture.GetTemporary(
+            screenshotCamera.pixelWidth,
+            screenshotCamera.pixelHeight,
+            24
+        );
+        RenderTexture currentRT = RenderTexture.active;
+
+        screenshotCamera.targetTexture = renderTexture;
+        screenshotCamera.Render();
+
+        RenderTexture.active = renderTexture;
+
+        lastScreenshot = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
+        lastScreenshot.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+        lastScreenshot.Apply();
+
+        screenshotCamera.targetTexture = null;
+        RenderTexture.active = currentRT;
+
+        RenderTexture.ReleaseTemporary(renderTexture);
+
+        if (screenshotDisplay != null && lastScreenshot != null)
+        {
+            Sprite screenshotSprite = Sprite.Create(
+                lastScreenshot,
+                new Rect(0, 0, lastScreenshot.width, lastScreenshot.height),
+                new Vector2(0.5f, 0.5f)
             );
-            RenderTexture currentRT = RenderTexture.active;
+            screenshotDisplay.sprite = screenshotSprite;
+            screenshotDisplay.preserveAspect = true;
+            
+            RectTransform rectTransform = screenshotDisplay.GetComponent<RectTransform>();
+            rectTransform.sizeDelta = new Vector2(lastScreenshot.width * mExposeMultiplier, lastScreenshot.height * mExposeMultiplier);
 
-            screenshotCamera.targetTexture = renderTexture;
-            screenshotCamera.Render();
-
-            RenderTexture.active = renderTexture;
-
-            lastScreenshot = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
-            lastScreenshot.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
-            lastScreenshot.Apply();
-
-            screenshotCamera.targetTexture = null;
-            RenderTexture.active = currentRT;
-
-            RenderTexture.ReleaseTemporary(renderTexture);
-
-            if (screenshotDisplay != null && lastScreenshot != null)
-            {
-                Sprite screenshotSprite = Sprite.Create(
-                    lastScreenshot,
-                    new Rect(0, 0, lastScreenshot.width, lastScreenshot.height),
-                    new Vector2(0.5f, 0.5f)
-                );
-                screenshotDisplay.sprite = screenshotSprite;
-                screenshotDisplay.preserveAspect = true;
-                
-                RectTransform rectTransform = screenshotDisplay.GetComponent<RectTransform>();
-                rectTransform.sizeDelta = new Vector2(lastScreenshot.width * mExposeMultiplier, lastScreenshot.height * mExposeMultiplier);
-
-            }
         }
+    }
 
 
 
