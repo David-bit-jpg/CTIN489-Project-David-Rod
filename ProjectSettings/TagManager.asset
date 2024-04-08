@@ -18,6 +18,7 @@ TagManager:
   - Lever
   - Vase
   - Key
+  - Stand
   layers:
   - Default
   - TransparentFX

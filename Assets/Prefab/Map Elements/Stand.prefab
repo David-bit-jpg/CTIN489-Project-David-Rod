@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5457966747045792836}
   m_Layer: 6
   m_Name: Line038
-  m_TagString: Untagged
+  m_TagString: Stand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 2910556832537321605}
   m_Layer: 6
   m_Name: Stand
-  m_TagString: Untagged
+  m_TagString: Stand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

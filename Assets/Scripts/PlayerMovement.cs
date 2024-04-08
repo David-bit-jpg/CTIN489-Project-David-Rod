@@ -510,6 +510,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     vase.PickUp();
                 }
+                heldVase = vase;
                 break;
             case "Key":
                 Key key = hit.collider.GetComponent<Key>();
@@ -517,6 +518,16 @@ public class PlayerMovement : MonoBehaviour
                 {
                     key.PickUp();
                     keyCount++;
+                }
+                break;
+            case "Stand":
+                Stand standScript = hit.collider.gameObject.GetComponent<Stand>();
+                if (standScript != null && isHoldingVase)
+                {
+                    standScript.SetGameObject(heldVase);
+                    isHoldingVase = false;
+                    heldVase.Drop();
+                    heldVase = null;
                 }
                 break;
             default:
