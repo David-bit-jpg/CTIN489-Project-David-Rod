@@ -53,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource AudioSource;
     [SerializeField] public float volume = 0.2f;
     [SerializeField] private AudioClip Audio;
+    public AudioSource screenShotAudioSource;
+    [SerializeField] private AudioClip screenShotAudio;
     private Animator animator;
     public CameraControl cameraControl;
     private float lastStepTime = 0f;
@@ -128,6 +130,8 @@ public class PlayerMovement : MonoBehaviour
         AudioSource = gameObject.AddComponent<AudioSource>();
         AudioSource.clip = Audio;
         AudioSource.volume = volume;
+        screenShotAudioSource = gameObject.AddComponent<AudioSource>();
+        screenShotAudioSource.clip = screenShotAudio;
         animator = GetComponent<Animator>();
         glowStickTimer = 0.0f;
         darkTimer = 0.0f;
@@ -327,8 +331,9 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && screenshotButtonPressed)
             {
                 StartCoroutine(CaptureScreenshotCoroutine());
-                DrainTime -= DrainTime/10;
+                DrainTime -= DrainTime/5;
                 screenshotButtonPressed = false;
+                screenShotAudioSource.Play();
             }
         }
         if(Input.GetMouseButtonUp(0) && !screenshotButtonPressed)
