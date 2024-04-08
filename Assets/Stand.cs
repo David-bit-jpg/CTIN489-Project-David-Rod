@@ -1,14 +1,18 @@
 using UnityEngine;
 
-public class SetPosition : MonoBehaviour
+public class Stand : MonoBehaviour
 {
-    public GameObject targetGameObject;
+    public Vase targetGameObject;
+
 
     void Start()
     {
         SetTargetPosition();
     }
-
+    public void SetGameObject(Vase gameObject)
+    {
+        targetGameObject = gameObject;
+    }
     public void SetTargetPosition()
     {
         if (targetGameObject != null)
