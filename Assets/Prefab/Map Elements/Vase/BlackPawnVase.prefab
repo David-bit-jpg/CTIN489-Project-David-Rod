@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 1834417430391147520}
   - component: {fileID: 4193412889518650710}
   - component: {fileID: 1808430326489389726}
+  - component: {fileID: 4848120079651898079}
   m_Layer: 0
   m_Name: KGZ_5919_Waza_typu_hydria
   m_TagString: Vase
@@ -138,3 +139,24 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8319761034031511128, guid: eaee05ecdac2aa240a34f339aa2247b4, type: 3}
+--- !u!65 &4848120079651898079
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5604080635017191657}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 327.19373, y: 428.7789, z: 284.2512}
+  m_Center: {x: -0.7627487, y: -14.356949, z: -3.8374023}
