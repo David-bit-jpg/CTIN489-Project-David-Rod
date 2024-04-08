@@ -5,6 +5,7 @@ using UnityEngine.Rendering;
 public class DoorController : MonoBehaviour
 {
     public NavMeshLink navMeshLink; 
+    [SerializeField] public int keyRequirement = 0;
     public Transform doorTransform;
     public float openAngle = 90.0f;
     public float closeAngle = 0.0f;
