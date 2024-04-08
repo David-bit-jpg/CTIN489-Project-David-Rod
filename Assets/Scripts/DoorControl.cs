@@ -130,4 +130,9 @@ public class DoorController : MonoBehaviour
         }*/
     }
 
+    void Unlock()
+    {
+
+    }
+
 }
