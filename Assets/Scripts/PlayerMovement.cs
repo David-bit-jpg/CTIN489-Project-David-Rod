@@ -116,6 +116,9 @@ public class PlayerMovement : MonoBehaviour
 
     private bool tabButtonPressed = false;
 
+    [SerializeField] private float mExposeMultiplier = 1.0f;
+
+
     private void Awake()
     {
         currentStamina = maxStamina;
@@ -394,7 +397,7 @@ public class PlayerMovement : MonoBehaviour
                 screenshotDisplay.preserveAspect = true;
                 
                 RectTransform rectTransform = screenshotDisplay.GetComponent<RectTransform>();
-                rectTransform.sizeDelta = new Vector2(lastScreenshot.width, lastScreenshot.height);
+                rectTransform.sizeDelta = new Vector2(lastScreenshot.width * mExposeMultiplier, lastScreenshot.height * mExposeMultiplier);
 
             }
         }
