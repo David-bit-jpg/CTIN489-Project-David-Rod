@@ -3,8 +3,8 @@ using UnityEngine;
 public class Stand : MonoBehaviour
 {
     public Vase targetVase;
-    private string targetName;
-    bool isCorrect = true;
+    [SerializeField]string targetName;
+    bool isCorrect = false;
     void Update()
     {
         SetTargetPosition();
@@ -16,9 +16,9 @@ public class Stand : MonoBehaviour
     }
     public bool IsCorrect()
     {
-        if(true)
+        if(targetName == targetVase.name)
         {
-
+            isCorrect = true;
         }
         return isCorrect;
     }
