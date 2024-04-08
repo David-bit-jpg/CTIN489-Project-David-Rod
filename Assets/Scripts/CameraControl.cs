@@ -14,7 +14,6 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private float bobbingSpeed = 12f;
     private float timer = 0f;
     public bool canMove = true;
-
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -47,7 +46,7 @@ public class CameraControl : MonoBehaviour
                 transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(transform.localPosition.y, originalYPos, Time.deltaTime * bobbingSpeed), transform.localPosition.z);
             }
         }
-        playerBody.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+        // playerBody.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
     }
 
     private void UpdateCameraRotation()
