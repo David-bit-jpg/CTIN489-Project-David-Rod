@@ -7,6 +7,7 @@ public class Portal : MonoBehaviour
 {
     [SerializeField]
     public Portal OtherPortal;
+    [SerializeField] Collider wallCollider;
 
     private List<PortalableObject> portalObjects = new List<PortalableObject>();
 
@@ -44,7 +45,7 @@ public class Portal : MonoBehaviour
         if (obj != null)
         {
             portalObjects.Add(obj);
-            obj.SetIsInPortal(this, OtherPortal);
+            obj.SetIsInPortal(this, OtherPortal, wallCollider);
         }
     }
 
@@ -55,7 +56,7 @@ public class Portal : MonoBehaviour
         if (portalObjects.Contains(obj))
         {
             portalObjects.Remove(obj);
-            obj.ExitPortal();
+            obj.ExitPortal(wallCollider);
         }
     }
 

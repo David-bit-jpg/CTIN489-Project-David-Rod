@@ -6,7 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class PortalableObject : MonoBehaviour
 {
-    private GameObject cloneObject;
 
     private int inPortalCount = 0;
     
@@ -20,60 +19,34 @@ public class PortalableObject : MonoBehaviour
 
     protected virtual void Awake()
     {
-        cloneObject = new GameObject();
-        cloneObject.SetActive(false);
-        cloneObject.transform.localScale = transform.localScale;
-
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-        if(inPortal == null || outPortal == null)
-        {
-            return;
-        }
-
-        if(cloneObject.activeSelf)
-        {
-            var inTransform = inPortal.transform;
-            var outTransform = outPortal.transform;
-
-            // Update position of clone.
-            Vector3 relativePos = inTransform.InverseTransformPoint(transform.position);
-            relativePos = halfTurn * relativePos;
-            cloneObject.transform.position = outTransform.TransformPoint(relativePos);
-
-            // Update rotation of clone.
-            Quaternion relativeRot = Quaternion.Inverse(inTransform.rotation) * transform.rotation;
-            relativeRot = halfTurn * relativeRot;
-            cloneObject.transform.rotation = outTransform.rotation * relativeRot;
-        }
-        else
-        {
-            cloneObject.transform.position = new Vector3(-1000.0f, 1000.0f, -1000.0f);
-        }
     }
 
-    public void SetIsInPortal(Portal inPortal, Portal outPortal)
+    public void SetIsInPortal(Portal inPortal, Portal outPortal, Collider wallCollider)
     {
         this.inPortal = inPortal;
         this.outPortal = outPortal;
-
-        cloneObject.SetActive(false);
+        if (wallCollider)
+        {
+            Physics.IgnoreCollision(collider, wallCollider);
+        }
 
         ++inPortalCount;
     }
 
-    public void ExitPortal()
+    public void ExitPortal(Collider wallCollider)
     {
         --inPortalCount;
-
-        if (inPortalCount == 0)
+        if (wallCollider)
         {
-            cloneObject.SetActive(false);
+            Physics.IgnoreCollision(collider, wallCollider, false);
         }
+        
     }
 
     public virtual void Warp()
@@ -84,7 +57,7 @@ public class PortalableObject : MonoBehaviour
         // Update position of object.
         Vector3 relativePos = inTransform.InverseTransformPoint(transform.position);
         relativePos = halfTurn * relativePos;
-        transform.position = outTransform.TransformPoint(relativePos);
+        transform.position = outTransform.TransformPoint(relativePos) - outTransform.forward * 1.5f;
 
         // Update rotation of object.
         Quaternion relativeRot = Quaternion.Inverse(inTransform.rotation) * transform.rotation;
