@@ -1,11 +1,18 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.Universal;
 
 
 public class AIBehaviour : MonoBehaviour
 {
     public NavMeshAgent agent;
+    [SerializeField] private Material vhsMaterial;
+    [SerializeField] private float chaseDistance = 10f;
+    [SerializeField] private float stopChaseDistance = 15f;
+
+    private ScriptableRendererFeature vhsFeature;
+
     private enum State
     {
         Roam,
@@ -67,6 +74,7 @@ public class AIBehaviour : MonoBehaviour
 
         UpdateMovePauseCycle();
         AdjustVolumeBasedOnDistance();
+        UpdateVHSParameters();
     }
 
     private void UpdateMovePauseCycle()
@@ -204,21 +212,30 @@ public class AIBehaviour : MonoBehaviour
 
     private void UpdateChaseState()
     {
-        if (!warningPlayed)
+        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+        if (distanceToPlayer <= chaseDistance)
         {
-            StartCoroutine(PlayWarningSoundWithDelay(0.0f));
-            warningPlayed = true;
-        }
-        chaseTimer -= Time.deltaTime;
-        if (chaseTimer > 0)
-        {
-            agent.destination = playerTransform.position;
+            if (!warningPlayed)
+            {
+                StartCoroutine(PlayWarningSoundWithDelay(0.0f));
+                warningPlayed = true;
+            }
+            chaseTimer -= Time.deltaTime;
+            if (chaseTimer > 0)
+            {
+                agent.destination = playerTransform.position;
+            }
+            else
+            {
+                SwitchState(State.StopChase);
+            }
         }
         else
         {
             SwitchState(State.StopChase);
         }
     }
+
     private void UpdateStopChaseState()
     {
         // The logic for StopChase is handled by the coroutine
@@ -278,6 +295,27 @@ public class AIBehaviour : MonoBehaviour
             doorController.ToggleDoor();
         }
     }
+    private void UpdateVHSParameters()
+    {
+        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+        float lerpFactor = Mathf.InverseLerp(stopChaseDistance, chaseDistance, distanceToPlayer);
+
+        if (vhsMaterial != null)
+        {
+            float strength = Mathf.Lerp(0.0f, 1.0f, lerpFactor);
+            float strip = Mathf.Lerp(0.3f, 0.2f, lerpFactor);
+            float pixelOffset = Mathf.Lerp(0.0f, 40.0f, lerpFactor);
+            float shake = Mathf.Lerp(0.003f, 0.01f, lerpFactor);
+            float speed = Mathf.Lerp(0.5f, 1.2f, lerpFactor);
+            vhsMaterial.SetFloat("_Strength", strength);
+            vhsMaterial.SetFloat("_StripSize", strip);
+            vhsMaterial.SetFloat("_PixelOffset", pixelOffset);
+            vhsMaterial.SetFloat("_Shake", shake);
+            vhsMaterial.SetFloat("_Speed", speed);
+        }
+    }
+
+
 
     // Debug drawing for SphereCast visualization
     void DrawSphereCast(Vector3 origin, Vector3 direction, float radius, float distance, Color color)
