@@ -132,10 +132,10 @@ public class AIBehaviour : MonoBehaviour
         {
             case State.Roam:
                 agent.destination = GetRandomPoint();
-                chaseTimer = Random.Range(10f, 16f);
+                chaseTimer = Random.Range(5f, 10f);
                 break;
             case State.Chase:
-                chaseTimer = 30f;
+                chaseTimer = Random.Range(5f, 10f);
                 Debug.Log("Starting Chase! Chase duration: " + chaseTimer + " seconds.");
                 break;
             case State.StopChase:
@@ -204,6 +204,7 @@ public class AIBehaviour : MonoBehaviour
     //update state
     private void UpdateRoamState()
     {
+        
         if (!agent.pathPending && agent.remainingDistance < 0.5f)
         {
             SwitchState(State.Chase);
@@ -249,8 +250,8 @@ public class AIBehaviour : MonoBehaviour
 
     private Vector3 GetRandomPoint()
     {
-        float x = Random.Range(-27, 28);
-        float z = Random.Range(-27, 28);
+        float x = Random.Range(-12.0f, 12.0f);
+        float z = Random.Range(167.0f, 198.0f);
         Vector3 point = new Vector3(x, 0, z);
         NavMeshHit hit;
         NavMesh.SamplePosition(point, out hit, 2.0f, NavMesh.AllAreas);
