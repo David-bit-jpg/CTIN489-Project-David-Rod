@@ -4,32 +4,41 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
+    bool isActive = false;
 
+    bool isPressed = false;
+    void Start ()
+    {
+        pauseMenuUI.SetActive(false);
+    }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        bool Ispressed = Input.GetKeyDown(KeyCode.Escape);
+        if (Ispressed && isActive && !isPressed)
         {
-            if (Time.timeScale == 1)
-            {
-                Pause();
-            }
-            else
-            {
-                Resume();
-            }
+            Resume();
         }
+        else if (Ispressed && !isActive && !isPressed)
+        {
+            Pause();
+        }
+        isPressed = Ispressed;
     }
 
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
+        isActive = false;
         Time.timeScale = 1;
     }
 
     public void Pause()
     {
         pauseMenuUI.SetActive(true);
+        isActive = true;
         Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void ExitGame()
