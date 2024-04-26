@@ -126,7 +126,7 @@ using UnityEditor;
             if (LightOn && DrainTime >= 0)
             {
                 //Decrement DrainTime.
-                DrainTime -= Time.deltaTime * 0.3f;
+                //DrainTime -= Time.deltaTime * 0.3f;
 
                 //drainTimeF to DrainTime / BatteryLife.
                 float drainTimeF = DrainTime / BatteryLife;
@@ -300,7 +300,7 @@ using UnityEditor;
             float chargingRate = 4.0f;
             if (DrainTime < BatteryLife)
             {
-                DrainTime += Time.deltaTime * chargingRate;
+                //DrainTime += Time.deltaTime * chargingRate;
                 DrainTime = Mathf.Min(DrainTime, BatteryLife);
                 BatterySlider.value = DrainTime;
             }
