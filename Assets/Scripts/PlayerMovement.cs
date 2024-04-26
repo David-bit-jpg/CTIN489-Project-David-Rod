@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isRunning { get; private set; }
     public bool isMoving { get; private set; }
     private Rigidbody rb;
-    private Vector3 moveDirection;
+    public Vector3 moveDirection;
     private bool isGrounded = true;
     public float horizontal;
     public float vertical;
@@ -353,6 +353,7 @@ public class PlayerMovement : MonoBehaviour
                     HandleInteraction(hit);
                 }
             }
+
             
             
 
@@ -389,6 +390,10 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         TakePicture();
+    }
+    public Vector3 GetMoveDirection()
+    {
+        return moveDirection;
     }
     private void TakePicture()
     {
