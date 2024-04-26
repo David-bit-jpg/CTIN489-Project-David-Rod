@@ -132,10 +132,10 @@ public class AIBehaviour : MonoBehaviour
         {
             case State.Roam:
                 agent.destination = GetRandomPoint();
-                chaseTimer = Random.Range(5f, 10f);
+                chaseTimer = Random.Range(20f, 30f);
                 break;
             case State.Chase:
-                chaseTimer = Random.Range(10f, 15f);
+                chaseTimer = Random.Range(20f, 30f);
                 Debug.Log("Starting Chase! Chase duration: " + chaseTimer + " seconds.");
                 break;
             case State.StopChase:
