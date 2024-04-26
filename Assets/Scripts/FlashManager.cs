@@ -22,7 +22,7 @@ using UnityEditor;
         private bool CanMove = true;
 
         //Battery Life Span.
-        public int BatteryLife;
+        public float BatteryLife;
 
         //Track Speed.
         public float TrackSpeed;
@@ -115,6 +115,7 @@ using UnityEditor;
         //Every Frame.
         private void Update()
         {
+        Debug.Log(DrainTime);
             // Input Key is UseKey.
             if (Input.GetKeyDown(UseKey) && CanMove)
             {
@@ -361,7 +362,7 @@ using UnityEditor;
             EditorGUILayout.Space();
 
             GUILayout.Label("Battery", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Bold, fontSize = 13 }, GUILayout.ExpandWidth(true));
-            fm.BatteryLife = EditorGUILayout.IntSlider(new GUIContent("Battery Life", "Battery life span."), fm.BatteryLife, 20, 300);
+            //fm.BatteryLife = EditorGUILayout.IntSlider(new GUIContent("Battery Life", "Battery life span."), fm.BatteryLife, 20, 300);
             EditorGUILayout.Space();
 
             GUILayout.Label("User Interface", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Bold, fontSize = 13 }, GUILayout.ExpandWidth(true));

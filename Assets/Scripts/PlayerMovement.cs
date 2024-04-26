@@ -246,6 +246,7 @@ public class PlayerMovement : MonoBehaviour
             if (featureAble)
             {
                 DrainTime -= 0.3f * Time.deltaTime;
+                //flashManager.DrainTime -= 0.3f * Time.deltaTime;
                 UpdateBatteryBar();
                 if (!startedRed)
                     StartCoroutine(ToggleStateCoroutine());
@@ -281,7 +282,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 isCharging = true;
                 ChargeBattery();
-                flashManager.ChargeBattery();
+                //flashManager.ChargeBattery();
                 if (chargingStation)
                 {
                     chargingStation.Charge();
@@ -390,6 +391,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         TakePicture();
+
+        flashManager.DrainTime = DrainTime;
     }
     public Vector3 GetMoveDirection()
     {
@@ -404,6 +407,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 StartCoroutine(CaptureScreenshotCoroutine());
                 DrainTime -= DrainTime/5;
+                //flashManager.DrainTime -= flashManager.DrainTime / 5;
                 screenShotAudioSource.Play();
             }
             screenshotButtonPressed = mScreenShotPressed;
@@ -535,6 +539,7 @@ public class PlayerMovement : MonoBehaviour
         if (DrainTime < BatteryLife)
         {
             DrainTime += Time.deltaTime * chargingRate;
+            //flashManager.DrainTime += Time.deltaTime * chargingRate;
             DrainTime = Mathf.Min(DrainTime, BatteryLife);
             UpdateBatteryBar();
         }

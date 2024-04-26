@@ -135,7 +135,7 @@ public class AIBehaviour : MonoBehaviour
                 chaseTimer = Random.Range(5f, 10f);
                 break;
             case State.Chase:
-                chaseTimer = Random.Range(5f, 10f);
+                chaseTimer = Random.Range(10f, 15f);
                 Debug.Log("Starting Chase! Chase duration: " + chaseTimer + " seconds.");
                 break;
             case State.StopChase:

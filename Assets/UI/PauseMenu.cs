@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    [SerializeField] GameObject gameOver;
     public GameObject pauseMenuUI;
     bool isActive = false;
 
@@ -37,6 +38,7 @@ public class PauseMenu : MonoBehaviour
     public void Pause()
     {
         pauseMenuUI.SetActive(true);
+        gameOver.SetActive(false);
         isActive = true;
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
