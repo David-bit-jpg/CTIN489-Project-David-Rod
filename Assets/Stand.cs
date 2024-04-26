@@ -40,9 +40,5 @@ public class Stand : MonoBehaviour
 
             targetVase.transform.position = targetPosition;
         }
-        else
-        {
-            Debug.Log("Target Vase is not set in the inspector!");
-        }
     }
 }

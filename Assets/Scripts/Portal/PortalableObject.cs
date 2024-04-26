@@ -57,11 +57,11 @@ public class PortalableObject : MonoBehaviour
         // Update position of object.
         Vector3 relativePos = inTransform.InverseTransformPoint(transform.position);
         relativePos = halfTurn * relativePos;
-        transform.position = outTransform.TransformPoint(relativePos) - outTransform.forward * 1.5f;
+        transform.position = outTransform.TransformPoint(relativePos) + outTransform.forward * 1.5f;
 
         // Update rotation of object.
         Quaternion relativeRot = Quaternion.Inverse(inTransform.rotation) * transform.rotation;
-        relativeRot = halfTurn * relativeRot;
+        relativeRot =  relativeRot;
         transform.rotation = outTransform.rotation * relativeRot;
 
         // Update velocity of rigidbody.
