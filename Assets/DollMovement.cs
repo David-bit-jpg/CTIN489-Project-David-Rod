@@ -204,7 +204,6 @@ public class AIBehaviour : MonoBehaviour
     //update state
     private void UpdateRoamState()
     {
-        
         if (!agent.pathPending && agent.remainingDistance < 0.5f)
         {
             SwitchState(State.Chase);
@@ -214,22 +213,15 @@ public class AIBehaviour : MonoBehaviour
     private void UpdateChaseState()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
-        if (distanceToPlayer <= chaseDistance)
+        if (!warningPlayed)
         {
-            if (!warningPlayed)
-            {
-                StartCoroutine(PlayWarningSoundWithDelay(0.0f));
-                warningPlayed = true;
-            }
-            chaseTimer -= Time.deltaTime;
-            if (chaseTimer > 0)
-            {
-                agent.destination = playerTransform.position;
-            }
-            else
-            {
-                SwitchState(State.StopChase);
-            }
+            StartCoroutine(PlayWarningSoundWithDelay(0.0f));
+            warningPlayed = true;
+        }
+        chaseTimer -= Time.deltaTime;
+        if (chaseTimer > 0)
+        {
+            agent.destination = playerTransform.position;
         }
         else
         {
